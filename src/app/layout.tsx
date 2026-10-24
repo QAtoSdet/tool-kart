@@ -32,6 +32,9 @@ export const metadata: Metadata = {
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
   },
+  verification: {
+    google: "t-eiz4mrL9F3_AbxuxoadnU1E0I0pOho5VaTfzju70o",
+  },
 };
 
 export default function RootLayout({
