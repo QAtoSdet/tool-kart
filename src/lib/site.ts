@@ -6,10 +6,6 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://tool-kart.com",
   description:
     "Free online utility tools that run in your browser: image compressor, QR code generator, age, EMI, GST, SIP and percentage calculators, unit converter, word counter and password generator. No sign-up, no uploads.",
-  /**
-   * Contact email shown on the Contact/Privacy pages.
-   * IMPORTANT: replace this with a real inbox you can read (e.g. your Gmail).
-   * AdSense and users expect a working address.
-   */
-  contactEmail: "YOUR_EMAIL@gmail.com",
+  /** Contact email shown on the Contact/Privacy pages. */
+  contactEmail: "vikas.guptaynr@gmail.com",
 } as const;
