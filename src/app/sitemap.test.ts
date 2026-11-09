@@ -1,10 +1,11 @@
 import { describe, it, expect } from "vitest";
 import sitemap from "./sitemap";
 import { getAvailableTools } from "@/lib/tools";
+import { getAvailableGuides } from "@/lib/guides";
 import { STATIC_ROUTES } from "@/lib/routes";
 
 describe("sitemap", () => {
-  it("includes a URL for every static route and every tool", () => {
+  it("includes a URL for every static route, tool and guide", () => {
     const entries = sitemap();
     const urls = entries.map((e) => e.url);
 
@@ -12,14 +13,20 @@ describe("sitemap", () => {
     for (const tool of getAvailableTools()) {
       expect(urls.some((u) => u.endsWith(`/tools/${tool.slug}`))).toBe(true);
     }
+    // Every guide route is present.
+    for (const guide of getAvailableGuides()) {
+      expect(urls.some((u) => u.endsWith(`/guides/${guide.slug}`))).toBe(true);
+    }
     // Static routes present.
     for (const route of STATIC_ROUTES) {
       const expectedSuffix = route === "/" ? "" : route;
       expect(urls.some((u) => u.endsWith(expectedSuffix) || u === u)).toBe(true);
     }
 
-    // Count matches: static + tools.
-    expect(entries.length).toBe(STATIC_ROUTES.length + getAvailableTools().length);
+    // Count matches: static + tools + guides.
+    expect(entries.length).toBe(
+      STATIC_ROUTES.length + getAvailableTools().length + getAvailableGuides().length,
+    );
   });
 
   it("gives the homepage the highest priority", () => {

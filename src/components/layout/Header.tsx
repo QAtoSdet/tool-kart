@@ -23,6 +23,12 @@ export function Header() {
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
           <ToolsMenu tools={tools} />
           <Link
+            href="/guides"
+            className="rounded-md px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            Guides
+          </Link>
+          <Link
             href="/about"
             className="rounded-md px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
           >

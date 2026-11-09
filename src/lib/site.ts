@@ -7,5 +7,5 @@ export const SITE = {
   description:
     "Free online utility tools that run in your browser: image compressor, QR code generator, age, EMI, GST, SIP and percentage calculators, unit converter, word counter and password generator. No sign-up, no uploads.",
   /** Contact email shown on the Contact/Privacy pages. */
-  contactEmail: "vikas.guptaynr@gmail.com",
+  contactEmail: "toolkart.help@gmail.com",
 } as const;

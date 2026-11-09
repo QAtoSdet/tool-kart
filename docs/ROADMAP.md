@@ -99,9 +99,21 @@ These are plausible ranges, not guarantees. SEO outcomes vary widely.
 - [~] **Task 11 — Ongoing growth engine (started).** Added 5 high-value tools, taking the site
   from 5 → **10 tools**: GST Calculator, SIP Calculator, Percentage Calculator, Word & Character
   Counter, Password Generator (all client-side, each with explainer + FAQ + OG image, 24 new
-  logic unit tests). Sitemap auto-updated to 10 tools. **Still ongoing:** keep adding ~one tool
-  per week (PDF tools, image format converter, income-tax / CGPA calculators) and refine content
-  using Search Console data after launch.
+  logic unit tests). Sitemap auto-updated to 10 tools.
+  - **Phase 0 (SEO quick fixes):** dedicated homepage metadata (absolute title, no duplicated
+    brand) + `ItemList` JSON-LD listing all tools; reusable `CopyButton` with copy-to-clipboard on
+    calculator outputs (unit converter, GST, percentage; password generator already had it).
+  - **Phase 1 (content hub + topic clusters):** `lib/guides.ts` registry (mirrors the tool
+    registry) + reusable `ContentPage` shell (breadcrumbs, related-tool callout, optional TOC,
+    FAQ, cross-linking) + `Article`/`FAQPage` JSON-LD, auto-included in the sitemap; bidirectional
+    tool↔guide links on every tool and guide page; `/guides` index grouped by category with
+    `ItemList` JSON-LD; "Guides" link in the desktop + mobile nav. Shipped 4 cornerstone guides
+    (how-to-calculate-emi, gst-rates-in-india-explained, sip-vs-lump-sum,
+    compress-image-to-50kb-100kb) spanning Finance + Image. Adding a guide = one registry entry +
+    one route, same pattern as a tool.
+  **Still ongoing:** keep adding ~one guide/tool per week (finance guides next — income tax;
+  tools — PDF, income-tax calculator, CGPA) and refine content using Search Console data after
+  launch.
 
 ## After launch — the weekly habit that actually earns money
 

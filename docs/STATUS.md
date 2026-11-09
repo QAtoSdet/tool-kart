@@ -34,6 +34,18 @@ crash and must not be used until stable).
 - ✅ Elevated tool panel (clear focal point).
 - ✅ "Browse tools" button smooth-scrolls without putting `#tools` in the URL.
 
+### SEO quick fixes (Phase 0)
+- ✅ Dedicated homepage metadata (absolute title, no duplicated brand) + `ItemList` JSON-LD listing all tools.
+- ✅ Reusable `CopyButton` + copy-to-clipboard on calculator outputs (unit converter, GST, percentage; password generator already had it).
+- ✅ `STATUS.md` refreshed to match reality.
+
+### Content hub + topic clusters (Phase 1)
+- ✅ Lightweight content system: `lib/guides.ts` registry (mirrors the tool registry), reusable `ContentPage` shell (breadcrumbs, related-tool callout, optional table of contents, prose body, FAQ, cross-linking), and `Article` + `FAQPage` JSON-LD.
+- ✅ Guides auto-included in `sitemap.xml`; `/guides` index page grouped by category with `ItemList` JSON-LD.
+- ✅ Bidirectional tool↔guide linking: every tool page shows its related guides; every guide links to its tool and to other guides (topic clusters).
+- ✅ 4 cornerstone guides shipped (EMI, GST, SIP-vs-lump-sum, image-to-KB), spanning Finance + Image.
+- ✅ "Guides" link added to desktop + mobile nav for sitewide hub discovery.
+
 ---
 
 ## 🟡 Partly done — needs your action
@@ -43,7 +55,7 @@ The code is build-verified and ready. The remaining steps are manual because the
 accounts/credentials (I can't and shouldn't do these). Full guide: `docs/DEPLOYMENT.md`.
 
 Your checklist:
-- [x] Set a real contact email in `src/lib/site.ts` (now `vikas.guptaynr@gmail.com`).
+- [x] Set a real contact email in `src/lib/site.ts` (now `toolkart.help@gmail.com`).
 - [ ] Push the repo to GitHub.
 - [ ] Deploy on Vercel (free tier); set `NEXT_PUBLIC_SITE_URL`.
 - [ ] Buy + connect a custom domain (HTTPS is automatic).
@@ -57,15 +69,17 @@ Your checklist:
 ## ⬜ Not started
 
 ### Task 11 — Ongoing growth engine (this is what earns the money)
+- [x] Content hub system built: `lib/guides.ts` + `ContentPage` shell + sitemap integration (Phase 1). Adding a guide = one registry entry + one route, like adding a tool.
+- [x] 3 cornerstone guides shipped (EMI, GST, image-to-KB) as proof of the cluster pattern.
+- [ ] Keep publishing ~one guide per week; expand finance guides next (SIP, income tax).
 - [ ] Add high-demand tools over time: PDF compress/merge/split, image format converter,
-  GST calculator, SIP calculator, income-tax calculator, percentage/CGPA tools.
+  income-tax calculator, CGPA-to-percentage, simple/compound interest.
 - [ ] Use Search Console data to improve pages ranking on page 2–3.
-- [ ] Aim for ~one new/improved tool page per week.
-- Reuses the existing ToolPage shell + AdSlot, so no rearchitecting.
+- Reuses the existing shells, so no rearchitecting.
 
 ### Optional polish (deferred, not required to launch)
 - [ ] Replace emoji icons with an inline SVG icon set (more consistent across devices).
-- [ ] Copy-to-clipboard on QR / unit-converter outputs.
+- [x] Copy-to-clipboard on calculator outputs (unit converter, GST, percentage; password already had it).
 - [ ] Favicon / brand mark.
 - [ ] Refined empty/loading states.
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Tool } from "@/lib/tools";
 
 const legalLinks = [
+  { href: "/guides", label: "Guides" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

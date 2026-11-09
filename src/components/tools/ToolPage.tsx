@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { PrivacyBadge } from "@/components/PrivacyBadge";
 import { MoreTools } from "@/components/tools/MoreTools";
+import { RelatedGuides } from "@/components/guides/RelatedGuides";
 import { ShareButtons } from "@/components/tools/ShareButtons";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
@@ -132,6 +133,10 @@ export function ToolPage({
 
         {/* Cross-tool discovery — drives pageviews-per-visit and internal links. */}
         <MoreTools currentSlug={slug} />
+
+        {/* Related guides — the tool → guide half of the topic cluster. Renders
+            nothing when this tool has no guides yet. */}
+        <RelatedGuides toolSlug={slug} />
 
         {/* Bottom ad slot. */}
         <AdSlot slot="tool-bottom" className="mt-10" />
