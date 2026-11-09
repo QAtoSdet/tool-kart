@@ -1,12 +1,12 @@
 # Project status — at a glance
 
-_Last updated: October 2026._
+_Last updated: November 2026._
 
 Quick summary: **the app is fully built, tested, and production-ready.** All 9 build tasks and
 the UX pass are done. What remains is the public launch (manual, needs your accounts) and the
 ongoing content work that actually earns the money.
 
-Health check: **94 automated tests passing**, production build clean, dev server serves every
+Health check: **129 automated tests passing**, production build clean, dev server serves every
 route. Stack pinned to **Next.js 15.5.x + React 19.0** (the newer Next 16 line caused a runtime
 crash and must not be used until stable).
 
@@ -43,7 +43,7 @@ The code is build-verified and ready. The remaining steps are manual because the
 accounts/credentials (I can't and shouldn't do these). Full guide: `docs/DEPLOYMENT.md`.
 
 Your checklist:
-- [ ] Set a real contact email in `src/lib/site.ts` (currently `hello@example.com`).
+- [x] Set a real contact email in `src/lib/site.ts` (now `vikas.guptaynr@gmail.com`).
 - [ ] Push the repo to GitHub.
 - [ ] Deploy on Vercel (free tier); set `NEXT_PUBLIC_SITE_URL`.
 - [ ] Buy + connect a custom domain (HTTPS is automatic).

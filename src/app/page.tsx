@@ -1,9 +1,41 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { ScrollToButton } from "@/components/ScrollToButton";
+import { ItemListJsonLd } from "@/components/seo/ItemListJsonLd";
 import { getAvailableTools, type Tool } from "@/lib/tools";
 import { SITE } from "@/lib/site";
+
+const tools = getAvailableTools();
+
+/**
+ * Homepage metadata. Uses an absolute title (bypassing the layout's
+ * "%s | SiteName" template) so the brand name isn't duplicated, and a
+ * description that names the main tool categories + the privacy angle —
+ * this is the highest-authority page and should target the brand + core
+ * offering, not fall back to the generic layout default.
+ */
+export const metadata: Metadata = {
+  title: {
+    absolute: `${SITE.name} — ${tools.length} Free Online Tools (Image, QR, EMI, GST & More)`,
+  },
+  description:
+    "Free online utility tools that run in your browser — image compressor, QR code generator, EMI, GST, SIP and age calculators, unit converter, word counter and password generator. No sign-up, no uploads, fully private.",
+  alternates: { canonical: SITE.url },
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    title: `${SITE.name} — ${tools.length} Free Online Tools`,
+    description: SITE.description,
+    url: SITE.url,
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE.name} — ${tools.length} Free Online Tools`,
+    description: SITE.description,
+  },
+};
 
 function ToolCard({ tool }: { tool: Tool }) {
   return (
@@ -26,9 +58,12 @@ function ToolCard({ tool }: { tool: Tool }) {
 }
 
 export default function Home() {
-  const tools = getAvailableTools();
   return (
     <>
+      {/* ItemList structured data: declares the site's content map to search
+          engines and is eligible for richer listing representations. */}
+      <ItemListJsonLd items={tools.map((t) => ({ name: t.name, path: `/tools/${t.slug}` }))} />
+
       <section className="border-b border-slate-200 bg-gradient-to-b from-blue-50 to-white py-16 dark:border-slate-800 dark:from-slate-900 dark:to-slate-950">
         <Container className="text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-medium text-green-800 dark:border-green-900/50 dark:bg-green-950/40 dark:text-green-300">

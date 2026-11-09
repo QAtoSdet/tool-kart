@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Field, Input, Select } from "@/components/ui/Input";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { CATEGORIES, convert, formatResult, getCategory } from "@/lib/unit-convert";
 
 export function UnitConverter() {
@@ -83,7 +84,15 @@ export function UnitConverter() {
               ))}
             </Select>
           </Field>
-          <Input readOnly aria-label="Converted result" value={result} className="bg-slate-50 dark:bg-slate-900" />
+          <div className="flex gap-2">
+            <Input
+              readOnly
+              aria-label="Converted result"
+              value={result}
+              className="bg-slate-50 dark:bg-slate-900"
+            />
+            <CopyButton value={result} aria-label="Copy converted value" />
+          </div>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Field, Input, Select } from "@/components/ui/Input";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { calculateGst, GST_RATES, type GstMode } from "@/lib/gst";
 import { formatINR } from "@/lib/sip";
 
@@ -68,6 +69,10 @@ export function GstCalculator() {
         <Row label={`SGST (${Number(rate) / 2}%)`} value={formatINR(result.sgst)} />
         <Row label="Total GST" value={formatINR(result.gst)} />
         <Row label="Total amount" value={formatINR(result.total)} strong />
+      </div>
+
+      <div className="flex justify-end">
+        <CopyButton value={formatINR(result.total)} label="Copy total" />
       </div>
     </div>
   );

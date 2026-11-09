@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Field, Input } from "@/components/ui/Input";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { percentOf, whatPercent, percentChange, trim } from "@/lib/percentage";
 
 export function PercentageCalculator() {
@@ -20,6 +21,11 @@ export function PercentageCalculator() {
   const r2 = whatPercent(Number(x2) || 0, Number(y2) || 0);
   const r3 = percentChange(Number(oldV) || 0, Number(newV) || 0);
 
+  // Display strings, reused for rendering and clipboard copy.
+  const r1Text = trim(r1);
+  const r2Text = r2 === null ? "" : `${trim(r2)}%`;
+  const r3Text = r3 === null ? "" : `${r3 > 0 ? "+" : ""}${trim(r3)}%`;
+
   return (
     <div className="space-y-5">
       <Card>
@@ -35,8 +41,9 @@ export function PercentageCalculator() {
             <Input id="v1" type="number" className="w-32" value={v1} onChange={(e) => setV1(e.target.value)} />
           </Field>
           <p className="pb-2 text-slate-700 dark:text-slate-200">
-            = <span className="font-bold text-blue-600 dark:text-blue-400">{trim(r1)}</span>
+            = <span className="font-bold text-blue-600 dark:text-blue-400">{r1Text}</span>
           </p>
+          <CopyButton value={r1Text} aria-label="Copy result" />
         </div>
       </Card>
 
@@ -55,9 +62,10 @@ export function PercentageCalculator() {
           <p className="pb-2 text-slate-700 dark:text-slate-200">
             ={" "}
             <span className="font-bold text-blue-600 dark:text-blue-400">
-              {r2 === null ? "—" : `${trim(r2)}%`}
+              {r2 === null ? "—" : r2Text}
             </span>
           </p>
+          <CopyButton value={r2Text} aria-label="Copy result" />
         </div>
       </Card>
 
@@ -76,9 +84,10 @@ export function PercentageCalculator() {
           <p className="pb-2 text-slate-700 dark:text-slate-200">
             ={" "}
             <span className="font-bold text-blue-600 dark:text-blue-400">
-              {r3 === null ? "—" : `${r3 > 0 ? "+" : ""}${trim(r3)}%`}
+              {r3 === null ? "—" : r3Text}
             </span>
           </p>
+          <CopyButton value={r3Text} aria-label="Copy result" />
         </div>
       </Card>
     </div>
