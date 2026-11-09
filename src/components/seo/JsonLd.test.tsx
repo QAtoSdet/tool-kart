@@ -40,3 +40,32 @@ describe("ToolJsonLd", () => {
     expect(types).not.toContain("FAQPage");
   });
 });
+
+  it("emits HowTo structured data when howToSteps are provided", () => {
+    const { container } = render(
+      <ToolJsonLd
+        name="EMI Calculator"
+        description="Calculate your loan EMI."
+        path="/tools/emi-calculator"
+        howToSteps={["Enter the loan amount.", "See your EMI."]}
+      />,
+    );
+    const data = parseLdJson(container);
+    const types = data["@graph"].map((n: { "@type": string }) => n["@type"]);
+    expect(types).toContain("HowTo");
+
+    const howToNode = data["@graph"].find((n: { "@type": string }) => n["@type"] === "HowTo");
+    expect(howToNode.step).toHaveLength(2);
+    expect(howToNode.step[0].text).toBe("Enter the loan amount.");
+    expect(howToNode.step[0].position).toBe(1);
+    expect(howToNode.step[1].position).toBe(2);
+  });
+
+  it("omits HowTo when howToSteps are not provided", () => {
+    const { container } = render(
+      <ToolJsonLd name="Tool" description="desc" path="/tools/x" />,
+    );
+    const data = parseLdJson(container);
+    const types = data["@graph"].map((n: { "@type": string }) => n["@type"]);
+    expect(types).not.toContain("HowTo");
+  });

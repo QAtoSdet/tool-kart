@@ -32,14 +32,21 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const howToSteps: string[] = [
+  "Pick your date of birth.",
+  "Optionally set the \"as of\" date (defaults to today).",
+  "Read your exact age and the countdown to your next birthday.",
+];
+
 export default function AgeCalculatorPage() {
   return (
     <>
-      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} />
+      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} howToSteps={howToSteps} />
       <ToolPage
         slug={tool.slug}
         title="Age Calculator"
         description="Find your exact age and days to your next birthday from your date of birth."
+        howToSteps={howToSteps}
         explainer={
           <>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
@@ -50,12 +57,6 @@ export default function AgeCalculatorPage() {
               The tool also tells you how many days remain until your next birthday — handy for
               forms, eligibility checks and just curiosity.
             </p>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">How to use it</h3>
-            <ol className="list-decimal space-y-1 pl-5">
-              <li>Pick your date of birth.</li>
-              <li>Optionally set the &quot;as of&quot; date (defaults to today).</li>
-              <li>Read your exact age and the countdown to your next birthday.</li>
-            </ol>
           </>
         }
         faqs={faqs}

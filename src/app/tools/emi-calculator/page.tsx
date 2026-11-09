@@ -44,14 +44,21 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const howToSteps: string[] = [
+  "Enter the loan amount (principal).",
+  "Enter the annual interest rate and tenure.",
+  "See your EMI, total interest and total payable instantly.",
+];
+
 export default function EmiCalculatorPage() {
   return (
     <>
-      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} />
+      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} howToSteps={howToSteps} />
       <ToolPage
         slug={tool.slug}
         title="EMI Calculator"
         description="Estimate your monthly loan EMI, total interest and payoff for any loan."
+        howToSteps={howToSteps}
         explainer={
           <>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
@@ -62,12 +69,6 @@ export default function EmiCalculatorPage() {
               loan is cleared. This calculator shows your EMI, the total interest you&apos;ll pay and
               the total amount — so you can compare loans and tenures before committing.
             </p>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">How to use it</h3>
-            <ol className="list-decimal space-y-1 pl-5">
-              <li>Enter the loan amount (principal).</li>
-              <li>Enter the annual interest rate and tenure.</li>
-              <li>See your EMI, total interest and total payable instantly.</li>
-            </ol>
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               Home, car and personal loan EMIs
             </h3>

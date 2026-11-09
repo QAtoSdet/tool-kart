@@ -23,6 +23,12 @@ export interface Tool {
   keywords: string[];
   /** Whether the tool page is implemented and should be linked/indexed */
   available: boolean;
+  /**
+   * ISO date string (YYYY-MM-DD) of the last meaningful content/feature update.
+   * Used by the sitemap for the <lastmod> tag so crawlers know which pages changed.
+   * Update this whenever you significantly change a tool page's content or logic.
+   */
+  lastModified: string;
 }
 
 export const TOOLS: Tool[] = [
@@ -41,6 +47,7 @@ export const TOOLS: Tool[] = [
       "resize image online",
     ],
     available: true,
+    lastModified: "2026-09-15",
   },
   {
     slug: "qr-code-generator",
@@ -56,6 +63,7 @@ export const TOOLS: Tool[] = [
       "url to qr code",
     ],
     available: true,
+    lastModified: "2026-09-15",
   },
   {
     slug: "age-calculator",
@@ -71,6 +79,7 @@ export const TOOLS: Tool[] = [
       "how old am i",
     ],
     available: true,
+    lastModified: "2026-09-15",
   },
   {
     slug: "emi-calculator",
@@ -86,6 +95,7 @@ export const TOOLS: Tool[] = [
       "car loan emi",
     ],
     available: true,
+    lastModified: "2026-09-15",
   },
   {
     slug: "unit-converter",
@@ -102,6 +112,7 @@ export const TOOLS: Tool[] = [
       "celsius to fahrenheit",
     ],
     available: true,
+    lastModified: "2026-09-15",
   },
   {
     slug: "gst-calculator",
@@ -118,6 +129,7 @@ export const TOOLS: Tool[] = [
       "cgst sgst calculator",
     ],
     available: true,
+    lastModified: "2026-10-10",
   },
   {
     slug: "sip-calculator",
@@ -133,6 +145,7 @@ export const TOOLS: Tool[] = [
       "sip return calculator",
     ],
     available: true,
+    lastModified: "2026-10-10",
   },
   {
     slug: "percentage-calculator",
@@ -148,6 +161,7 @@ export const TOOLS: Tool[] = [
       "what percent is x of y",
     ],
     available: true,
+    lastModified: "2026-10-12",
   },
   {
     slug: "word-counter",
@@ -163,6 +177,7 @@ export const TOOLS: Tool[] = [
       "count words online",
     ],
     available: true,
+    lastModified: "2026-10-12",
   },
   {
     slug: "password-generator",
@@ -178,6 +193,7 @@ export const TOOLS: Tool[] = [
       "secure password",
     ],
     available: true,
+    lastModified: "2026-10-15",
   },
 ];
 

@@ -34,14 +34,21 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const howToSteps: string[] = [
+  "Choose a category (length, weight, temperature or area).",
+  "Pick the \"from\" and \"to\" units.",
+  "Type a value and read the converted result instantly.",
+];
+
 export default function UnitConverterPage() {
   return (
     <>
-      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} />
+      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} howToSteps={howToSteps} />
       <ToolPage
         slug={tool.slug}
         title="Unit Converter"
         description="Convert length, weight, temperature and area units instantly."
+        howToSteps={howToSteps}
         explainer={
           <>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
@@ -52,12 +59,6 @@ export default function UnitConverterPage() {
               area. Results update as you type, with two-way conversion so you can read the value in
               either direction. Useful for construction, cooking, travel and everyday maths.
             </p>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">How to use it</h3>
-            <ol className="list-decimal space-y-1 pl-5">
-              <li>Choose a category (length, weight, temperature or area).</li>
-              <li>Pick the &quot;from&quot; and &quot;to&quot; units.</li>
-              <li>Type a value and read the converted result instantly.</li>
-            </ol>
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               Everyday conversions
             </h3>

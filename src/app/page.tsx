@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { ScrollToButton } from "@/components/ScrollToButton";
 import { getAvailableTools, type Tool } from "@/lib/tools";
+import { SITE } from "@/lib/site";
 
 function ToolCard({ tool }: { tool: Tool }) {
   return (
@@ -65,6 +66,27 @@ export default function Home() {
             {tools.map((tool) => (
               <ToolCard key={tool.slug} tool={tool} />
             ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-t border-slate-200 py-14 dark:border-slate-800">
+        <Container>
+          <div className="mx-auto max-w-2xl space-y-4 text-slate-600 dark:text-slate-300">
+            <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+              Free tools that respect your privacy
+            </h2>
+            <p>
+              {SITE.name} brings together the everyday tools you need — image compression, QR
+              code generation, finance calculators, unit converters and more — in one fast, free
+              place. Every tool runs entirely in your browser, which means your files and data
+              never leave your device. No sign-up, no uploads, no tracking of what you work on.
+            </p>
+            <p>
+              Whether you are compressing a photo for an online exam form, calculating your home
+              loan EMI, or generating a QR code for your business, you get instant results without
+              sending anything to a server. That keeps things fast and your data private by design.
+            </p>
           </div>
         </Container>
       </section>

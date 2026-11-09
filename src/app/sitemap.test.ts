@@ -34,3 +34,21 @@ describe("sitemap", () => {
     }
   });
 });
+
+  it("uses per-tool lastModified dates from the registry, not a single build timestamp", () => {
+    const entries = sitemap();
+    const toolEntries = entries.filter((e) => e.url.includes("/tools/"));
+
+    // Tool entries should have string lastModified values matching the registry.
+    for (const entry of toolEntries) {
+      const slug = entry.url.split("/tools/")[1];
+      const tool = getAvailableTools().find((t) => t.slug === slug);
+      expect(tool).toBeDefined();
+      expect(entry.lastModified).toBe(tool!.lastModified);
+    }
+
+    // Not all tool entries should necessarily share the same date.
+    const dates = toolEntries.map((e) => e.lastModified);
+    const uniqueDates = new Set(dates);
+    expect(uniqueDates.size).toBeGreaterThan(1);
+  });

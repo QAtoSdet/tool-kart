@@ -34,6 +34,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "t-eiz4mrL9F3_AbxuxoadnU1E0I0pOho5VaTfzju70o",
+    ...(process.env.NEXT_PUBLIC_BING_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION } }
+      : {}),
   },
 };
 

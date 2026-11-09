@@ -48,14 +48,21 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const howToSteps: string[] = [
+  "Choose an image (JPG, PNG or WebP) or drag it onto the drop zone.",
+  "Pick a target quality or maximum width/height.",
+  "Preview the before/after size, then download the compressed image.",
+];
+
 export default function ImageCompressorPage() {
   return (
     <>
-      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} />
+      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} howToSteps={howToSteps} />
       <ToolPage
         slug={tool.slug}
         title="Image Compressor & Resizer"
         description="Shrink and resize images in your browser. No upload, completely private."
+        howToSteps={howToSteps}
         explainer={
           <>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
@@ -67,12 +74,6 @@ export default function ImageCompressorPage() {
               dimension or lower quality — all inside your browser. Because the processing is local,
               your photos are never sent to a server.
             </p>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">How to use it</h3>
-            <ol className="list-decimal space-y-1 pl-5">
-              <li>Choose an image (JPG, PNG or WebP) or drag it onto the drop zone.</li>
-              <li>Pick a target quality or maximum width/height.</li>
-              <li>Preview the before/after size, then download the compressed image.</li>
-            </ol>
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               Common uses
             </h3>

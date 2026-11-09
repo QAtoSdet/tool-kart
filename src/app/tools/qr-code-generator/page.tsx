@@ -33,14 +33,21 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const howToSteps: string[] = [
+  "Enter the text or URL you want to encode.",
+  "Adjust the size and colours if you like.",
+  "Download the QR code and test it with your phone camera.",
+];
+
 export default function QrCodeGeneratorPage() {
   return (
     <>
-      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} />
+      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} howToSteps={howToSteps} />
       <ToolPage
         slug={tool.slug}
         title="QR Code Generator"
         description="Turn any text or link into a downloadable QR code, instantly and privately."
+        howToSteps={howToSteps}
         explainer={
           <>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
@@ -51,12 +58,6 @@ export default function QrCodeGeneratorPage() {
               content, and a scannable code is generated live in your browser. Download it as a PNG
               for screens or an SVG for crisp printing.
             </p>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">How to use it</h3>
-            <ol className="list-decimal space-y-1 pl-5">
-              <li>Enter the text or URL you want to encode.</li>
-              <li>Adjust the size and colours if you like.</li>
-              <li>Download the QR code and test it with your phone camera.</li>
-            </ol>
           </>
         }
         faqs={faqs}

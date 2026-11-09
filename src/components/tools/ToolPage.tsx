@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { PrivacyBadge } from "@/components/PrivacyBadge";
 import { MoreTools } from "@/components/tools/MoreTools";
+import { ShareButtons } from "@/components/tools/ShareButtons";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export interface FaqItem {
@@ -26,6 +27,12 @@ export interface ToolPageProps {
   /** FAQ entries, rendered as an accessible list and reused for JSON-LD later. */
   faqs?: FaqItem[];
   /**
+   * Optional numbered "how to use" steps. When provided, ToolPage renders a
+   * consistent "How to use this tool" section at the top of the explainer, so
+   * the steps don't need to be duplicated in the explainer JSX.
+   */
+  howToSteps?: string[];
+  /**
    * Whether this tool processes data in the browser (controls privacy badge copy).
    * Defaults to true since that is the design for all current tools.
    */
@@ -35,7 +42,7 @@ export interface ToolPageProps {
 /**
  * Shared layout for every tool page. Standardizes structure so adding a tool is
  * just: render <ToolPage> with the widget, explainer and FAQs. Also places the
- * privacy badge and reserved ad slots consistently.
+ * privacy badge, share buttons and reserved ad slots consistently.
  */
 export function ToolPage({
   slug,
@@ -44,8 +51,11 @@ export function ToolPage({
   children,
   explainer,
   faqs,
+  howToSteps,
   processedInBrowser = true,
 }: ToolPageProps) {
+  const toolPath = `/tools/${slug}`;
+
   return (
     <Container className="py-8">
       <article className="mx-auto max-w-3xl">
@@ -80,6 +90,18 @@ export function ToolPage({
 
         {/* Original explainer content — important for SEO and AdSense. */}
         <section className="prose-tool mb-10 space-y-4 text-slate-700 dark:text-slate-300">
+          {howToSteps && howToSteps.length > 0 ? (
+            <div>
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+                How to use this tool
+              </h2>
+              <ol className="mt-2 list-decimal space-y-1 pl-5">
+                {howToSteps.map((step, i) => (
+                  <li key={i}>{step}</li>
+                ))}
+              </ol>
+            </div>
+          ) : null}
           {explainer}
         </section>
 
@@ -104,6 +126,9 @@ export function ToolPage({
             </dl>
           </section>
         ) : null}
+
+        {/* Share buttons — free distribution, especially via WhatsApp in India. */}
+        <ShareButtons title={title} path={toolPath} />
 
         {/* Cross-tool discovery — drives pageviews-per-visit and internal links. */}
         <MoreTools currentSlug={slug} />

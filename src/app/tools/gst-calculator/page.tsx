@@ -38,14 +38,21 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const howToSteps: string[] = [
+  "Enter the amount.",
+  "Pick the GST rate (3%, 5%, 12%, 18% or 28%).",
+  "Choose whether to add GST (exclusive) or remove it (inclusive).",
+];
+
 export default function GstCalculatorPage() {
   return (
     <>
-      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} />
+      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} howToSteps={howToSteps} />
       <ToolPage
         slug={tool.slug}
         title="GST Calculator"
         description="Add or remove GST and see the CGST/SGST split, instantly and privately."
+        howToSteps={howToSteps}
         explainer={
           <>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
@@ -57,12 +64,6 @@ export default function GstCalculatorPage() {
               price that already includes it. It also splits the tax into CGST and SGST for
               intra-state transactions.
             </p>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">How to use it</h3>
-            <ol className="list-decimal space-y-1 pl-5">
-              <li>Enter the amount.</li>
-              <li>Pick the GST rate (3%, 5%, 12%, 18% or 28%).</li>
-              <li>Choose whether to add GST (exclusive) or remove it (inclusive).</li>
-            </ol>
             <p>
               Handy for shopkeepers, freelancers and small businesses preparing invoices, or for
               anyone checking the tax portion of a bill.

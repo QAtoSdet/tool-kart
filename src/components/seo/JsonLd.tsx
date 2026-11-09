@@ -3,19 +3,26 @@ import { SITE } from "@/lib/site";
 
 /**
  * Injects JSON-LD structured data for a tool page: a WebApplication entity and,
- * if FAQs are supplied, a FAQPage entity. Helps rich results and gives search
- * engines a clear description of the tool.
+ * if FAQs are supplied, a FAQPage entity. Optionally includes a HowTo entity
+ * when step-by-step instructions are provided — this can earn rich "how-to"
+ * results in Google search.
+ *
+ * Note: BreadcrumbList JSON-LD is emitted separately by the Breadcrumbs
+ * component, which is rendered inside ToolPage.
  */
 export function ToolJsonLd({
   name,
   description,
   path,
   faqs,
+  howToSteps,
 }: {
   name: string;
   description: string;
   path: string;
   faqs?: FaqItem[];
+  /** Optional numbered steps; when provided a HowTo entity is added to the graph. */
+  howToSteps?: string[];
 }) {
   const url = `${SITE.url.replace(/\/$/, "")}${path}`;
 
@@ -38,6 +45,18 @@ export function ToolJsonLd({
         "@type": "Question",
         name: f.question,
         acceptedAnswer: { "@type": "Answer", text: f.answer },
+      })),
+    });
+  }
+
+  if (howToSteps && howToSteps.length > 0) {
+    graph.push({
+      "@type": "HowTo",
+      name: `How to use ${name}`,
+      step: howToSteps.map((step, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        text: step,
       })),
     });
   }

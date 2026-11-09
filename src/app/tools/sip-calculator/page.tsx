@@ -38,14 +38,21 @@ const faqs: FaqItem[] = [
   },
 ];
 
+const howToSteps: string[] = [
+  "Enter your monthly investment.",
+  "Enter an expected annual return and the number of years.",
+  "See the invested amount, estimated returns and total value.",
+];
+
 export default function SipCalculatorPage() {
   return (
     <>
-      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} />
+      <ToolJsonLd name={tool.name} description={tool.description} path={path} faqs={faqs} howToSteps={howToSteps} />
       <ToolPage
         slug={tool.slug}
         title="SIP Calculator"
         description="Estimate what a monthly SIP could grow into over time."
+        howToSteps={howToSteps}
         explainer={
           <>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
@@ -57,12 +64,6 @@ export default function SipCalculatorPage() {
               your chosen period, splitting the result into the amount you invested and the
               estimated returns on top.
             </p>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">How to use it</h3>
-            <ol className="list-decimal space-y-1 pl-5">
-              <li>Enter your monthly investment.</li>
-              <li>Enter an expected annual return and the number of years.</li>
-              <li>See the invested amount, estimated returns and total value.</li>
-            </ol>
             <p>
               Remember this is an estimate for planning, not a guarantee — real returns depend on
               the market.
