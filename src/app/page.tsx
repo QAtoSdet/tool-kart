@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/Card";
 import { ScrollToButton } from "@/components/ScrollToButton";
 import { ItemListJsonLd } from "@/components/seo/ItemListJsonLd";
 import { getAvailableTools, type Tool } from "@/lib/tools";
+import { getAvailableHubs } from "@/lib/categories";
 import { SITE } from "@/lib/site";
 
 const tools = getAvailableTools();
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     absolute: `${SITE.name} — ${tools.length} Free Online Tools (Image, QR, EMI, GST & More)`,
   },
   description:
-    "Free online utility tools that run in your browser — image compressor, QR code generator, EMI, GST, SIP and age calculators, unit converter, word counter and password generator. No sign-up, no uploads, fully private.",
+    "Free online utility tools that run in your browser — income tax, EMI, GST, SIP and age calculators, image compressor, QR code generator, unit converter, word counter and password generator. No sign-up, no uploads, fully private.",
   alternates: { canonical: SITE.url },
   openGraph: {
     type: "website",
@@ -88,6 +89,29 @@ export default function Home() {
             <li className="flex items-center gap-1.5">✓ Runs in your browser</li>
             <li className="flex items-center gap-1.5">✓ No file uploads</li>
             <li className="flex items-center gap-1.5">✓ Free, no account</li>
+          </ul>
+        </Container>
+      </section>
+
+      <section aria-labelledby="categories-heading" className="pt-14">
+        <Container>
+          <h2
+            id="categories-heading"
+            className="mb-6 text-2xl font-semibold text-slate-900 dark:text-white"
+          >
+            Browse by category
+          </h2>
+          <ul className="flex flex-wrap gap-3">
+            {getAvailableHubs().map((hub) => (
+              <li key={hub.slug}>
+                <Link
+                  href={`/${hub.slug}`}
+                  className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-blue-800 dark:hover:bg-blue-950/30"
+                >
+                  {hub.shortTitle}
+                </Link>
+              </li>
+            ))}
           </ul>
         </Container>
       </section>

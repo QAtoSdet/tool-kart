@@ -27,6 +27,7 @@ export function CopyButton({
   copiedLabel = "Copied!",
   onCopied,
   disabled,
+  "aria-label": ariaLabel,
   ...props
 }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
@@ -51,6 +52,8 @@ export function CopyButton({
       disabled={disabled || !value}
       onClick={copy}
       aria-live="polite"
+      // A custom aria-label would otherwise mask the "Copied!" state from screen readers.
+      aria-label={ariaLabel ? (copied ? copiedLabel : ariaLabel) : undefined}
       {...props}
     >
       {copied ? copiedLabel : label}

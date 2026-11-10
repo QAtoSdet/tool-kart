@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Footer } from "@/components/layout/Footer";
+import { getAvailableHubs } from "@/lib/categories";
 import PrivacyPage from "./privacy/page";
 import TermsPage from "./terms/page";
 import AboutPage from "./about/page";
@@ -41,5 +42,15 @@ describe("Legal/info pages", () => {
     for (const [label, href] of Object.entries(expected)) {
       expect(screen.getByRole("link", { name: label })).toHaveAttribute("href", href);
     }
+  });
+});
+
+describe("Footer explore links", () => {
+  it("links to the guides index and every category hub", () => {
+    render(<Footer />);
+    const nav = screen.getByRole("navigation", { name: "Explore" });
+    const hrefs = Array.from(nav.querySelectorAll("a")).map((a) => a.getAttribute("href"));
+    expect(hrefs).toContain("/guides");
+    for (const hub of getAvailableHubs()) expect(hrefs).toContain(`/${hub.slug}`);
   });
 });

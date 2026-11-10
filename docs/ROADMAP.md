@@ -1,5 +1,8 @@
 # Roadmap & honest expectations
 
+> **What to do next?** See [`docs/PLAN.md`](./PLAN.md) — the living execution checklist
+> (Phase 0–4 with checkboxes, patterns, and current verified state).
+
 ## Read this first — the honest money picture
 
 - **Cash cost:** ~₹1,000/year (a domain). Everything else runs on free tiers. There is no
@@ -111,6 +114,9 @@ These are plausible ranges, not guarantees. SEO outcomes vary widely.
     (how-to-calculate-emi, gst-rates-in-india-explained, sip-vs-lump-sum,
     compress-image-to-50kb-100kb) spanning Finance + Image. Adding a guide = one registry entry +
     one route, same pattern as a tool.
+  - **Phase 2a (category hubs):** 5 hub pages from a `lib/categories.ts` registry (shared
+    `CategoryHubView`, `ItemList` JSON-LD, sitemap-integrated); tool breadcrumbs now route through
+    the category hub; homepage "Browse by category" links to all hubs. See `docs/PLAN.md`.
   **Still ongoing:** keep adding ~one guide/tool per week (finance guides next — income tax;
   tools — PDF, income-tax calculator, CGPA) and refine content using Search Console data after
   launch.

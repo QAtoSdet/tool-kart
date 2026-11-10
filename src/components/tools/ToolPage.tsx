@@ -5,6 +5,8 @@ import { MoreTools } from "@/components/tools/MoreTools";
 import { RelatedGuides } from "@/components/guides/RelatedGuides";
 import { ShareButtons } from "@/components/tools/ShareButtons";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { getToolBySlug } from "@/lib/tools";
+import { getHubByCategory } from "@/lib/categories";
 
 export interface FaqItem {
   question: string;
@@ -57,16 +59,19 @@ export function ToolPage({
 }: ToolPageProps) {
   const toolPath = `/tools/${slug}`;
 
+  // Middle breadcrumb points at the tool's category hub (Home > Finance Calculators > EMI
+  // Calculator), passing link equity up the hierarchy. Falls back to the homepage tools
+  // grid if the tool has no hub.
+  const tool = getToolBySlug(slug);
+  const hub = tool ? getHubByCategory(tool.category) : undefined;
+  const middleCrumb = hub
+    ? { name: hub.shortTitle, href: `/${hub.slug}` }
+    : { name: "Tools", href: "/#tools" };
+
   return (
     <Container className="py-8">
       <article className="mx-auto max-w-3xl">
-        <Breadcrumbs
-          items={[
-            { name: "Home", href: "/" },
-            { name: "Tools", href: "/#tools" },
-            { name: title },
-          ]}
-        />
+        <Breadcrumbs items={[{ name: "Home", href: "/" }, middleCrumb, { name: title }]} />
         <header className="mb-4">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
             {title}

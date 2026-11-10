@@ -2,12 +2,14 @@ import { describe, it, expect } from "vitest";
 import sitemap from "./sitemap";
 import { getAvailableTools } from "@/lib/tools";
 import { getAvailableGuides } from "@/lib/guides";
+import { getAvailableHubs } from "@/lib/categories";
 import { STATIC_ROUTES } from "@/lib/routes";
 
 describe("sitemap", () => {
-  it("includes a URL for every static route, tool and guide", () => {
+  it("includes a URL for every static route, tool, guide and category hub", () => {
     const entries = sitemap();
     const urls = entries.map((e) => e.url);
+    const pathOf = (u: string) => u.replace(/^https?:\/\/[^/]+/, "");
 
     // Every tool route is present.
     for (const tool of getAvailableTools()) {
@@ -17,15 +19,23 @@ describe("sitemap", () => {
     for (const guide of getAvailableGuides()) {
       expect(urls.some((u) => u.endsWith(`/guides/${guide.slug}`))).toBe(true);
     }
+    // Every category hub route is present (exact path match — "/finance-calculators"
+    // must not satisfy the "/calculators" check).
+    for (const hub of getAvailableHubs()) {
+      expect(urls.some((u) => pathOf(u) === `/${hub.slug}`)).toBe(true);
+    }
     // Static routes present.
     for (const route of STATIC_ROUTES) {
       const expectedSuffix = route === "/" ? "" : route;
       expect(urls.some((u) => u.endsWith(expectedSuffix) || u === u)).toBe(true);
     }
 
-    // Count matches: static + tools + guides.
+    // Count matches: static + tools + guides + category hubs.
     expect(entries.length).toBe(
-      STATIC_ROUTES.length + getAvailableTools().length + getAvailableGuides().length,
+      STATIC_ROUTES.length +
+        getAvailableTools().length +
+        getAvailableGuides().length +
+        getAvailableHubs().length,
     );
   });
 

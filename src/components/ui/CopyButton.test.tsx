@@ -79,6 +79,14 @@ describe("CopyButton", () => {
     expect(onCopied).toHaveBeenCalledTimes(1);
   });
 
+  it("announces the copied state even when a custom aria-label is set", async () => {
+    render(<CopyButton value="x" aria-label="Copy result" />);
+    const btn = screen.getByRole("button", { name: "Copy result" });
+    fireEvent.click(btn);
+    await flushClipboard();
+    expect(screen.getByRole("button", { name: "Copied!" })).toBeInTheDocument();
+  });
+
   it("renders custom labels", () => {
     render(<CopyButton value="x" label="Copy total" copiedLabel="Total copied" />);
     expect(screen.getByRole("button", { name: "Copy total" })).toBeInTheDocument();

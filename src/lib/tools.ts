@@ -148,6 +148,22 @@ export const TOOLS: Tool[] = [
     lastModified: "2026-10-10",
   },
   {
+    slug: "income-tax-calculator",
+    name: "Income Tax Calculator",
+    description:
+      "Compare your income tax under the new and old regimes for FY 2026-27 and see which saves more.",
+    category: "Finance",
+    icon: "🧮",
+    keywords: [
+      "income tax calculator",
+      "income tax calculator fy 2026-27",
+      "new vs old tax regime calculator",
+      "tax calculator india",
+    ],
+    available: true,
+    lastModified: "2026-11-09",
+  },
+  {
     slug: "percentage-calculator",
     name: "Percentage Calculator",
     description:

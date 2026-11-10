@@ -1,12 +1,15 @@
 # Project status — at a glance
 
+> **What to do next?** See [`docs/PLAN.md`](./PLAN.md) — the living execution checklist
+> (Phase 0–4 with checkboxes, patterns, and current verified state).
+
 _Last updated: November 2026._
 
 Quick summary: **the app is fully built, tested, and production-ready.** All 9 build tasks and
 the UX pass are done. What remains is the public launch (manual, needs your accounts) and the
 ongoing content work that actually earns the money.
 
-Health check: **129 automated tests passing**, production build clean, dev server serves every
+Health check: **171 automated tests passing**, production build clean, dev server serves every
 route. Stack pinned to **Next.js 15.5.x + React 19.0** (the newer Next 16 line caused a runtime
 crash and must not be used until stable).
 
@@ -38,6 +41,10 @@ crash and must not be used until stable).
 - ✅ Dedicated homepage metadata (absolute title, no duplicated brand) + `ItemList` JSON-LD listing all tools.
 - ✅ Reusable `CopyButton` + copy-to-clipboard on calculator outputs (unit converter, GST, percentage; password generator already had it).
 - ✅ `STATUS.md` refreshed to match reality.
+
+### Category hubs (Phase 2a)
+- ✅ 5 category hub pages (`/finance-calculators`, `/image-tools`, `/calculators`, `/converters`, `/generators`) from a `lib/categories.ts` registry, with `ItemList` JSON-LD, auto-added to the sitemap.
+- ✅ Tool breadcrumbs now go `Home > Category hub > Tool`; homepage has a "Browse by category" section linking to every hub.
 
 ### Content hub + topic clusters (Phase 1)
 - ✅ Lightweight content system: `lib/guides.ts` registry (mirrors the tool registry), reusable `ContentPage` shell (breadcrumbs, related-tool callout, optional table of contents, prose body, FAQ, cross-linking), and `Article` + `FAQPage` JSON-LD.

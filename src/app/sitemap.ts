@@ -3,15 +3,16 @@ import { SITE } from "@/lib/site";
 import { getAllRoutes } from "@/lib/routes";
 import { getToolBySlug } from "@/lib/tools";
 import { getGuideBySlug } from "@/lib/guides";
+import { getHubBySlug } from "@/lib/categories";
 
 /**
- * Sitemap generated from the central route list, which is derived from the tool
- * and guide registries. Adding a tool or guide automatically adds it here — no
- * manual edits needed.
+ * Sitemap generated from the central route list, which is derived from the tool,
+ * guide and category-hub registries. Adding any of them automatically adds it here
+ * — no manual edits needed.
  *
- * Each entry's <lastmod> comes from its registry `lastModified` field, so
- * Google sees a meaningful per-page date instead of the build timestamp. Static
- * pages use a fixed date since they rarely change.
+ * Each entry's <lastmod> comes from its registry `lastModified` field, so Google
+ * sees a meaningful per-page date instead of the build timestamp. Static pages
+ * use a fixed date since they rarely change.
  */
 const STATIC_LASTMOD = "2026-11-09";
 
@@ -39,13 +40,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.7,
       };
     }
+    // Category hub pages (single-segment paths like "/finance-calculators").
+    const hub = getHubBySlug(path.slice(1));
+    if (hub) {
+      return {
+        url: `${base}${path}`,
+        lastModified: hub.lastModified,
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      };
+    }
     const isHome = path === "/";
-    const isHub = path === "/guides";
+    const isGuidesIndex = path === "/guides";
     return {
       url: `${base}${path === "/" ? "" : path}`,
       lastModified: STATIC_LASTMOD,
-      changeFrequency: (isHome || isHub ? "monthly" : "yearly") as "monthly" | "yearly",
-      priority: isHome ? 1 : isHub ? 0.6 : 0.4,
+      changeFrequency: (isHome || isGuidesIndex ? "monthly" : "yearly") as "monthly" | "yearly",
+      priority: isHome ? 1 : isGuidesIndex ? 0.6 : 0.4,
     };
   });
 }

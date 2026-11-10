@@ -82,6 +82,22 @@ export const GUIDES: Guide[] = [
     lastModified: "2026-11-09",
   },
   {
+    slug: "old-vs-new-tax-regime",
+    title: "Old vs New Tax Regime for FY 2026-27: Which Should You Choose?",
+    description:
+      "How the new and old income-tax regimes differ, when deductions make the old regime worth it, and worked examples at ₹10, ₹15 and ₹20 lakh.",
+    category: "Finance",
+    relatedToolSlug: "income-tax-calculator",
+    keywords: [
+      "old vs new tax regime",
+      "which tax regime is better",
+      "new tax regime fy 2026-27",
+      "income tax slabs 2026-27",
+    ],
+    datePublished: "2026-11-09",
+    lastModified: "2026-11-09",
+  },
+  {
     slug: "compress-image-to-50kb-100kb",
     title: "Compress an Image to 50 KB or 100 KB for Online Forms (SSC, Passport)",
     description:

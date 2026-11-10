@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SITE } from "@/lib/site";
 import { getAvailableTools } from "@/lib/tools";
+import { getAvailableHubs } from "@/lib/categories";
 
 const legalLinks = [
   { href: "/about", label: "About" },
@@ -12,9 +13,14 @@ const legalLinks = [
 
 export function Footer() {
   const tools = getAvailableTools();
+  // Sitewide links to the guides index and every category hub (internal linking for SEO).
+  const exploreLinks = [
+    { href: "/guides", label: "Guides" },
+    ...getAvailableHubs().map((h) => ({ href: `/${h.slug}`, label: h.shortTitle })),
+  ];
   return (
     <footer className="mt-16 border-t border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-900">
-      <Container className="grid gap-8 py-10 sm:grid-cols-2 md:grid-cols-3">
+      <Container className="grid gap-8 py-10 sm:grid-cols-2 md:grid-cols-4">
         <div>
           <p className="font-semibold text-slate-900 dark:text-white">{SITE.name}</p>
           <p className="mt-2 max-w-xs text-sm text-slate-600 dark:text-slate-400">
@@ -31,6 +37,21 @@ export function Footer() {
                   className="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                 >
                   {tool.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <nav aria-label="Explore">
+          <p className="text-sm font-semibold text-slate-900 dark:text-white">Explore</p>
+          <ul className="mt-3 space-y-2">
+            {exploreLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                >
+                  {link.label}
                 </Link>
               </li>
             ))}
