@@ -29,7 +29,7 @@ const faqs: FaqItem[] = [
   {
     question: "Can I compress an image to a specific size like 100 KB or 50 KB?",
     answer:
-      "Yes. Lower the quality and reduce the maximum width, and the output size updates live so you can hit a target such as 20 KB, 50 KB, 100 KB or 200 KB — the limits most online forms ask for.",
+      "Yes. The quickest way is our Compress Image to KB tool: pick 20, 50, 100 or 200 KB (or any size) and it finds the right settings automatically. Here, you can do it by hand: lower the quality or the maximum width, press Compress, and check the new size.",
   },
   {
     question: "How do I compress a photo for an online exam or job application form?",
@@ -80,7 +80,11 @@ export default function ImageCompressorPage() {
             <ul className="list-disc space-y-1 pl-5">
               <li>
                 Resize a photo or signature to fit the size limit on an exam or job application
-                form (for example under 50 KB, 100 KB or 200 KB).
+                form. To hit an exact limit such as 50 KB automatically, use{" "}
+                <a href="/tools/compress-image-to-kb" className="text-blue-600 underline">
+                  compress image to KB
+                </a>
+                .
               </li>
               <li>Shrink pictures before emailing or sharing them on WhatsApp.</li>
               <li>Reduce image weight to speed up a website or blog.</li>

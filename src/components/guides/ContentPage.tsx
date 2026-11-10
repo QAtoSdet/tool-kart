@@ -78,7 +78,7 @@ export function ContentPage({
                 Use the {tool.name} →
               </span>
               <span className="mt-0.5 block text-xs text-slate-600 dark:text-slate-400">
-                Skip the reading and run the numbers yourself — free and private.
+                Skip the reading and try it yourself — free and private.
               </span>
             </div>
           </Link>

@@ -42,12 +42,29 @@ export const TOOLS: Tool[] = [
     keywords: [
       "image compressor",
       "compress image online",
-      "compress image to 100kb",
+      "image size reducer",
       "reduce image size",
       "resize image online",
     ],
     available: true,
-    lastModified: "2026-09-15",
+    lastModified: "2026-11-10",
+  },
+  {
+    slug: "compress-image-to-kb",
+    name: "Compress Image to KB",
+    description:
+      "Get a photo under 20, 50, 100 KB or any size for exam and job forms. Automatic, private, no upload.",
+    category: "Image",
+    icon: "📏",
+    keywords: [
+      "compress image to 50kb",
+      "compress image to 20kb",
+      "compress image to 100kb",
+      "reduce photo size in kb",
+      "resize image to kb",
+    ],
+    available: true,
+    lastModified: "2026-11-10",
   },
   {
     slug: "qr-code-generator",

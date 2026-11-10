@@ -26,7 +26,7 @@ const faqs: FaqItem[] = [
   {
     question: "How do I compress an image to exactly 50 KB?",
     answer:
-      "Reduce the pixel dimensions first, then set JPG quality around 70–85 and check the output size. Adjust quality or dimensions down until the result is at or under 50 KB. The compressor shows the new file size after each change.",
+      "Use the compress image to KB tool: choose your photo, pick 50 KB and press the button. It finds the highest quality that fits and shrinks the photo only if it has to. To do it by hand, reduce the pixel dimensions, set JPG quality around 70–85, and lower either until the file is at or under 50 KB.",
   },
   {
     question: "Which format is best for online form photos?",
@@ -97,19 +97,27 @@ export default function ImageCompressGuidePage() {
         </ul>
 
         <h2 id="steps">Step-by-step: hit an exact KB target</h2>
+        <p>The quickest way is to let a tool find the right settings for you:</p>
         <ol>
           <li>
-            Upload your photo to the <a href="/tools/image-compressor">image compressor</a>.
+            Open the <a href="/tools/compress-image-to-kb">compress image to KB</a> tool and choose
+            your photo.
           </li>
-          <li>Resize: set a max width that matches the form&apos;s pixel need (commonly 200–600px).</li>
-          <li>Choose JPG format and a quality around 70–85.</li>
-          <li>Check the resulting file size shown after compression.</li>
+          <li>Tap the size your form asks for (20, 50, 100 KB…) or type your own.</li>
           <li>
-            Still over the limit? Lower the quality a little, or reduce the dimensions, and compress
-            again.
+            If the form also limits the pixel size, enter the max width; otherwise leave it blank.
           </li>
-          <li>Download the result and upload it to your form.</li>
+          <li>
+            Press the button. It tries different quality levels, and shrinks the photo only if it
+            has to, until the file fits. Then download the JPG and upload it to your form.
+          </li>
         </ol>
+        <p>
+          Prefer to control it yourself? In the <a href="/tools/image-compressor">image compressor</a>
+          , set a max width that matches the form (commonly 200–600 px), choose JPG at a quality of
+          around 70–85, check the new size, and lower the quality or width until it&apos;s under
+          the limit.
+        </p>
 
         <h2 id="tips">Tips for accepted photos</h2>
         <ul>
@@ -119,8 +127,8 @@ export default function ImageCompressGuidePage() {
           </li>
           <li>Avoid PNG for photos — it is far larger than JPG at the same quality.</li>
           <li>
-            If a form says &quot;20–50 KB&quot;, aim for the middle (around 35 KB) so small
-            variations don&apos;t push you over after re-saving.
+            If a form gives a range such as &quot;20–50 KB&quot;, set the limit to around 45 KB. You
+            stay safely under the maximum, and the file is still well above the minimum.
           </li>
           <li>Everything happens in your browser — your photo never gets uploaded to a server.</li>
         </ul>

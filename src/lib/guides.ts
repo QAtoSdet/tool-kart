@@ -135,7 +135,7 @@ export const GUIDES: Guide[] = [
     description:
       "Step-by-step ways to reduce an image's file size to the exact KB limits Indian exam and government forms require — right in your browser.",
     category: "Image",
-    relatedToolSlug: "image-compressor",
+    relatedToolSlug: "compress-image-to-kb",
     keywords: [
       "compress image to 50kb",
       "compress image to 100kb",

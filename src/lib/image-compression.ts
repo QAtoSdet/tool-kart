@@ -159,3 +159,124 @@ function canvasToBlob(
     );
   });
 }
+
+// ---------------------------------------------------------------------------
+// Compress to a target file size (e.g. "under 50 KB" for an exam or job form).
+// ---------------------------------------------------------------------------
+
+/**
+ * Bytes per KB used for targets. Portals differ on 1000 vs 1024; using 1000 means a file that
+ * meets the target is under the limit under either definition (50 KB → ≤ 50,000 bytes).
+ */
+export const BYTES_PER_KB = 1000;
+
+/** Encodes the image at the given size and JPEG quality. Injected so the search is testable. */
+export type Encoder = (dims: Dimensions, quality: number) => Promise<Blob>;
+
+export interface TargetSizeResult {
+  blob: Blob;
+  width: number;
+  height: number;
+  /** JPEG quality used, 0..1. */
+  quality: number;
+}
+
+/** Keep quality at or above this before shrinking dimensions, so text/faces stay legible. */
+export const MIN_QUALITY = 0.4;
+const MAX_QUALITY = 0.92;
+const QUALITY_STEPS = 6;
+const MAX_ROUNDS = 8;
+/** Don't shrink the longest side below this. */
+export const MIN_SIDE = 64;
+
+/**
+ * Find the largest/best-looking encoding whose size is ≤ `targetBytes`.
+ *
+ * Each round, at the current dimensions:
+ *  1. If even MIN_QUALITY is too big, shrink the dimensions (file size scales roughly with pixel
+ *     count, so scale by √(target/size)) and try again.
+ *  2. Otherwise binary-search the highest quality that still fits.
+ * Never upscales. Returns null if the target can't be met without going below MIN_SIDE.
+ */
+export async function searchTargetSize(
+  original: Dimensions,
+  targetBytes: number,
+  encode: Encoder,
+): Promise<TargetSizeResult | null> {
+  if (targetBytes <= 0 || original.width <= 0 || original.height <= 0) return null;
+  let dims = { ...original };
+
+  for (let round = 0; round < MAX_ROUNDS; round++) {
+    const low = await encode(dims, MIN_QUALITY);
+    if (low.size <= targetBytes) {
+      const top = await encode(dims, MAX_QUALITY);
+      if (top.size <= targetBytes) return { blob: top, ...dims, quality: MAX_QUALITY };
+
+      let best: TargetSizeResult = { blob: low, ...dims, quality: MIN_QUALITY };
+      let lo = MIN_QUALITY;
+      let hi = MAX_QUALITY;
+      for (let i = 0; i < QUALITY_STEPS; i++) {
+        const mid = (lo + hi) / 2;
+        const blob = await encode(dims, mid);
+        if (blob.size <= targetBytes) {
+          best = { blob, ...dims, quality: mid };
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+      }
+      return best;
+    }
+
+    // Too big even at minimum quality: shrink, with a 5% safety margin, by at least 10%.
+    const factor = Math.min(0.9, Math.sqrt(targetBytes / low.size) * 0.95);
+    const next = {
+      width: Math.max(1, Math.round(dims.width * factor)),
+      height: Math.max(1, Math.round(dims.height * factor)),
+    };
+    if (Math.max(next.width, next.height) < MIN_SIDE) return null;
+    dims = next;
+  }
+  return null;
+}
+
+/**
+ * Browser wrapper: compress `file` to a JPEG of at most `targetKb` KB, optionally capping the
+ * width first. Runs entirely on the device via Canvas.
+ */
+export async function compressToTargetSize(
+  file: File | Blob,
+  targetKb: number,
+  maxWidth?: number,
+): Promise<TargetSizeResult | null> {
+  if (typeof document === "undefined") {
+    throw new Error("compressToTargetSize can only run in the browser");
+  }
+  const bitmap = await loadBitmap(file);
+  try {
+    const start = fitWithin({ width: bitmap.width, height: bitmap.height }, maxWidth);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Could not get 2D canvas context");
+
+    const encode: Encoder = (dims, quality) => {
+      canvas.width = dims.width;
+      canvas.height = dims.height;
+      // White background so transparent PNGs don't turn black in JPEG.
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, dims.width, dims.height);
+      ctx.drawImage(bitmap as CanvasImageSource, 0, 0, dims.width, dims.height);
+      return canvasToBlob(canvas, "image/jpeg", quality);
+    };
+
+    return await searchTargetSize(start, targetKb * BYTES_PER_KB, encode);
+  } finally {
+    if (typeof (bitmap as ImageBitmap).close === "function") (bitmap as ImageBitmap).close();
+  }
+}
+
+/** Output filename for a target-size result, e.g. "photo.png" + 50 → "photo-50kb.jpg". */
+export function targetFileName(inputName: string, targetKb: number): string {
+  const base = inputName.replace(/\.[^.]+$/, "") || "image";
+  return `${base}-${targetKb}kb.jpg`;
+}

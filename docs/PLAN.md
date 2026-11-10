@@ -87,7 +87,7 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
 - 🔄 Follow-up idea (optional): add a short original intro/FAQ per hub to deepen content (hubs are
   currently card grids + a one-paragraph intro).
 
-### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (3 of 6 done)
+### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (4 of 6 done)
 - ✅ **Income-tax calculator** (`/tools/income-tax-calculator`): new vs old regime for FY 2026-27,
   standard deduction, 87A rebate with marginal relief, surcharge with marginal relief (25% cap in the
   new regime, 37% in the old), 4% cess, senior/super-senior old-regime slabs, side-by-side table +
@@ -116,10 +116,24 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
   box; keyboard-focusable). Logic `src/lib/interest.ts` (23 tests, textbook values), widget test (4).
   Companion guide `/guides/simple-vs-compound-interest` — its ₹1L at 7% figures (5 and 20 years),
   effective quarterly yield and rule of 72 are pinned by tests. Browser-verified via Playwright MCP.
-- ⬜ **Image resizer to exact KB** ← NEXT UP (see below).
-- ⬜ **Image resizer to exact KB** ("compress to 50KB") — add a target-KB mode to the existing
-  image-compressor OR a new route (a new route is better for SEO — own the long-tail query).
-- ⬜ **Image format converter** (PNG ↔ JPG ↔ WebP).
+- ✅ **Compress image to KB** (`/tools/compress-image-to-kb`, Image Tools hub — new route, own the
+  long-tail query). Presets 20/50/100/200/500 KB + custom (5–5000 KB) + optional max width; output
+  always JPG. Search (`searchTargetSize` in `src/lib/image-compression.ts`): highest JPG quality that
+  fits, shrinking dimensions only if quality 40% is still too big, never upscaling, never below 64 px.
+  Targets use 1 KB = 1,000 bytes (fits portals using either 1,000 or 1,024). Size shown rounded
+  DOWN ("49.3 KB", never "50 KB" for a file under 50 KB). 10 search tests with a fake encoder + 6
+  widget tests.
+  - Real-browser results (Playwright MCP, generated 4000×3000 noisy 6.5 MB photo): 50 KB → 49,517 B
+    (766×574), 20 KB → 19,749 B in 0.56 s, 5 KB → 4,888 B, 600 px cap respected, transparent PNG
+    signature → white background. Valid JPEGs, aspect ratio kept, no console errors, fine at 375px.
+  - Paired with the existing guide `/guides/compress-image-to-50kb-100kb` (its `relatedToolSlug`
+    now points here; steps + FAQ rewritten to use the tool, manual method kept) instead of writing a
+    near-duplicate guide that would compete with it. Image compressor keeps a link to this tool and
+    no longer targets "compress image to 100kb". Also fixed a wrong claim in the compressor FAQ
+    (it said the size "updates live"; it only updates when you press Compress).
+- ⬜ **Image format converter** (PNG ↔ JPG ↔ WebP) ← NEXT UP. Can reuse `loadBitmap`/`canvasToBlob`
+  in `image-compression.ts`. Note: HEIC (iPhone photos) isn't decodable by most browsers' canvas —
+  research before promising it.
 - ⬜ **PDF tools** (compress/merge/split) — high demand but heavier (client `pdf-lib`); higher effort.
 - **Why:** more tools = more keyword clusters; finance tools raise ad RPM (revenue per visit).
 
@@ -176,16 +190,17 @@ Biggest untapped moat — most tool sites ignore Indian languages.
 
 ## State snapshot
 
-- Tests: **215 passing** (34 files). Build clean. Browser-verified with the Playwright MCP.
-- Tools: **13**. Guides: **7**. Category hubs: **5**. Sitemap URLs: **31** (6 static + 13 tools +
+- Tests: **234 passing** (36 files). Build clean. Browser-verified with the Playwright MCP.
+- Tools: **14**. Guides: **7**. Category hubs: **5**. Sitemap URLs: **32** (6 static + 14 tools +
   7 guides + 5 hubs) once deployed — the live sitemap currently has 27.
 - `SITE.url` fallback is now `https://www.tool-kart.com` (matches the live canonical). Keep
   `NEXT_PUBLIC_SITE_URL` set to the www host in Vercel anyway.
 - Site live at `https://www.tool-kart.com`. Homepage indexed; deeper pages pending indexing.
   Deployed through the income-tax calculator (live sitemap = 27 URLs, resubmitted). **Not yet
-  deployed:** CGPA calculator + guide, interest calculator + guide. After deploying, resubmit the
-  sitemap (→ 31) and request indexing for `/tools/cgpa-to-percentage` and
-  `/tools/interest-calculator`.
+  deployed:** CGPA calculator + guide, interest calculator + guide, compress-image-to-KB tool (+
+  updated image guide and compressor page). After deploying, resubmit the sitemap (→ 32) and request
+  indexing for `/tools/cgpa-to-percentage`, `/tools/interest-calculator` and
+  `/tools/compress-image-to-kb` (plus re-request `/guides/compress-image-to-50kb-100kb`, which changed).
 
 ## Browser verification (Playwright MCP)
 
