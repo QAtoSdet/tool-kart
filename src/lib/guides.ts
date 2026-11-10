@@ -114,6 +114,22 @@ export const GUIDES: Guide[] = [
     lastModified: "2026-11-10",
   },
   {
+    slug: "simple-vs-compound-interest",
+    title: "Simple vs Compound Interest: The Difference, With FD Examples",
+    description:
+      "How simple and compound interest are calculated, why compounding frequency matters for fixed deposits, and how the gap grows over 5 and 20 years.",
+    category: "Finance",
+    relatedToolSlug: "interest-calculator",
+    keywords: [
+      "simple vs compound interest",
+      "difference between simple and compound interest",
+      "compound interest formula",
+      "fd interest compounded quarterly",
+    ],
+    datePublished: "2026-11-10",
+    lastModified: "2026-11-10",
+  },
+  {
     slug: "compress-image-to-50kb-100kb",
     title: "Compress an Image to 50 KB or 100 KB for Online Forms (SSC, Passport)",
     description:

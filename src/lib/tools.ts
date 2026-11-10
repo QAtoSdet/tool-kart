@@ -164,6 +164,23 @@ export const TOOLS: Tool[] = [
     lastModified: "2026-11-09",
   },
   {
+    slug: "interest-calculator",
+    name: "Simple & Compound Interest Calculator",
+    description:
+      "Compare simple and compound interest side by side, with yearly, quarterly or monthly compounding.",
+    category: "Finance",
+    icon: "💰",
+    keywords: [
+      "compound interest calculator",
+      "simple interest calculator",
+      "simple and compound interest calculator",
+      "fd interest calculator",
+      "compound interest calculator india",
+    ],
+    available: true,
+    lastModified: "2026-11-10",
+  },
+  {
     slug: "percentage-calculator",
     name: "Percentage Calculator",
     description:

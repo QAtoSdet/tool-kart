@@ -58,7 +58,7 @@ manual (need your accounts).
 - ✅ `lib/guides.ts` registry (mirrors the tool registry); `ContentPage` shell; `Article`+`FAQPage` JSON-LD.
 - ✅ Sitemap/routes integration; `/guides` index grouped by category with `ItemList` JSON-LD.
 - ✅ Bidirectional tool↔guide links: `RelatedGuides` on every tool page + tool callout in every guide.
-- ✅ 6 guides: how-to-calculate-emi, gst-rates-in-india-explained, sip-vs-lump-sum, compress-image-to-50kb-100kb, old-vs-new-tax-regime, how-to-convert-cgpa-to-percentage.
+- ✅ 7 guides: how-to-calculate-emi, gst-rates-in-india-explained, sip-vs-lump-sum, compress-image-to-50kb-100kb, old-vs-new-tax-regime, how-to-convert-cgpa-to-percentage, simple-vs-compound-interest.
 - ✅ "Guides" link in desktop + mobile nav.
 - 🔄 Keep adding ~1 guide per week (see Phase 2/ongoing list).
 
@@ -87,7 +87,7 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
 - 🔄 Follow-up idea (optional): add a short original intro/FAQ per hub to deepen content (hubs are
   currently card grids + a one-paragraph intro).
 
-### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (2 of 6 done)
+### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (3 of 6 done)
 - ✅ **Income-tax calculator** (`/tools/income-tax-calculator`): new vs old regime for FY 2026-27,
   standard deduction, 87A rebate with marginal relief, surcharge with marginal relief (25% cap in the
   new regime, 37% in the old), 4% cess, senior/super-senior old-regime slabs, side-by-side table +
@@ -110,8 +110,13 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
     notification, and add a test with its published example. (Anna University's PDF host had an
     SSL certificate error during research; the formula came from the search snippet of that
     official PDF — worth re-checking the PDF in a browser.)
-- ⬜ **Simple & compound interest calculator** ← NEXT UP. `src/lib/interest.ts`. Finance hub +
-  a guide (e.g. "simple vs compound interest, with FD examples").
+- ✅ **Simple & compound interest calculator** (`/tools/interest-calculator`, Finance hub). Side-by-side
+  SI vs CI, yearly / half-yearly / quarterly / monthly compounding, years + months tenure (up to 50
+  years), "compounding earns ₹X more" line, and a year-by-year balance table (scrolls inside its
+  box; keyboard-focusable). Logic `src/lib/interest.ts` (23 tests, textbook values), widget test (4).
+  Companion guide `/guides/simple-vs-compound-interest` — its ₹1L at 7% figures (5 and 20 years),
+  effective quarterly yield and rule of 72 are pinned by tests. Browser-verified via Playwright MCP.
+- ⬜ **Image resizer to exact KB** ← NEXT UP (see below).
 - ⬜ **Image resizer to exact KB** ("compress to 50KB") — add a target-KB mode to the existing
   image-compressor OR a new route (a new route is better for SEO — own the long-tail query).
 - ⬜ **Image format converter** (PNG ↔ JPG ↔ WebP).
@@ -171,15 +176,16 @@ Biggest untapped moat — most tool sites ignore Indian languages.
 
 ## State snapshot
 
-- Tests: **188 passing** (32 files). Build clean. Browser-verified with the Playwright MCP.
-- Tools: **12**. Guides: **6**. Category hubs: **5**. Sitemap URLs: **29** (6 static + 12 tools +
-  6 guides + 5 hubs) once deployed — the live sitemap currently has 27.
+- Tests: **215 passing** (34 files). Build clean. Browser-verified with the Playwright MCP.
+- Tools: **13**. Guides: **7**. Category hubs: **5**. Sitemap URLs: **31** (6 static + 13 tools +
+  7 guides + 5 hubs) once deployed — the live sitemap currently has 27.
 - `SITE.url` fallback is now `https://www.tool-kart.com` (matches the live canonical). Keep
   `NEXT_PUBLIC_SITE_URL` set to the www host in Vercel anyway.
 - Site live at `https://www.tool-kart.com`. Homepage indexed; deeper pages pending indexing.
   Deployed through the income-tax calculator (live sitemap = 27 URLs, resubmitted). **Not yet
-  deployed:** CGPA calculator + guide. After deploying, resubmit the sitemap (→ 29) and request
-  indexing for `/tools/cgpa-to-percentage`.
+  deployed:** CGPA calculator + guide, interest calculator + guide. After deploying, resubmit the
+  sitemap (→ 31) and request indexing for `/tools/cgpa-to-percentage` and
+  `/tools/interest-calculator`.
 
 ## Browser verification (Playwright MCP)
 

@@ -32,10 +32,10 @@ export const CATEGORY_HUBS: CategoryHub[] = [
     title: "Finance Calculators — Income Tax, EMI, GST & SIP (India)",
     shortTitle: "Finance Calculators",
     description:
-      "Free Indian finance calculators: income tax (new vs old regime), loan EMI, GST with CGST/SGST split, and mutual-fund SIP returns. Instant, private, no sign-up.",
+      "Free Indian finance calculators: income tax (new vs old regime), loan EMI, GST with CGST/SGST split, SIP returns, and simple & compound interest. Instant, private, no sign-up.",
     intro:
       "Plan loans, taxes and investments with calculators built for Indian users. Each runs in your browser — your numbers never leave your device.",
-    lastModified: "2026-11-09",
+    lastModified: "2026-11-10",
   },
   {
     category: "Image",
