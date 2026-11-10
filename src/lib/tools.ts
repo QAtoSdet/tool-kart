@@ -180,6 +180,23 @@ export const TOOLS: Tool[] = [
     lastModified: "2026-10-12",
   },
   {
+    slug: "cgpa-to-percentage",
+    name: "CGPA to Percentage Calculator",
+    description:
+      "Convert CGPA to percentage with the official CBSE, VTU, GTU or Anna University formula, or your own.",
+    category: "Calculators",
+    icon: "🎓",
+    keywords: [
+      "cgpa to percentage",
+      "cgpa to percentage calculator",
+      "cbse cgpa to percentage",
+      "vtu cgpa to percentage",
+      "convert cgpa to percentage",
+    ],
+    available: true,
+    lastModified: "2026-11-10",
+  },
+  {
     slug: "word-counter",
     name: "Word & Character Counter",
     description:

@@ -98,6 +98,22 @@ export const GUIDES: Guide[] = [
     lastModified: "2026-11-09",
   },
   {
+    slug: "how-to-convert-cgpa-to-percentage",
+    title: "How to Convert CGPA to Percentage (CBSE, VTU, GTU, Anna University)",
+    description:
+      "Why there's no single formula, the official conversion for CBSE and major universities, worked examples, and what to write on a job or admission form.",
+    category: "Calculators",
+    relatedToolSlug: "cgpa-to-percentage",
+    keywords: [
+      "how to convert cgpa to percentage",
+      "cgpa to percentage formula",
+      "why multiply cgpa by 9.5",
+      "cgpa to percentage for job application",
+    ],
+    datePublished: "2026-11-10",
+    lastModified: "2026-11-10",
+  },
+  {
     slug: "compress-image-to-50kb-100kb",
     title: "Compress an Image to 50 KB or 100 KB for Online Forms (SSC, Passport)",
     description:

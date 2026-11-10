@@ -58,7 +58,7 @@ manual (need your accounts).
 - ✅ `lib/guides.ts` registry (mirrors the tool registry); `ContentPage` shell; `Article`+`FAQPage` JSON-LD.
 - ✅ Sitemap/routes integration; `/guides` index grouped by category with `ItemList` JSON-LD.
 - ✅ Bidirectional tool↔guide links: `RelatedGuides` on every tool page + tool callout in every guide.
-- ✅ 5 guides: how-to-calculate-emi, gst-rates-in-india-explained, sip-vs-lump-sum, compress-image-to-50kb-100kb, old-vs-new-tax-regime.
+- ✅ 6 guides: how-to-calculate-emi, gst-rates-in-india-explained, sip-vs-lump-sum, compress-image-to-50kb-100kb, old-vs-new-tax-regime, how-to-convert-cgpa-to-percentage.
 - ✅ "Guides" link in desktop + mobile nav.
 - 🔄 Keep adding ~1 guide per week (see Phase 2/ongoing list).
 
@@ -87,7 +87,7 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
 - 🔄 Follow-up idea (optional): add a short original intro/FAQ per hub to deepen content (hubs are
   currently card grids + a one-paragraph intro).
 
-### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (1 of 6 done)
+### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (2 of 6 done)
 - ✅ **Income-tax calculator** (`/tools/income-tax-calculator`): new vs old regime for FY 2026-27,
   standard deduction, 87A rebate with marginal relief, surcharge with marginal relief (25% cap in the
   new regime, 37% in the old), 4% cess, senior/super-senior old-regime slabs, side-by-side table +
@@ -98,10 +98,20 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
     check whether slabs/rebate/standard deduction changed, update the constants at the top of
     `src/lib/income-tax.ts`, the "FY" labels in the tool page, guide and registry entries, and the
     expected values in `income-tax.test.ts`. Budget 2026 made no changes for FY 2026-27.
-- ⬜ **CGPA-to-percentage calculator** ← NEXT UP — high student search volume. `src/lib/cgpa.ts`.
-  Note: conversion formulas differ by board/university (CBSE uses CGPA × 9.5; many universities
-  publish their own) — research and cite the formulas, and let the user pick.
-- ⬜ **Simple & compound interest calculator.** `src/lib/interest.ts`.
+- ✅ **CGPA-to-percentage calculator** (`/tools/cgpa-to-percentage`, Calculators hub). Formulas,
+  each traced to an official document and shown with its source in the UI: CBSE × 9.5 (Circular
+  24/2010), VTU 2022 scheme × 10, VTU 2015–2021 (CGPA − 0.75) × 10, GTU (CGPA − 0.5) × 10
+  (Notification 1/2012), Anna University × 10. Plus an "Other" custom formula
+  ((CGPA − subtract) × multiply) for any other university. Logic `src/lib/cgpa.ts` (13 tests),
+  widget test (4). Companion guide `/guides/how-to-convert-cgpa-to-percentage` (its 8.2 comparison
+  is pinned by a test). Browser-verified via Playwright MCP incl. copy-to-clipboard and 375px.
+  - **Deliberately not included:** Mumbai University, SPPU, AKTU, KTU — I only found their
+    formulas on unofficial sites. Add one only after finding the university's own regulation or
+    notification, and add a test with its published example. (Anna University's PDF host had an
+    SSL certificate error during research; the formula came from the search snippet of that
+    official PDF — worth re-checking the PDF in a browser.)
+- ⬜ **Simple & compound interest calculator** ← NEXT UP. `src/lib/interest.ts`. Finance hub +
+  a guide (e.g. "simple vs compound interest, with FD examples").
 - ⬜ **Image resizer to exact KB** ("compress to 50KB") — add a target-KB mode to the existing
   image-compressor OR a new route (a new route is better for SEO — own the long-tail query).
 - ⬜ **Image format converter** (PNG ↔ JPG ↔ WebP).
@@ -161,15 +171,15 @@ Biggest untapped moat — most tool sites ignore Indian languages.
 
 ## State snapshot
 
-- Tests: **171 passing** (30 files). Build clean. Browser-verified with the Playwright MCP.
-- Tools: **11**. Guides: **5**. Category hubs: **5**. Sitemap URLs: **27** (6 static + 11 tools +
-  5 guides + 5 hubs).
+- Tests: **188 passing** (32 files). Build clean. Browser-verified with the Playwright MCP.
+- Tools: **12**. Guides: **6**. Category hubs: **5**. Sitemap URLs: **29** (6 static + 12 tools +
+  6 guides + 5 hubs) once deployed — the live sitemap currently has 27.
 - `SITE.url` fallback is now `https://www.tool-kart.com` (matches the live canonical). Keep
   `NEXT_PUBLIC_SITE_URL` set to the www host in Vercel anyway.
 - Site live at `https://www.tool-kart.com`. Homepage indexed; deeper pages pending indexing.
-  **Everything since Phase 0 is built and tested locally but NOT yet pushed/deployed.** Deploy, then
-  resubmit the sitemap in Search Console and request indexing for `/tools/income-tax-calculator`
-  (timely, high-intent page).
+  Deployed through the income-tax calculator (live sitemap = 27 URLs, resubmitted). **Not yet
+  deployed:** CGPA calculator + guide. After deploying, resubmit the sitemap (→ 29) and request
+  indexing for `/tools/cgpa-to-percentage`.
 
 ## Browser verification (Playwright MCP)
 
@@ -177,3 +187,5 @@ Config: `.kiro/settings/mcp.json` (`@playwright/mcp@0.0.85`). Workflow: `npm run
 `npx next start -p 3100` → drive `http://localhost:3100` with the MCP (navigate, click, fill,
 snapshot, `browser_resize` 375×800 for mobile, `browser_console_messages` for errors) → stop the
 server. Snapshots land in `/.playwright-mcp/` (gitignored) — delete when done.
+**Run MCP browser steps one at a time, not in a parallel batch** — batched navigate/click/evaluate
+calls race each other and report results from the wrong page.

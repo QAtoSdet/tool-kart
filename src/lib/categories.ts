@@ -51,13 +51,13 @@ export const CATEGORY_HUBS: CategoryHub[] = [
   {
     category: "Calculators",
     slug: "calculators",
-    title: "Online Calculators — Age, Percentage & Word Count",
+    title: "Online Calculators — Age, Percentage, CGPA & Word Count",
     shortTitle: "Calculators",
     description:
-      "Free everyday calculators: exact age from date of birth, percentage of a number, and a word & character counter with reading time. No sign-up.",
+      "Free everyday calculators: exact age from date of birth, percentages, CGPA to percentage for CBSE and universities, and a word counter with reading time. No sign-up.",
     intro:
-      "Quick, private calculators for everyday tasks — from working out your exact age to counting words in an essay.",
-    lastModified: "2026-11-09",
+      "Quick, private calculators for everyday tasks — from working out your exact age to converting your CGPA for a job form.",
+    lastModified: "2026-11-10",
   },
   {
     category: "Converters",
