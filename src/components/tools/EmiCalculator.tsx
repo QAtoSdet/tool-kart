@@ -3,7 +3,24 @@
 import { useMemo, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Field, Input } from "@/components/ui/Input";
-import { calculateEmi, yearlyAmortization, formatINR } from "@/lib/emi";
+import { calculateEmi, yearlyAmortization, formatINR, type AmortizationRow } from "@/lib/emi";
+import { percentOf } from "@/lib/chart";
+import { SplitBar } from "@/components/charts/SplitBar";
+import { StackedColumns } from "@/components/charts/StackedColumns";
+
+const PRINCIPAL_COLOR = "bg-blue-600 dark:bg-blue-500";
+const INTEREST_COLOR = "bg-amber-400 dark:bg-amber-500";
+
+/** Screen-reader summary of the yearly chart: how the interest share falls over the loan. */
+export function emiChartSummary(rows: AmortizationRow[]): string {
+  const share = (r: AmortizationRow) => percentOf(r.interestPaid, r.interestPaid + r.principalPaid);
+  const first = rows[0];
+  const last = rows[rows.length - 1];
+  if (rows.length === 1) {
+    return `Chart of yearly payments: ${share(first)}% of what you pay goes to interest.`;
+  }
+  return `Chart of yearly payments split into principal and interest over ${rows.length} years. In year 1, ${share(first)}% of what you pay goes to interest; by the final year it is ${share(last)}%.`;
+}
 
 function Stat({ value, label, highlight }: { value: string; label: string; highlight?: boolean }) {
   return (
@@ -93,6 +110,35 @@ export function EmiCalculator() {
             <Stat value={formatINR(result.totalInterest)} label="Total interest" />
             <Stat value={formatINR(result.totalPayment)} label="Total payable" />
           </div>
+
+          {rows.length > 0 ? (
+            <Card>
+              <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">
+                Where your money goes
+              </h2>
+              <SplitBar
+                label="Total payable split into principal and interest"
+                segments={[
+                  { label: "Principal", value: Number(principal), colorClass: PRINCIPAL_COLOR },
+                  { label: "Interest", value: result.totalInterest, colorClass: INTEREST_COLOR },
+                ]}
+              />
+              <h3 className="mb-2 mt-6 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                Each year&apos;s payments
+              </h3>
+              <StackedColumns
+                summary={emiChartSummary(rows)}
+                series={[
+                  { name: "Principal", colorClass: PRINCIPAL_COLOR },
+                  { name: "Interest", colorClass: INTEREST_COLOR },
+                ]}
+                columns={rows.map((row, i) => ({
+                  label: `Y${i + 1}`,
+                  values: [row.principalPaid, row.interestPaid],
+                }))}
+              />
+            </Card>
+          ) : null}
 
           {rows.length > 0 ? (
             <Card>

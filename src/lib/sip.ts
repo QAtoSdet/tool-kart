@@ -54,3 +54,26 @@ export function formatINR(amount: number): string {
     maximumFractionDigits: 0,
   }).format(Math.round(amount));
 }
+
+export interface SipYear {
+  /** Elapsed years (whole years, plus a final fractional point if the tenure isn't whole). */
+  years: number;
+  invested: number;
+  value: number;
+}
+
+/**
+ * Invested amount and value at the end of each year, for the growth chart. Built from
+ * `calculateSip` itself, so the last point always matches the headline result.
+ */
+export function sipYearlySchedule(input: SipInput): SipYear[] {
+  const months = Math.round(input.years * 12);
+  if (input.monthlyInvestment <= 0 || months <= 0) return [];
+  const points: number[] = [];
+  for (let m = 12; m < months; m += 12) points.push(m);
+  points.push(months);
+  return points.map((m) => {
+    const r = calculateSip({ ...input, years: m / 12 });
+    return { years: m / 12, invested: r.investedAmount, value: r.futureValue };
+  });
+}

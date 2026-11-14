@@ -13,7 +13,7 @@ bottom of this file.
 
 ---
 
-## Verified state (as of 2026-11-09)
+## Verified state (as of 2026-11-09; Search Console figures updated 2026-11-14)
 
 - **Live site:** `https://www.tool-kart.com`. The `www` host is canonical — keep
   `NEXT_PUBLIC_SITE_URL=https://www.tool-kart.com` in Vercel. Non-www → www is a 308 redirect
@@ -21,9 +21,9 @@ bottom of this file.
 - **Sitemap** uses `www` for every URL — no canonical mismatch. Includes 10 tools + 4 guides +
   the `/guides` index.
 - **Homepage IS indexed** and ranks #1 for the brand "tool kart".
-- `site:tool-kart.com` currently returns only the homepage → **deeper pages likely not yet
-  indexed**. Confirm in Search Console → Pages report. This is the most likely reason tool
-  keywords show nothing in Google right now.
+- **Search Console (2026-11-14):** 13 pages indexed, 5 not indexed, 6 web-search clicks so far.
+  The live sitemap has 36 URLs, so most pages are still waiting to be indexed. That's normal for a
+  new domain. Indexing for the 10 newest pages was requested the same day (see below).
 - 129 tests passing; build clean.
 
 > A keyword being present on a page does **not** earn a ranking — it only makes the page eligible.
@@ -37,10 +37,26 @@ bottom of this file.
 Not "phases" — these are the launch & growth actions that move the needle most. Several are
 manual (need your accounts).
 
-- ⬜ Submit `sitemap.xml` in **Google Search Console** (Sitemaps → add `sitemap.xml`), if not done.
-- ⬜ In Search Console → **Pages**, check "Indexed" vs "Discovered—currently not indexed".
-  **Request indexing** on the top tool pages (image-compressor, emi-calculator, gst-calculator).
-- ⬜ Submit to **Bing Webmaster Tools** (free; Bing has a meaningful India share).
+- ✅ `sitemap.xml` submitted in **Google Search Console**. On 2026-11-14 Google read it the same
+  day: status Success, 36 discovered pages.
+- ✅ **Indexing requested (2026-11-14)** via URL Inspection for all 10 new/changed pages:
+  `/tools/compress-image-to-kb`, `/tools/pdf-tools`, `/tools/cgpa-to-percentage`,
+  `/tools/interest-calculator`, `/tools/image-format-converter`,
+  `/guides/compress-image-to-50kb-100kb`, `/guides/how-to-convert-cgpa-to-percentage`,
+  `/guides/simple-vs-compound-interest`, `/guides/jpg-vs-png-vs-webp`, `/document-tools`.
+  All "Indexing requested"; no quota error. Before the request, all were "URL is not on Google"
+  except `/tools/interest-calculator`, which was already indexed.
+  - ⬜ **Check again around 2026-11-21:** Search Console → Pages. Expect these to move to
+    Indexed over days to a few weeks. Don't re-request; it doesn't change queue position.
+  - Tip for next time: inspect first and only request pages showing "URL is not on Google", or
+    pages whose content changed. Requests on already-indexed, unchanged pages waste the ~10/day quota.
+- ✅ **Bing Webmaster Tools** — site imported from Google Search Console (no verification needed).
+  - 2026-11-14: Bing's copy of the sitemap was stale (last read 24 Oct, 15 URLs), so it was
+    resubmitted; status "Processing". Check it shows ~36 URLs in a few days.
+  - 2026-11-14: 23 URLs pushed via Bing's URL Submission (quota is 100/day, far more generous than
+    Google's ~10): homepage, `/guides`, the 6 new tools + image compressor, all 8 guides, all 6
+    hubs. The 10 original tools were already submitted on 25 Oct.
+  - Next time a page is added: submit it in Bing URL Submission too (or automate with IndexNow).
 - ⬜ **(Later)** Once real traffic builds: apply to AdSense; then set
   `NEXT_PUBLIC_ADS_ENABLED=true` + `NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-…` and redeploy.
 - ⬜ **(Optional)** Set up GA4; set `NEXT_PUBLIC_GA_ID`.
@@ -176,12 +192,25 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
     split option; drag and drop; a companion guide; real image recompression for scans.
 - **Why:** more tools = more keyword clusters; finance tools raise ad RPM (revenue per visit).
 
-## Phase 3 — Engagement & polish ⬜ NOT STARTED
+## Phase 3 — Engagement & polish 🔄 IN PROGRESS (1 of 6 done)
 
 Improves dwell time / pageviews-per-visit / shareability — indirect ranking signal + ad revenue.
 
-- ⬜ **Charts on finance tools** (EMI principal-vs-interest bar; SIP growth curve). Tiny client chart
-  lib or hand-rolled SVG (keep bundle small).
+- ✅ **Charts on finance tools** — hand-drawn, no chart library (each page grew ~1.5 kB, to 111 kB).
+  - EMI: "Where your money goes" card with a principal/interest split bar (amounts + % in text,
+    not colour alone) and yearly stacked columns showing the interest share fall.
+  - SIP: "Growth over time" line/area chart, total value vs amount invested. Built from a new
+    `sipYearlySchedule()` in `lib/sip.ts` that reuses `calculateSip`, so the chart always ends
+    at the headline number.
+  - Components in `src/components/charts/` (`SplitBar`, `StackedColumns`, `GrowthChart`); helpers
+    in `src/lib/chart.ts` (`niceCeil` axis rounding, `labelIndices`, `compactINR` ₹K/L/Cr labels).
+    Axis text is HTML, not SVG, so it stays readable on phones. Each chart is one labelled image
+    for screen readers, with a plain-language summary (e.g. "In year 1, 92% of what you pay goes
+    to interest; by the final year it is 4%").
+  - Browser-checked (Playwright MCP) at 1280px and 375px, light and dark mode, 10- and 30-year
+    loans. That check caught three problems, all fixed with tests: a cramped "Y9 Y10" label pair,
+    the last label clipped on phones, and axes rounding too high (₹20L for an ₹11.6L curve).
+  - Possible follow-ups: same charts for the interest and income-tax calculators.
 - ⬜ **Shareable URL state** for calculators (EMI/SIP/GST read & write `?amount=&rate=&years=`) so a
   user can link/share a specific result → backlinks + re-visits.
 - ⬜ **FAQ accordions** (collapsible) to cut long-page height on mobile.
@@ -229,7 +258,7 @@ Biggest untapped moat — most tool sites ignore Indian languages.
 
 ## State snapshot
 
-- Tests: **287 passing** (39 files). Production build clean. All tools browser-verified with the
+- Tests: **323 passing** (41 files). Production build clean. All tools browser-verified with the
   Playwright MCP.
 - Tools: **16**. Guides: **8**. Category hubs: **6**. Sitemap URLs: **36** (6 static + 16 tools +
   8 guides + 6 hubs; confirmed in the built sitemap) once deployed — the live sitemap has 27.
