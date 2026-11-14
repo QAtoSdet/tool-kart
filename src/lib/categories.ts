@@ -81,6 +81,17 @@ export const CATEGORY_HUBS: CategoryHub[] = [
       "Generate QR codes and strong passwords in your browser — nothing is sent to a server.",
     lastModified: "2026-11-09",
   },
+  {
+    category: "Documents",
+    slug: "document-tools",
+    title: "Document Tools — Merge, Split & Optimize PDFs",
+    shortTitle: "Document Tools",
+    description:
+      "Free PDF tools that run in your browser: merge PDFs, extract pages and optimize text PDFs. Your documents are never uploaded.",
+    intro:
+      "Work with PDFs privately. Bank statements, ID scans and forms stay on your device, because everything happens in your browser.",
+    lastModified: "2026-11-14",
+  },
 ];
 
 /** All category hubs. */

@@ -6,7 +6,13 @@
  * create the matching route at app/tools/<slug>/page.tsx).
  */
 
-export type ToolCategory = "Image" | "Finance" | "Calculators" | "Converters" | "Generators";
+export type ToolCategory =
+  | "Image"
+  | "Finance"
+  | "Calculators"
+  | "Converters"
+  | "Generators"
+  | "Documents";
 
 export interface Tool {
   /** URL slug; the tool lives at /tools/<slug> */
@@ -80,6 +86,23 @@ export const TOOLS: Tool[] = [
       "png to webp",
       "webp converter",
       "convert image online",
+    ],
+    available: true,
+    lastModified: "2026-11-14",
+  },
+  {
+    slug: "pdf-tools",
+    name: "PDF Tools",
+    description:
+      "Merge PDFs, extract pages, or optimize a text PDF to a smaller file, all without uploading it.",
+    category: "Documents",
+    icon: "📄",
+    keywords: [
+      "merge pdf",
+      "merge pdf files online",
+      "split pdf",
+      "extract pages from pdf",
+      "pdf optimizer",
     ],
     available: true,
     lastModified: "2026-11-14",

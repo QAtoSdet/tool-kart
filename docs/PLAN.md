@@ -87,7 +87,7 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
 - 🔄 Follow-up idea (optional): add a short original intro/FAQ per hub to deepen content (hubs are
   currently card grids + a one-paragraph intro).
 
-### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (5 of 6 done)
+### 2b. New high-RPM / high-volume tools ✅ DONE (6 of 6; PDF follow-ups listed below)
 - ✅ **Income-tax calculator** (`/tools/income-tax-calculator`): new vs old regime for FY 2026-27,
   standard deduction, 87A rebate with marginal relief, surcharge with marginal relief (25% cap in the
   new regime, 37% in the old), 4% cess, senior/super-senior old-regime slabs, side-by-side table +
@@ -152,7 +152,28 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
     file bigger, which to pick for forms/websites). Qualitative only — no size figures to drift.
   - Browser-verified via Playwright MCP: all 9 format pairs, HEIC rejection, `image/jpg` and
     `.jfif` inputs, race with a 4000×3000 image, guide links, 375px, no console errors.
-- ⬜ **PDF tools** (compress/merge/split) — high demand but heavier (client `pdf-lib`); higher effort.
+- ✅ **PDF tools** (`/tools/pdf-tools`, new **Document Tools** hub at `/document-tools`): merge,
+  split (one PDF per page) and **optimize** (renamed from "compress", which it never really did).
+  `pdf-lib`, browser-only, loaded on demand: first-load JS 112 kB (was 285 kB; the 412 kB chunk
+  loads only when the button is pressed). Fixes after review:
+  - Optimize re-saves the original document (not a page copy), so form fields + values, title and
+    bookmarks survive. Shows before/after size, and says plainly when a PDF (e.g. a scan) can't be
+    made smaller. Real results: Edge-printed text PDF 185 KB → 60 KB; 9 MB scan unchanged.
+  - Merge/split warn when an input has fillable form fields (pdf-lib can't copy them across) or a
+    digital signature (any rewrite invalidates it). No more silent loss.
+  - User-facing errors for password-protected PDFs, non-PDFs and damaged files. Note: pdf-lib's
+    `EncryptedPDFError` fails `instanceof` (ES5-compiled classes), so detection uses
+    `ignoreEncryption: true` + `doc.isEncrypted`. Unknown errors show a generic message, never raw text.
+  - Strict page-range parser validated against the page count before expanding (a billion-page
+    typo now fails in ~60 ms instead of freezing the tab); rejects `1.5`, `1-3-5`, `-3`, `0`;
+    empty input asks for pages; `all` is explicit.
+  - File input reset (same file can be picked again after switching mode), stale-result guard
+    (run ID; test fails if the guard is removed), `aria-pressed` on mode buttons, numbered merge order.
+  - 27 real-PDF library tests (PDFs built with pdf-lib, incl. form, signed and encrypted fixtures)
+    + 9 component tests. Browser-verified via Playwright MCP with Edge-printed PDFs.
+  - **Still open:** separate `/tools/merge-pdf`, `/tools/split-pdf` pages (one per big search
+    query); merge reordering and adding files from several folders; a "pages 1-3 as one PDF"
+    split option; drag and drop; a companion guide; real image recompression for scans.
 - **Why:** more tools = more keyword clusters; finance tools raise ad RPM (revenue per visit).
 
 ## Phase 3 — Engagement & polish ⬜ NOT STARTED
@@ -208,20 +229,20 @@ Biggest untapped moat — most tool sites ignore Indian languages.
 
 ## State snapshot
 
-- Tests: **251 passing** (37 files). Production build clean. All tools browser-verified with the
+- Tests: **287 passing** (39 files). Production build clean. All tools browser-verified with the
   Playwright MCP.
-- Tools: **15**. Guides: **8**. Category hubs: **5**. Sitemap URLs: **34** (6 static + 15 tools +
-  8 guides + 5 hubs; confirmed in the built sitemap) once deployed — the live sitemap has 27.
+- Tools: **16**. Guides: **8**. Category hubs: **6**. Sitemap URLs: **36** (6 static + 16 tools +
+  8 guides + 6 hubs; confirmed in the built sitemap) once deployed — the live sitemap has 27.
 - `SITE.url` fallback is now `https://www.tool-kart.com` (matches the live canonical). Keep
   `NEXT_PUBLIC_SITE_URL` set to the www host in Vercel anyway.
 - Site live at `https://www.tool-kart.com`. Homepage indexed; deeper pages pending indexing.
   Deployed through the income-tax calculator (live sitemap = 27 URLs, resubmitted). **Not yet
   deployed:** CGPA calculator + guide, interest calculator + guide, compress-image-to-KB tool (+
-  updated image guide and compressor page), and image format converter + `jpg-vs-png-vs-webp`
-  guide. After deploying, resubmit the sitemap (→ 34) and request indexing for
-  `/tools/cgpa-to-percentage`, `/tools/interest-calculator`, `/tools/compress-image-to-kb` and
-  `/tools/image-format-converter` (plus re-request `/guides/compress-image-to-50kb-100kb`, which
-  changed).
+  updated image guide and compressor page), image format converter + `jpg-vs-png-vs-webp`
+  guide, PDF tools and the `/document-tools` hub. After deploying, resubmit the sitemap (→ 36) and request indexing for
+  `/tools/cgpa-to-percentage`, `/tools/interest-calculator`, `/tools/compress-image-to-kb`,
+  `/tools/image-format-converter`, and `/tools/pdf-tools` (plus re-request
+  `/guides/compress-image-to-50kb-100kb`, which changed).
 
 ## Browser verification (Playwright MCP)
 

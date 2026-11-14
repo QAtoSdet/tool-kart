@@ -9,7 +9,7 @@ Quick summary: **the app is fully built, tested, and production-ready.** All 9 b
 the UX pass are done. What remains is the public launch (manual, needs your accounts) and the
 ongoing content work that actually earns the money.
 
-Health check: **251 automated tests passing**, production build clean, dev server serves every
+Health check: **287 automated tests passing**, production build clean, dev server serves every
 route. Stack pinned to **Next.js 15.5.x + React 19.0** (the newer Next 16 line caused a runtime
 crash and must not be used until stable).
 
@@ -61,10 +61,11 @@ crash and must not be used until stable).
 | Simple & compound interest | Simple vs compound interest | ⬜ |
 | Compress image to KB (20/50/100 KB… for forms) | Existing image-to-KB guide, rewritten | ⬜ |
 | Image format converter (JPG, PNG, WebP) | JPG vs PNG vs WebP | ⬜ |
+| PDF tools (merge, split, optimize) + new Document Tools hub | none yet | ⬜ |
 
 Also: footer "Explore" column linking Guides + all hubs (✅ deployed).
 
-**Not yet deployed:** everything marked ⬜ above. After deploying, resubmit the sitemap (→ 34 URLs)
+**Not yet deployed:** everything marked ⬜ above. After deploying, resubmit the sitemap (→ 36 URLs)
 and request indexing for the new tool pages. `docs/PLAN.md` has the exact list.
 
 ---
@@ -81,7 +82,7 @@ Your checklist:
 - [x] Deploy on Vercel; `NEXT_PUBLIC_SITE_URL` set to the www host.
 - [x] Connect the custom domain (`tool-kart.com` 308-redirects to `www.tool-kart.com`).
 - [x] Submit `sitemap.xml` in Google Search Console (27 URLs live). Resubmit after each deploy.
-- [ ] Deploy the latest changes (see "Not yet deployed" below), then resubmit the sitemap (→ 34 URLs).
+- [ ] Deploy the latest changes (see "Not yet deployed" above), then resubmit the sitemap (→ 36 URLs).
 - [ ] (Optional) Create a GA4 property; set `NEXT_PUBLIC_GA_ID`.
 - [ ] After a few weeks of traffic: apply to AdSense, then set `NEXT_PUBLIC_ADS_ENABLED=true` +
   `NEXT_PUBLIC_ADSENSE_CLIENT` to turn on ads.
@@ -93,8 +94,8 @@ Your checklist:
 ### Task 11 — Ongoing growth engine (this is what earns the money)
 - [x] Content hub system built: `lib/guides.ts` + `ContentPage` shell + sitemap integration (Phase 1). Adding a guide = one registry entry + one route, like adding a tool.
 - [x] 8 guides shipped (see Phase 1 and 2b above).
-- [x] Phase 2b tools: income tax, CGPA, interest, compress-to-KB, image format converter.
-- [ ] PDF tools (compress/merge/split) — the last Phase 2b item.
+- [x] Phase 2b tools: income tax, CGPA, interest, compress-to-KB, image format converter, PDF tools.
+- [ ] PDF follow-ups: separate merge/split pages, merge reordering, a guide (see `docs/PLAN.md`).
 - [ ] Keep publishing ~one guide per week.
 - [ ] Use Search Console data to improve pages ranking on page 2–3.
 - Reuses the existing shells, so no rearchitecting.
