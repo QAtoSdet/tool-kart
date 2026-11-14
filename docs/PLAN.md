@@ -32,6 +32,54 @@ bottom of this file.
 
 ---
 
+## Traffic diagnosis (2026-11-14) — read this before choosing the next item
+
+Search Console, last 28 days: **245 impressions, 6 clicks, average position 68.7** (page 7).
+Impressions only began around 23 Oct, so the site has been visible to Google for ~3 weeks.
+
+- **83% of impressions (203 of 245) are the SIP calculator**, for searches like "mf calculator",
+  "sip calculator 40 years", "growing sip calculator", at positions 66–99. Page 1 for these is
+  entirely Groww, HDFC, Bajaj, Angel One, 5paisa and other banks/brokers. Finance is a topic where
+  Google strongly prefers trusted brands, so a 3-week-old site can't compete there. The plan's
+  "prefer high-RPM finance tools" advice is right for revenue per visit but wrong for getting the
+  first visitors.
+- **Winnable searches look different.** "calculate percentage" already ranks at position 7.
+  The image compressor got 2 clicks from 5 impressions. Page 1 for "SSC CGL photo signature
+  resizer" is all small sites, each with **one page per exam**.
+- Not a technical problem: sitemap read (36 URLs), 13 pages indexed, no errors. Of the 3 "crawled –
+  not indexed", 2 are a preview image and the favicon (fine).
+
+**Revised priority order (overrides the order below):**
+1. 🔄 **Exam-specific photo/signature pages** — first batch ✅ built 2026-11-14 (not yet deployed):
+   `/exams` hub + `/exams/ssc-cgl-photo-signature-size`, `/exams/upsc-photo-signature-size`,
+   `/exams/ibps-sbi-photo-signature-size`, `/exams/neet-ug-photo-signature-size`.
+   - Data in `src/lib/exams.ts`, one entry per exam with sources + `lastChecked`. **Every figure
+     was read from the official document itself** (SSC CGL 2026 notice of 21 May 2026; UPSC
+     upload instructions on upsconline.nic.in; IBPS Clerk CSA-XVI and SBI Junior Associates 2026
+     annexures on ibpsreg.ibps.in; NTA NEET (UG) 2026 bulletin). `exams.test.ts` pins each figure.
+   - Corrections vs popular sites: UPSC photo 20–200 KB (not 300) + **triple** signature 20–100 KB;
+     NEET signature 10–100 KB (not 4–30) and no postcard upload in 2026; SSC signature 10–20 KB
+     (not 12). Notice inconsistencies are shown, not hidden (SSC 6×2 vs 4×2 cm; NEET impressions
+     10–200 vs 50–300 KB → preset 50–200 satisfies both).
+   - Compress-to-KB now supports a **minimum** (`minKb`, measured as 1 KB = 1,024 B so it's safe
+     either way): raises quality to 100% when needed, and warns instead of claiming success if
+     the image is still too small. Real browser: normal signature → 18.8 KB (10–20 ✓); a 140×60
+     signature only reaches 2.7 KB even at 100%, so the page tells users to keep scans larger.
+   - Linked from footer, compress-to-KB tool and the image guide. Sitemap → 41 URLs.
+   - ⬜ **Next batch** (verify each from its official notice first): RRB NTPC/Group D, SSC CHSL &
+     MTS, state PSCs (UPPSC, BPSC, MPSC), JEE Main, CUET, CTET. Skip passport: the photo is taken
+     at the Passport Seva Kendra, not uploaded.
+   - ⬜ **Each new exam cycle:** re-check the notice, update figures, sources and `lastChecked`
+     (NEET 2027 bulletin expected ~Feb 2027).
+2. ⬜ **Distribution** (the off-page half of SEO): answer real questions on Quora / Reddit /
+   exam Telegram & WhatsApp groups where the tool genuinely solves the problem. No bought links.
+3. ⬜ **SIP page: add what searchers asked for** — step-up ("growing") SIP, lumpsum, and a target
+   amount ("reverse") mode. Long-tail only; don't expect page 1 for "sip calculator".
+4. Phase 3 polish (shareable links, accordions, icons…) **paused**: it improves the experience of
+   visitors who arrive, but doesn't bring new ones. Resume once traffic exists.
+5. ⬜ Re-check Search Console around 2026-11-21 and 2026-12-14 (compare impressions, position,
+   and which queries appear).
+
 ## Immediate / highest-leverage (do these first)
 
 Not "phases" — these are the launch & growth actions that move the needle most. Several are
@@ -258,7 +306,7 @@ Biggest untapped moat — most tool sites ignore Indian languages.
 
 ## State snapshot
 
-- Tests: **323 passing** (41 files). Production build clean. All tools browser-verified with the
+- Tests: **345 passing** (43 files). Production build clean. All tools browser-verified with the
   Playwright MCP.
 - Tools: **16**. Guides: **8**. Category hubs: **6**. Sitemap URLs: **36** (6 static + 16 tools +
   8 guides + 6 hubs; confirmed in the built sitemap) once deployed — the live sitemap has 27.

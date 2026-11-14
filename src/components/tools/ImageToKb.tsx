@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Field, Input } from "@/components/ui/Input";
 import {
   BYTES_PER_KB,
+  MIN_BYTES_PER_KB,
   compressToTargetSize,
   targetFileName,
   type TargetSizeResult,
@@ -23,7 +24,17 @@ export function formatKb(bytes: number): string {
 }
 const kb = formatKb;
 
-export function ImageToKb({ defaultKb = 50 }: { defaultKb?: number }) {
+export function ImageToKb({
+  defaultKb = 50,
+  minKb = 0,
+  presets = PRESETS,
+}: {
+  defaultKb?: number;
+  /** Lower size limit some portals enforce (e.g. 10–20 KB). 0 = none. */
+  minKb?: number;
+  /** Size buttons to show; pass [] to show only the custom box. */
+  presets?: number[];
+}) {
   const [file, setFile] = useState<File | null>(null);
   const [targetKb, setTargetKb] = useState(String(defaultKb));
   const [maxWidth, setMaxWidth] = useState("");
@@ -60,7 +71,7 @@ export function ImageToKb({ defaultKb = 50 }: { defaultKb?: number }) {
     setResult(null);
     try {
       const mw = Number(maxWidth);
-      const res = await compressToTargetSize(file, target, maxWidth.trim() && mw > 0 ? mw : undefined);
+      const res = await compressToTargetSize(file, target, maxWidth.trim() && mw > 0 ? mw : undefined, minKb);
       if (runId !== runIdRef.current) return; // a different file was chosen meanwhile
       if (!res) {
         setError(`Couldn't get this image under ${target} KB without making it too small. Try a larger size limit.`);
@@ -73,7 +84,9 @@ export function ImageToKb({ defaultKb = 50 }: { defaultKb?: number }) {
     } finally {
       setBusy(false);
     }
-  }, [file, target, targetValid, maxWidth]);
+  }, [file, target, targetValid, maxWidth, minKb]);
+
+  const belowMin = !!result && minKb > 0 && result.blob.size < minKb * MIN_BYTES_PER_KB;
 
   const download = useCallback(() => {
     if (!result || !file) return;
@@ -127,7 +140,7 @@ export function ImageToKb({ defaultKb = 50 }: { defaultKb?: number }) {
           Maximum file size
         </legend>
         <div className="flex flex-wrap items-center gap-2">
-          {PRESETS.map((p) => (
+          {presets.map((p) => (
             <button
               key={p}
               type="button"
@@ -201,10 +214,18 @@ export function ImageToKb({ defaultKb = 50 }: { defaultKb?: number }) {
             className="mx-auto max-h-56 w-auto rounded border border-slate-200 bg-white dark:border-slate-700"
           />
           <div className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
-            <p role="status" className="text-base">
-              Done: <strong className="text-green-700 dark:text-green-400">{kb(result.blob.size)}</strong>{" "}
-              (limit {result.forKb} KB)
-            </p>
+            {belowMin ? (
+              <p role="status" className="rounded-md border border-amber-200 bg-amber-50 p-2 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+                ⚠ This file is <strong>{kb(result.blob.size)}</strong>, below the {minKb} KB minimum, so
+                the portal may reject it. The image is too small to reach it: use a larger photo or
+                scan at a higher resolution (at least 200 dpi), then try again.
+              </p>
+            ) : (
+              <p role="status" className="text-base">
+                Done: <strong className="text-green-700 dark:text-green-400">{kb(result.blob.size)}</strong>{" "}
+                {minKb > 0 ? `(allowed ${minKb}–${result.forKb} KB)` : `(limit ${result.forKb} KB)`}
+              </p>
+            )}
             <p>
               {result.width} × {result.height} px · JPG quality {Math.round(result.quality * 100)}%
             </p>

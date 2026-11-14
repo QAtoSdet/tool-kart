@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ToolPage, type FaqItem } from "@/components/tools/ToolPage";
 import { ImageToKb } from "@/components/tools/ImageToKb";
 import { ToolJsonLd } from "@/components/seo/JsonLd";
@@ -70,6 +71,13 @@ export default function CompressImageToKbPage() {
               signatures above a size limit, usually somewhere between 10 KB and 200 KB. Instead of
               guessing quality settings and trying again, choose the limit and this tool finds the
               best-looking version that fits.
+            </p>
+            <p>
+              Applying for SSC, UPSC, IBPS, SBI or NEET? Each{" "}
+              <Link href="/exams" className="text-blue-600 underline">
+                exam page
+              </Link>{" "}
+              lists the official photo and signature limits and presets this tool to them.
             </p>
             <p>
               For tips on crop, format and why forms care about KB, read{" "}

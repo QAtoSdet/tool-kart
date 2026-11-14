@@ -225,6 +225,11 @@ function canvasToBlob(
  * meets the target is under the limit under either definition (50 KB → ≤ 50,000 bytes).
  */
 export const BYTES_PER_KB = 1000;
+/**
+ * For a *minimum* the stricter definition is the larger one: a file that is at least 10 × 1,024
+ * bytes passes a 10 KB minimum whichever way the portal counts.
+ */
+export const MIN_BYTES_PER_KB = 1024;
 
 /** Encodes the image at the given size and JPEG quality. Injected so the search is testable. */
 export type Encoder = (dims: Dimensions, quality: number) => Promise<Blob>;
@@ -258,6 +263,12 @@ export async function searchTargetSize(
   original: Dimensions,
   targetBytes: number,
   encode: Encoder,
+  /**
+   * Optional lower limit (some exam portals reject files that are too small, e.g. 10–20 KB).
+   * Only matters when the image fits easily: then quality is raised to 100% to reach it. If it
+   * still falls short the result is returned anyway and the caller warns the user.
+   */
+  minBytes = 0,
 ): Promise<TargetSizeResult | null> {
   if (targetBytes <= 0 || original.width <= 0 || original.height <= 0) return null;
   let dims = { ...original };
@@ -266,7 +277,13 @@ export async function searchTargetSize(
     const low = await encode(dims, MIN_QUALITY);
     if (low.size <= targetBytes) {
       const top = await encode(dims, MAX_QUALITY);
-      if (top.size <= targetBytes) return { blob: top, ...dims, quality: MAX_QUALITY };
+      if (top.size <= targetBytes) {
+        if (top.size < minBytes) {
+          const full = await encode(dims, 1);
+          if (full.size <= targetBytes && full.size > top.size) return { blob: full, ...dims, quality: 1 };
+        }
+        return { blob: top, ...dims, quality: MAX_QUALITY };
+      }
 
       let best: TargetSizeResult = { blob: low, ...dims, quality: MIN_QUALITY };
       let lo = MIN_QUALITY;
@@ -304,6 +321,8 @@ export async function compressToTargetSize(
   file: File | Blob,
   targetKb: number,
   maxWidth?: number,
+  /** Optional minimum in KB, measured with the stricter 1 KB = 1,024 bytes. */
+  minKb = 0,
 ): Promise<TargetSizeResult | null> {
   if (typeof document === "undefined") {
     throw new Error("compressToTargetSize can only run in the browser");
@@ -325,7 +344,7 @@ export async function compressToTargetSize(
       return canvasToBlob(canvas, "image/jpeg", quality);
     };
 
-    return await searchTargetSize(start, targetKb * BYTES_PER_KB, encode);
+    return await searchTargetSize(start, targetKb * BYTES_PER_KB, encode, minKb * MIN_BYTES_PER_KB);
   } finally {
     if (typeof (bitmap as ImageBitmap).close === "function") (bitmap as ImageBitmap).close();
   }

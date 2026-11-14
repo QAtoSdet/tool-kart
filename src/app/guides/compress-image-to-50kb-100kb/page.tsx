@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ContentPage, type TocItem } from "@/components/guides/ContentPage";
 import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { buildMetadata } from "@/components/seo/metadata";
@@ -117,6 +118,11 @@ export default function ImageCompressGuidePage() {
           , set a max width that matches the form (commonly 200–600 px), choose JPG at a quality of
           around 70–85, check the new size, and lower the quality or width until it&apos;s under
           the limit.
+        </p>
+
+        <p>
+          Applying for a specific exam? The <Link href="/exams">exam photo size pages</Link> give the official
+          limits for SSC CGL, UPSC, IBPS and SBI, and NEET, with the tool preset to each one.
         </p>
 
         <h2 id="tips">Tips for accepted photos</h2>

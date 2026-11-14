@@ -16,6 +16,7 @@ export function Footer() {
   // Sitewide links to the guides index and every category hub (internal linking for SEO).
   const exploreLinks = [
     { href: "/guides", label: "Guides" },
+    { href: "/exams", label: "Exam photo sizes" },
     ...getAvailableHubs().map((h) => ({ href: `/${h.slug}`, label: h.shortTitle })),
   ];
   return (

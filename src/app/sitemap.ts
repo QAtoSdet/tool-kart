@@ -4,6 +4,7 @@ import { getAllRoutes } from "@/lib/routes";
 import { getToolBySlug } from "@/lib/tools";
 import { getGuideBySlug } from "@/lib/guides";
 import { getHubBySlug } from "@/lib/categories";
+import { getExamBySlug } from "@/lib/exams";
 
 /**
  * Sitemap generated from the central route list, which is derived from the tool,
@@ -40,6 +41,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.7,
       };
     }
+    if (path.startsWith("/exams/")) {
+      const exam = getExamBySlug(path.replace("/exams/", ""));
+      return {
+        url: `${base}${path}`,
+        lastModified: exam?.lastChecked ?? STATIC_LASTMOD,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      };
+    }
     // Category hub pages (single-segment paths like "/finance-calculators").
     const hub = getHubBySlug(path.slice(1));
     if (hub) {
@@ -51,7 +61,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       };
     }
     const isHome = path === "/";
-    const isGuidesIndex = path === "/guides";
+    const isGuidesIndex = path === "/guides" || path === "/exams";
     return {
       url: `${base}${path === "/" ? "" : path}`,
       lastModified: STATIC_LASTMOD,

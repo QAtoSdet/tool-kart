@@ -3,6 +3,7 @@ import sitemap from "./sitemap";
 import { getAvailableTools } from "@/lib/tools";
 import { getAvailableGuides } from "@/lib/guides";
 import { getAvailableHubs } from "@/lib/categories";
+import { getAvailableExams } from "@/lib/exams";
 import { STATIC_ROUTES } from "@/lib/routes";
 
 describe("sitemap", () => {
@@ -30,13 +31,20 @@ describe("sitemap", () => {
       expect(urls.some((u) => u.endsWith(expectedSuffix) || u === u)).toBe(true);
     }
 
-    // Count matches: static + tools + guides + category hubs.
+    // Every exam page is present.
+    for (const exam of getAvailableExams()) {
+      expect(urls.some((u) => u.endsWith(`/exams/${exam.slug}`))).toBe(true);
+    }
+
+    // Count matches: static + tools + guides + category hubs + exam pages.
     expect(entries.length).toBe(
       STATIC_ROUTES.length +
         getAvailableTools().length +
         getAvailableGuides().length +
-        getAvailableHubs().length,
+        getAvailableHubs().length +
+        getAvailableExams().length,
     );
+    expect(new Set(urls).size).toBe(urls.length); // no duplicates
   });
 
   it("gives the homepage the highest priority", () => {

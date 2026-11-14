@@ -24,7 +24,7 @@ describe("category hubs registry", () => {
   });
 
   it("does not collide with existing top-level routes", () => {
-    const reserved = ["tools", "guides", "about", "contact", "privacy", "terms"];
+    const reserved = ["tools", "guides", "exams", "about", "contact", "privacy", "terms"];
     for (const hub of getAvailableHubs()) {
       expect(reserved).not.toContain(hub.slug);
     }

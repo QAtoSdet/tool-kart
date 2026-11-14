@@ -83,6 +83,39 @@ describe("searchTargetSize", () => {
   });
 });
 
+describe("searchTargetSize with a minimum size", () => {
+  // 100×50 with the fake encoder: ~2,366 B at quality 0.92, 2,750 B at quality 1.0.
+  const SMALL = { width: 100, height: 50 };
+
+  it("is unchanged when no minimum is given", async () => {
+    const r = (await searchTargetSize(SMALL, 20_000, fakeEncoder()))!;
+    expect(r.quality).toBe(0.92);
+  });
+
+  it("raises quality to 100% to reach the minimum", async () => {
+    const r = (await searchTargetSize(SMALL, 20_000, fakeEncoder(), 2_500))!;
+    expect(r.quality).toBe(1);
+    expect(r.blob.size).toBeGreaterThanOrEqual(2_500);
+  });
+
+  it("returns the largest it can when the minimum is out of reach (caller warns)", async () => {
+    const r = (await searchTargetSize(SMALL, 20_000, fakeEncoder(), 10_000))!;
+    expect(r.quality).toBe(1);
+    expect(r.blob.size).toBeLessThan(10_000);
+  });
+
+  it("never exceeds the maximum to satisfy a minimum", async () => {
+    const r = (await searchTargetSize(SMALL, 2_400, fakeEncoder(), 2_600))!;
+    expect(r.blob.size).toBeLessThanOrEqual(2_400);
+  });
+
+  it("doesn't affect large photos, which already land near the maximum", async () => {
+    const r = (await searchTargetSize(PHOTO, 50 * BYTES_PER_KB, fakeEncoder(), 20 * 1024))!;
+    expect(r.blob.size).toBeGreaterThan(20 * 1024);
+    expect(r.blob.size).toBeLessThanOrEqual(50 * BYTES_PER_KB);
+  });
+});
+
 describe("targetFileName", () => {
   it("names the output after the target and forces .jpg", () => {
     expect(targetFileName("passport photo.png", 50)).toBe("passport photo-50kb.jpg");

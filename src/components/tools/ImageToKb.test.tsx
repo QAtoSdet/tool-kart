@@ -48,7 +48,7 @@ describe("ImageToKb", () => {
     });
     const user = await upload();
     await user.click(screen.getByRole("button", { name: /under 50 KB/ }));
-    await waitFor(() => expect(mocked).toHaveBeenCalledWith(expect.any(File), 50, undefined));
+    await waitFor(() => expect(mocked).toHaveBeenCalledWith(expect.any(File), 50, undefined, 0));
     expect(await screen.findByRole("status")).toHaveTextContent("48.2 KB");
     expect(screen.getByText(/800 × 600 px · JPG quality 71%/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /download jpg/i })).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe("ImageToKb", () => {
     const user = await upload();
     await user.type(screen.getByLabelText(/max width/i), "600");
     await user.click(screen.getByRole("button", { name: /under 50 KB/ }));
-    await waitFor(() => expect(mocked).toHaveBeenCalledWith(expect.any(File), 50, 600));
+    await waitFor(() => expect(mocked).toHaveBeenCalledWith(expect.any(File), 50, 600, 0));
   });
 
   it("explains when the target can't be met", async () => {
@@ -99,5 +99,32 @@ describe("ImageToKb — stale results", () => {
     finish({ blob: new Blob([new Uint8Array(100)]), width: 10, height: 10, quality: 0.9 });
     await waitFor(() => expect(screen.getByRole("button", { name: /under 50 KB/ })).toBeEnabled());
     expect(screen.queryByRole("button", { name: /download jpg/i })).not.toBeInTheDocument();
+  });
+});
+
+describe("ImageToKb — minimum size (exam presets)", () => {
+  async function uploadWith(props: { defaultKb: number; minKb: number; presets?: number[] }) {
+    const user = userEvent.setup();
+    render(<ImageToKb {...props} />);
+    await user.upload(screen.getByLabelText("Choose image") as HTMLInputElement, photo());
+    return user;
+  }
+
+  it("passes the minimum to the compressor and shows the allowed range", async () => {
+    mocked.mockResolvedValue({ blob: new Blob([new Uint8Array(19_000)]), width: 400, height: 150, quality: 0.8 });
+    const user = await uploadWith({ defaultKb: 20, minKb: 10, presets: [] });
+    expect(screen.queryByRole("button", { name: "50 KB" })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /under 20 KB/ }));
+    await waitFor(() => expect(mocked).toHaveBeenCalledWith(expect.any(File), 20, undefined, 10));
+    expect(await screen.findByRole("status")).toHaveTextContent("allowed 10–20 KB");
+  });
+
+  it("warns instead of claiming success when the file is under the minimum", async () => {
+    // 10,000 bytes < 10 × 1,024: under a 10 KB minimum by the stricter count.
+    mocked.mockResolvedValue({ blob: new Blob([new Uint8Array(10_000)]), width: 140, height: 60, quality: 1 });
+    const user = await uploadWith({ defaultKb: 20, minKb: 10 });
+    await user.click(screen.getByRole("button", { name: /under 20 KB/ }));
+    expect(await screen.findByRole("status")).toHaveTextContent(/below the 10 KB minimum/);
+    expect(screen.queryByText(/^Done:/)).not.toBeInTheDocument();
   });
 });
