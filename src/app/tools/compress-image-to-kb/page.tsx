@@ -73,7 +73,7 @@ export default function CompressImageToKbPage() {
               best-looking version that fits.
             </p>
             <p>
-              Applying for SSC, UPSC, IBPS, SBI or NEET? Each{" "}
+              Applying for SSC, RRB, UPSC, IBPS, SBI, JEE Main, NEET or CTET? Each{" "}
               <Link href="/exams" className="text-blue-600 underline">
                 exam page
               </Link>{" "}

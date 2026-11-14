@@ -9,7 +9,7 @@ Quick summary: **the app is fully built, tested, and production-ready.** All 9 b
 the UX pass are done. What remains is the public launch (manual, needs your accounts) and the
 ongoing content work that actually earns the money.
 
-Health check: **345 automated tests passing**, production build clean, dev server serves every
+Health check: **349 automated tests passing**, production build clean, dev server serves every
 route. Stack pinned to **Next.js 15.5.x + React 19.0** (the newer Next 16 line caused a runtime
 crash and must not be used until stable).
 
@@ -64,6 +64,14 @@ crash and must not be used until stable).
 | PDF tools (merge, split, optimize) + new Document Tools hub | none yet | ⬜ |
 
 Also: footer "Explore" column linking Guides + all hubs (✅ deployed).
+
+### Exam photo/signature pages (`/exams`, data in `src/lib/exams.ts`)
+| Batch | Exams | Deployed? |
+| --- | --- | --- |
+| 1 | SSC CGL 2026, UPSC, IBPS & SBI, NEET UG 2026 | ✅ |
+| 2 | SSC CHSL 2026, RRB NTPC 2026, JEE Main 2027, CTET | ⬜ |
+
+Every figure comes from the exam body's own document (listed on each page). Sitemap → 45 URLs.
 
 **Not yet deployed:** everything marked ⬜ above. After deploying, resubmit the sitemap (→ 36 URLs)
 and request indexing for the new tool pages. `docs/PLAN.md` has the exact list.

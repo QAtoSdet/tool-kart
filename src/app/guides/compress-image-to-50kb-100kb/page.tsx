@@ -122,7 +122,8 @@ export default function ImageCompressGuidePage() {
 
         <p>
           Applying for a specific exam? The <Link href="/exams">exam photo size pages</Link> give the official
-          limits for SSC CGL, UPSC, IBPS and SBI, and NEET, with the tool preset to each one.
+          limits for SSC CGL and CHSL, RRB NTPC, UPSC, IBPS and SBI, JEE Main, NEET and CTET, with the tool
+          preset to each one.
         </p>
 
         <h2 id="tips">Tips for accepted photos</h2>

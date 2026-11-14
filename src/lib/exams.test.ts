@@ -82,4 +82,26 @@ describe("official figures (checked 2026-11-14)", () => {
     expect(min).toBeGreaterThanOrEqual(50);
     expect(max).toBeLessThanOrEqual(200);
   });
+
+  it("SSC CHSL 2026: live photo, signature 10–20 KB", () => {
+    expect(range("ssc-chsl-photo-signature-size", "photo")).toEqual([undefined, undefined, false]);
+    expect(range("ssc-chsl-photo-signature-size", "signature")).toEqual([10, 20, true]);
+  });
+
+  it("RRB NTPC 2026 (CEN 06 & 07/2026): live photo, signature 30–49 KB", () => {
+    expect(range("rrb-ntpc-photo-signature-size", "photo")).toEqual([undefined, undefined, false]);
+    expect(range("rrb-ntpc-photo-signature-size", "signature")).toEqual([30, 49, true]);
+  });
+
+  it("JEE Main 2027: photo 10–200 KB, live photo, signature 10–100 KB", () => {
+    const s = "jee-main-photo-signature-size";
+    expect(range(s, "photo")).toEqual([10, 200, true]);
+    expect(range(s, "live-photo")).toEqual([undefined, undefined, false]);
+    expect(range(s, "signature")).toEqual([10, 100, true]);
+  });
+
+  it("CTET September 2026: photo 10–100 KB, signature 3–30 KB", () => {
+    expect(range("ctet-photo-signature-size", "photo")).toEqual([10, 100, true]);
+    expect(range("ctet-photo-signature-size", "signature")).toEqual([3, 30, true]);
+  });
 });

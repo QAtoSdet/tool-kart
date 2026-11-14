@@ -7,9 +7,9 @@ import { buildMetadata } from "@/components/seo/metadata";
 import { getAvailableExams, sizeRange } from "@/lib/exams";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Exam Photo and Signature Size Guide (SSC, UPSC, IBPS, NEET)",
+  title: "Exam Photo and Signature Size Guide (SSC, RRB, UPSC, IBPS, JEE, NEET)",
   description:
-    "Official photo and signature size rules for SSC, UPSC, IBPS, SBI and NEET application forms, checked against each exam's own notice, with a free resizer preset to each limit.",
+    "Official photo and signature size rules for SSC CGL and CHSL, RRB NTPC, UPSC, IBPS, SBI, JEE Main, NEET and CTET forms, checked against each exam's own notice, with a free resizer preset to each limit.",
   path: "/exams",
   keywords: ["exam photo size", "photo and signature size for exam form", "signature size kb"],
 });

@@ -91,7 +91,7 @@ export const EXAMS: Exam[] = [
       "The notice is inconsistent on the signature's shape: paragraph 9.6 says about 6.0 × 2.0 cm, while the how-to-apply annexure says about 4.0 × 2.0 cm. Both agree on JPG and 10–20 KB. Sign wide rather than tall, and follow what the portal accepts.",
       "Older articles quote a 12 KB limit. That's out of date: the 2026 notice allows 10–20 KB.",
       "The notice says applications submitted through Aadhaar-based authentication won't be rejected on these photo and signature grounds.",
-      "These rules are from the CGL 2026 notice. Other SSC exams (CHSL, MTS, GD and so on) publish their own notices, so check yours.",
+      "SSC's other 2026 notices (CHSL, JE, Sub-Inspector/CAPF and Stenographer) use the same rule: live photo, signature JPG of 10–20 KB. Each exam still publishes its own notice, so check yours.",
     ],
     faqs: [
       {
@@ -113,11 +113,174 @@ export const EXAMS: Exam[] = [
     sources: [
       {
         title: "SSC notice: Combined Graduate Level Examination, 2026 (published on ssc.gov.in, 21 May 2026), para 9.5–9.6 and how-to-apply annexure",
-        url: "https://ssc.gov.in",
+        url: "https://ssc.gov.in/api/attachment/uploads/masterData/NoticeBoards/Notice_of_adv_cgl_2026.pdf",
       },
     ],
     lastChecked: "2026-11-14",
     keywords: ["ssc cgl signature size", "ssc cgl photo size 2026", "ssc signature 10 to 20 kb", "ssc cgl signature resize"],
+  },
+  {
+    slug: "ssc-chsl-photo-signature-size",
+    name: "SSC CHSL 2026",
+    title: "SSC CHSL 2026 Photo and Signature Size (10–20 KB Signature)",
+    description:
+      "Official SSC CHSL 2026 upload rules: the photo is captured live, and the signature must be a 10–20 KB JPG. Resize your signature to the right size here, free and private.",
+    conductingBody: "Staff Selection Commission (SSC)",
+    summary:
+      "For CHSL 2026 you don't upload a photo. The portal captures a live photo through your webcam or the SSC mobile app. The only image you upload is your signature, a JPG between 10 KB and 20 KB.",
+    uploads: [
+      {
+        id: "photo",
+        label: "Photograph",
+        uploadable: false,
+        rules: [
+          "Captured live during the application through a webcam, or through the SSC Android app (QR code on the upload page) if your computer has no camera.",
+          "Good light and a plain background, camera at eye level, looking straight ahead. Your face must be fully inside the area marked by the camera.",
+          "No cap, mask or spectacles. If the capture isn't right, recapture it.",
+          "Applications that capture an existing photo instead of a live one are rejected.",
+        ],
+      },
+      {
+        id: "signature",
+        label: "Signature",
+        minKb: 10,
+        maxKb: 20,
+        format: "JPEG/JPG",
+        dimensions: "About 6.0 cm × 2.0 cm (para 9.6) — the how-to-apply annexure says about 4.0 cm × 2.0 cm",
+        uploadable: true,
+        rules: [
+          "Blurred, illegible or miniature (very small) signatures are rejected summarily.",
+          "Your appearance at the exam should match the photo captured in the application.",
+        ],
+      },
+    ],
+    notes: [
+      "Like the CGL notice, the CHSL 2026 notice gives two signature shapes: about 6.0 × 2.0 cm in paragraph 9.6 and about 4.0 × 2.0 cm in the how-to-apply annexure. Both say JPG and 10–20 KB. Sign wide rather than tall.",
+      "Candidates who complete Aadhaar-based authentication won't have their application rejected on these photo and signature grounds, the notice says.",
+      "Applications for CHSL 2026 closed on 7 October 2026 and the correction window ran 14–16 October 2026. The next CHSL notice may change these rules, so check it when it comes out.",
+      "SSC's other 2026 notices (CGL, JE, Sub-Inspector/CAPF and Stenographer) use the same live photo and 10–20 KB signature rule.",
+    ],
+    faqs: [
+      {
+        question: "Do I need to upload a photo for SSC CHSL 2026?",
+        answer:
+          "No. The photo is captured live during the application through your webcam or the SSC mobile app. Only the signature is uploaded as a file.",
+      },
+      {
+        question: "What is the SSC CHSL signature size?",
+        answer:
+          "A JPG or JPEG between 10 KB and 20 KB, about 6.0 cm wide and 2.0 cm high (one annexure in the notice says 4.0 × 2.0 cm).",
+      },
+      {
+        question: "Are the CHSL and CGL photo and signature rules the same?",
+        answer:
+          "Yes, for 2026. Both notices use a live photo and a 10–20 KB JPG signature, and both contain the same 6 cm vs 4 cm wording difference.",
+      },
+    ],
+    sources: [
+      {
+        title: "SSC notice: Combined Higher Secondary (10+2) Level Examination, 2026 (ssc.gov.in, 7 September 2026), para 9.4–9.6 and Annexure-IV",
+        url: "https://ssc.gov.in/api/attachment/uploads/masterData/NoticeBoards/Notice_of_adv_chsle_2026.pdf",
+      },
+    ],
+    lastChecked: "2026-11-14",
+    keywords: ["ssc chsl signature size", "ssc chsl photo size", "chsl signature 10 to 20 kb", "ssc chsl 2026 photo signature"],
+  },
+  {
+    slug: "rrb-ntpc-photo-signature-size",
+    name: "RRB NTPC 2026",
+    title: "RRB NTPC 2026 Photo and Signature Size (30–49 KB Signature)",
+    description:
+      "Official RRB NTPC 2026 rules (CEN 06/2026 and 07/2026): the photo is captured live and the signature must be a 30–49 KB JPG, at least 140 × 60 pixels. Resize it here, free and private.",
+    conductingBody: "Railway Recruitment Boards (RRBs), Ministry of Railways",
+    summary:
+      "For the 2026 RRB NTPC applications (Graduate CEN 06/2026 and Under Graduate CEN 07/2026) you don't upload a photo: the portal captures a live one. The signature is the only image you upload, and it must be a JPG between 30 KB and 49 KB.",
+    uploads: [
+      {
+        id: "photo",
+        label: "Photograph",
+        uploadable: false,
+        rules: [
+          "Captured live in the application through a computer webcam or your phone's front camera. You can't upload an existing photo, and photographing a printed or on-screen photo gets the application rejected.",
+          "Plain white background. Wear non-white clothes, preferably plain and dark, that cover your shoulders and chest.",
+          "Camera at eye level, face centred and straight ahead with a neutral expression. Your head should fill at least 50% of the photo; nothing below the chest or elbows should show.",
+          "No cap, mask or glasses. Eyes fully open, face not covered by hair or cloth, no shadow or glare. You can retake it until you submit.",
+          "The live photo is matched with your photo ID. If it doesn't match, you download Annexure VIII from the application, get it signed by a Gazetted Officer and upload it.",
+        ],
+      },
+      {
+        id: "signature",
+        label: "Signature",
+        minKb: 30,
+        maxKb: 49,
+        format: "JPG/JPEG only",
+        dimensions: "At least 140 × 60 pixels, scanned at 100 DPI or more; centred in a 35 mm × 20 mm box",
+        uploadable: true,
+        rules: [
+          "Sign yourself with a black ink pen on white paper.",
+          "Running (joined-up) handwriting. Signatures in BLOCK or CAPITAL letters, or disjointed letters, are rejected.",
+          "Also rejected: a non-white background, non-black ink, a blurred or partly cut-off signature, a blank image, a thumb impression, or someone else's signature.",
+          "It must match the signature you give at the exam, document verification, medical exam and appointment.",
+          "PwBD candidates who can't sign may upload a fingerprint instead (left thumb first, then right thumb, then another finger).",
+        ],
+      },
+    ],
+    notes: [
+      "Some sites still say RRB wants a 20–50 KB photo and a 10–20 KB signature. The 2026 RRB notices have no photo upload, and the signature limit is 30–49 KB.",
+      "30 KB is a high minimum for a signature. A small or tightly cropped image can stay under 30 KB even at full quality, and resizing can't add detail. Start from a large, sharp scan or phone photo of the signature, and don't shrink it first. In our tests, a clean signature on pure white needed to be about 800 pixels wide to reach 30 KB.",
+      "The same signature rule appears in all of RRB's current notices: CEN 06/2026 (NTPC Graduate), 07/2026 (NTPC Under Graduate), 08/2026 (Station Master, where the box is 50 mm × 20 mm) and 09/2026 (Isolated Categories).",
+      "Key dates: NTPC Graduate applications closed on 6 November 2026 (modification window 9–18 November). NTPC Under Graduate closed on 13 November 2026, with fee payment until 15 November and a modification window from 16 to 25 November.",
+      "SC/ST candidates asking for a free train travel pass also upload their SC/ST certificate as a PDF under 400 KB.",
+      "Bring a colour passport photo no older than two months to the CBT, document verification and medical exam. Before document verification you also upload a scanned photo and signature on oirms-ir.gov.in/rrbdv.",
+    ],
+    faqs: [
+      {
+        question: "What is the RRB NTPC 2026 signature size?",
+        answer:
+          "A JPG or JPEG between 30 KB and 49 KB, at least 140 × 60 pixels, scanned at 100 DPI or more. Sign in running handwriting with black ink on white paper.",
+      },
+      {
+        question: "Do I need to upload a photo for RRB NTPC 2026?",
+        answer:
+          "No. The application captures a live photo through your webcam or phone's front camera, against a plain white background. Only the signature is uploaded.",
+      },
+      {
+        question: "My RRB signature is under 30 KB. What do I do?",
+        answer:
+          "Use a bigger original: rescan the signature at a higher DPI or take a sharp, close phone photo, and don't crop it to a tiny size. The tool here raises quality to reach 30 KB where it can, and warns you if the image is too small to get there.",
+      },
+      {
+        question: "Is the signature rule the same for RRB Station Master and Isolated Categories?",
+        answer:
+          "Yes. CEN 08/2026 (Station Master) and CEN 09/2026 (Isolated Categories) also ask for a 30–49 KB JPG signature of at least 140 × 60 pixels. The Station Master notice uses a wider 50 mm × 20 mm box.",
+      },
+    ],
+    sources: [
+      {
+        title: "RRB CEN No. 07/2026, NTPC (Under Graduate), detailed notice of 14 October 2026, para 14.4–14.5 (rrb.indianrailways.gov.in)",
+        url: "https://rrb.indianrailways.gov.in/-/image/1791999622770Final_CEN_07-2026_14.10.2026_English.pdf/examsDocuments",
+      },
+      {
+        title: "RRB CEN No. 06/2026, NTPC (Graduate), detailed notice of 7 October 2026, para 14.4–14.5 (rrb.indianrailways.gov.in)",
+        url: "https://rrb.indianrailways.gov.in/-/image/1791375679144CEN_06_2026_NTPC_G.pdf/examsDocuments",
+      },
+      {
+        title: "RRB CEN No. 08/2026 (Station Master), detailed notice (rrb.indianrailways.gov.in)",
+        url: "https://rrb.indianrailways.gov.in/-/image/1793016771817CEN_08_2026_StationMaster.pdf/examsDocuments",
+      },
+      {
+        title: "RRB CEN No. 09/2026 (Isolated Categories), detailed notice of 5 November 2026 (rrb.indianrailways.gov.in)",
+        url: "https://rrb.indianrailways.gov.in/-/image/1793953984257Detailed_CEN_09-2026_English_Version.pdf/examsDocuments",
+      },
+    ],
+    lastChecked: "2026-11-14",
+    keywords: [
+      "rrb ntpc signature size",
+      "rrb ntpc photo size 2026",
+      "rrb signature 30 to 49 kb",
+      "railway signature size kb",
+      "rrb station master signature size",
+    ],
   },
   {
     slug: "upsc-photo-signature-size",
@@ -301,6 +464,94 @@ export const EXAMS: Exam[] = [
     ],
   },
   {
+    slug: "jee-main-photo-signature-size",
+    name: "JEE Main 2027",
+    title: "JEE Main 2027 Photo and Signature Size (Photo 10–200 KB, Signature 10–100 KB)",
+    description:
+      "Official JEE Main 2027 rules from the NTA bulletin: photo JPG 10–200 KB with 80% face, signature JPG 10–100 KB, plus a live photo. Resize both here, free and private.",
+    conductingBody: "National Testing Agency (NTA)",
+    summary:
+      "The JEE Main 2027 application asks for a live photo captured in the form, plus two uploaded images: a recent passport-size photo and your signature, both as JPG files. Your Class 10 certificate is uploaded as a PDF.",
+    uploads: [
+      {
+        id: "photo",
+        label: "Passport-size photograph",
+        minKb: 10,
+        maxKb: 200,
+        format: "JPG/JPEG",
+        uploadable: true,
+        rules: [
+          "Recent, in colour, against a white background.",
+          "Your face, including the ears and without a mask, should fill 80% of the photo.",
+          "Must be clearly legible.",
+        ],
+      },
+      {
+        id: "live-photo",
+        label: "Live photograph",
+        uploadable: false,
+        rules: [
+          "Captured in the form by switching on your camera or webcam. If your device has no webcam, scan the QR code with a phone or tablet.",
+          "White background, good lighting, 80% face visible including the ears, no mask.",
+          "You can retake it as many times as needed (NTA FAQ, question 48).",
+        ],
+      },
+      {
+        id: "signature",
+        label: "Signature",
+        minKb: 10,
+        maxKb: 100,
+        format: "JPG/JPEG",
+        uploadable: true,
+        rules: ["Must be clearly legible.", "Upload your own signature. Using someone else's is treated as unfair means."],
+      },
+    ],
+    notes: [
+      "Your Class 10 (or equivalent) certificate or mark sheet is uploaded as a PDF of 50–300 KB. Disability/UDID certificates, the certificate of physical limitation to write, and a non-Indian passport (for foreign nationals) use the same 50–300 KB PDF limit.",
+      "Session 1 applications run from 24 October to 22 November 2026, with a late fee from 23 to 26 November and corrections from 27 to 29 November 2026. Session 2 applications open on 5 January 2027.",
+      "NTA has allowed a fresh application for Session 1 (public notice of 30 October 2026). If you start a new form, you must upload the photo, signature and documents again.",
+      "NTA doesn't allow corrections to these uploads after the correction window closes, so check them before you submit.",
+      "The rules match NTA's NEET (UG) 2026 bulletin: photo 10–200 KB, signature 10–100 KB.",
+    ],
+    faqs: [
+      {
+        question: "What is the JEE Main 2027 photo size?",
+        answer:
+          "A recent colour JPG between 10 KB and 200 KB, against a white background, with your face including the ears filling 80% of the photo.",
+      },
+      {
+        question: "What is the JEE Main signature size?",
+        answer: "A clearly legible JPG or JPEG between 10 KB and 100 KB, according to the JEE (Main) 2027 bulletin.",
+      },
+      {
+        question: "Do I still need to upload a photo if JEE Main captures a live photo?",
+        answer:
+          "Yes. The bulletin asks for both: a live photo captured in the form and a scanned passport-size photo uploaded as a JPG.",
+      },
+      {
+        question: "What size should the Class 10 certificate be?",
+        answer:
+          "A clearly legible PDF between 50 KB and 300 KB. The same 50–300 KB PDF limit applies to the disability/UDID certificate if you need one.",
+      },
+    ],
+    sources: [
+      {
+        title: "NTA: Information Bulletin, JEE (Main) 2027, Step 2: Application Form (jeemain.nta.nic.in, 24 October 2026)",
+        url: "https://cdnbbsr.s3waas.gov.in/s3f8e59f4b2fe7c5705bf878bbd494ccdf/uploads/2026/10/202610241890224107.pdf",
+      },
+      {
+        title: "NTA public notice: fresh application form for JEE (Main) 2027 Session 1 (30 October 2026)",
+        url: "https://cdnbbsr.s3waas.gov.in/s3f8e59f4b2fe7c5705bf878bbd494ccdf/uploads/2026/10/202610302102025182.pdf",
+      },
+      {
+        title: "NTA: FAQs for JEE (Main) 2027 (13 November 2026)",
+        url: "https://cdnbbsr.s3waas.gov.in/s3f8e59f4b2fe7c5705bf878bbd494ccdf/uploads/2026/11/202611131752745450.pdf",
+      },
+    ],
+    lastChecked: "2026-11-14",
+    keywords: ["jee main photo size", "jee main signature size", "jee main 2027 photo size", "jee mains photo 10 to 200 kb"],
+  },
+  {
     slug: "neet-ug-photo-signature-size",
     name: "NEET UG 2026",
     title: "NEET UG 2026 Photo, Signature and Thumb Impression Size",
@@ -375,6 +626,69 @@ export const EXAMS: Exam[] = [
     ],
     lastChecked: "2026-11-14",
     keywords: ["neet photo size", "neet signature size", "neet thumb impression size", "neet ug 2026 photo size"],
+  },
+  {
+    slug: "ctet-photo-signature-size",
+    name: "CTET",
+    title: "CTET Photo and Signature Size (Photo 10–100 KB, Signature 3–30 KB)",
+    description:
+      "Official CTET rules from the CBSE information bulletin: photo JPG 10–100 KB at 3.5 × 4.5 cm, signature JPG 3–30 KB at 3.5 × 1.5 cm. Resize both here, free and private.",
+    conductingBody: "Central Board of Secondary Education (CBSE)",
+    summary:
+      "CTET asks for two scanned images, both mandatory and both JPG: your latest photo (10–100 KB) and your signature (3–30 KB). There's no live photo capture.",
+    uploads: [
+      {
+        id: "photo",
+        label: "Photograph",
+        minKb: 10,
+        maxKb: 100,
+        format: "JPG/JPEG",
+        dimensions: "3.5 cm (width) × 4.5 cm (height)",
+        uploadable: true,
+        rules: [
+          "Use your latest photo. It is matched against you at the exam centre.",
+          "If the photo or signature on your e-admit card differs from your confirmation page, contact the CTET Unit straight away.",
+        ],
+      },
+      {
+        id: "signature",
+        label: "Signature",
+        minKb: 3,
+        maxKb: 30,
+        format: "JPG/JPEG",
+        dimensions: "3.5 cm (length) × 1.5 cm (height)",
+        uploadable: true,
+        rules: ["Scan your own signature.", "Keep it within the 3.5 × 1.5 cm shape: wide and short."],
+      },
+    ],
+    notes: [
+      "These rules are from the bulletin for CTET September 2026 (the 22nd edition), whose application windows have closed. CBSE publishes a new bulletin for each edition, so check the next one when it's out.",
+      "CTET's limits are smaller than most exams: the signature can't be over 30 KB, and the photo can't be over 100 KB.",
+      "Print the confirmation page after paying the fee and keep it. CBSE offers one online correction window per edition for details such as name and category, and no changes are accepted after it closes.",
+    ],
+    faqs: [
+      {
+        question: "What is the CTET photo size?",
+        answer: "A JPG or JPEG between 10 KB and 100 KB, with dimensions of 3.5 cm wide by 4.5 cm high.",
+      },
+      {
+        question: "What is the CTET signature size?",
+        answer: "A JPG or JPEG between 3 KB and 30 KB, with dimensions of 3.5 cm long by 1.5 cm high.",
+      },
+      {
+        question: "Does CTET capture a live photo?",
+        answer:
+          "Not according to the September 2026 bulletin. You upload a scanned photo and signature, and the photo is matched against you at the exam centre.",
+      },
+    ],
+    sources: [
+      {
+        title: "CBSE: Information Bulletin, CTET September 2026, section 2(c) “Online Uploading of Scanned Images” (ctet.nic.in)",
+        url: "https://cdnbbsr.s3waas.gov.in/s3443dec3062d0286986e21dc0631734c9/uploads/2026/05/202605111250310617.pdf",
+      },
+    ],
+    lastChecked: "2026-11-14",
+    keywords: ["ctet photo size", "ctet signature size", "ctet photo 10 to 100 kb", "ctet signature 3 to 30 kb"],
   },
 ];
 

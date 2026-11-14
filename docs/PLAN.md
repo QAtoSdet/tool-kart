@@ -50,7 +50,15 @@ Impressions only began around 23 Oct, so the site has been visible to Google for
   not indexed", 2 are a preview image and the favicon (fine).
 
 **Revised priority order (overrides the order below):**
-1. 🔄 **Exam-specific photo/signature pages** — first batch ✅ built 2026-11-14 (not yet deployed):
+**Decision (2026-11-14):** distribution (Quora/Reddit/Telegram) isn't possible for the owner, so
+growth depends on publishing many specific pages that each answer one narrow search. Order:
+exam batch 2 → Hindi versions of existing tools → signature cleaner inside the exam pages.
+Researched and **rejected** as new tools (page 1 already full of dedicated sites or big brands):
+labour-code salary/gratuity, 8th Pay Commission, state electricity bills, stamp duty, name-and-date
+on photo, state-wise land units (also unsafe: sources disagree, e.g. Bihar bigha quoted as 27,000 /
+27,220 / 27,225 sq ft). Don't revisit these without new evidence.
+
+1. 🔄 **Exam-specific photo/signature pages** — first batch ✅ built and deployed 2026-11-14:
    `/exams` hub + `/exams/ssc-cgl-photo-signature-size`, `/exams/upsc-photo-signature-size`,
    `/exams/ibps-sbi-photo-signature-size`, `/exams/neet-ug-photo-signature-size`.
    - Data in `src/lib/exams.ts`, one entry per exam with sources + `lastChecked`. **Every figure
@@ -66,18 +74,42 @@ Impressions only began around 23 Oct, so the site has been visible to Google for
      the image is still too small. Real browser: normal signature → 18.8 KB (10–20 ✓); a 140×60
      signature only reaches 2.7 KB even at 100%, so the page tells users to keep scans larger.
    - Linked from footer, compress-to-KB tool and the image guide. Sitemap → 41 URLs.
-   - ⬜ **Next batch** (verify each from its official notice first): RRB NTPC/Group D, SSC CHSL &
-     MTS, state PSCs (UPPSC, BPSC, MPSC), JEE Main, CUET, CTET. Skip passport: the photo is taken
-     at the Passport Seva Kendra, not uploaded.
+   - ✅ **Batch 2 — built 2026-11-14, ⬜ not yet deployed:**
+     `/exams/ssc-chsl-photo-signature-size`, `/exams/rrb-ntpc-photo-signature-size`,
+     `/exams/jee-main-photo-signature-size`, `/exams/ctet-photo-signature-size`. Sitemap → 45 URLs.
+     - Sources: SSC CHSL 2026 notice (7 Sep 2026, ssc.gov.in); RRB CEN 06/2026 + 07/2026 NTPC
+       (also checked 08/2026 Station Master, 09/2026 Isolated) on rrb.indianrailways.gov.in; NTA
+       JEE (Main) 2027 bulletin (24 Oct 2026) + notices; CBSE CTET Sept 2026 bulletin.
+     - Findings: RRB 2026 = live photo + signature **30–49 KB** JPG, min 140×60 px (old sites say
+       photo 20–50 / signature 10–20). All SSC 2026 notices (CGL, CHSL, JE, CPO, Steno) = live
+       photo + 10–20 KB signature, and CHSL repeats CGL's 6×2 vs 4×2 cm wording. JEE = NEET's
+       limits (photo 10–200, signature 10–100) + Class 10 PDF 50–300 KB. CTET = photo 10–100,
+       signature 3–30 KB, no live photo.
+     - Real browser: a clean 800×400 signature → 40.6 KB (RRB 30–49 ✓); a 413×236 one reaches only
+       19 KB at 100% and the page warns. RRB page says so (~800 px wide needed on pure white).
+     - RRB's site blocks direct downloads (WAF): open the homepage in a browser first, then fetch
+       `/-/image/<file>/examsDocuments` from that page.
+   - ⬜ **Batch 3** (verify each from its official notice first): state PSCs (UPPSC, BPSC, MPSC),
+     SSC MTS 2026 and SSC GD (notices not out on 2026-11-14), CUET UG 2027 (bulletin not out).
+     Skip passport: the photo is taken at the Passport Seva Kendra, not uploaded. Any exam whose
+     official document can't be read is left out rather than filled from coaching sites.
    - ⬜ **Each new exam cycle:** re-check the notice, update figures, sources and `lastChecked`
      (NEET 2027 bulletin expected ~Feb 2027).
-2. ⬜ **Distribution** (the off-page half of SEO): answer real questions on Quora / Reddit /
-   exam Telegram & WhatsApp groups where the tool genuinely solves the problem. No bought links.
-3. ⬜ **SIP page: add what searchers asked for** — step-up ("growing") SIP, lumpsum, and a target
+2. ⬜ **Hindi versions of existing tools** — start with percentage (English page already ranks #7
+   for "calculate percentage"), then age, compress-to-KB, EMI, GST. Evidence: page 1 for
+   "प्रतिशत कैसे निकाले कैलकुलेटर" is all small sites (calculatorlib, ck12, infohotspot), no brands.
+   Same calculators, Hindi text; path-based URLs (`/hi/tools/<slug>`) with `hreflang`
+   (this is Phase 4, pulled forward). Have a native Hindi speaker read the text before publishing.
+3. ⬜ **Signature cleaner, built into the exam pages** (not a separate tool): whiten the
+   background and darken the ink of a phone photo of a signature, then fit the KB range. Solves
+   a real gap — phone photos often can't reach IBPS's 10 KB minimum and most tools fail silently.
+4. ⏸ **Distribution** (Quora / Reddit / exam Telegram & WhatsApp groups) — not possible for the
+   owner right now. Expect slower growth without it; revisit if that changes.
+5. ⬜ **SIP page: add what searchers asked for** — step-up ("growing") SIP, lumpsum, and a target
    amount ("reverse") mode. Long-tail only; don't expect page 1 for "sip calculator".
-4. Phase 3 polish (shareable links, accordions, icons…) **paused**: it improves the experience of
+6. Phase 3 polish (shareable links, accordions, icons…) **paused**: it improves the experience of
    visitors who arrive, but doesn't bring new ones. Resume once traffic exists.
-5. ⬜ Re-check Search Console around 2026-11-21 and 2026-12-14 (compare impressions, position,
+7. ⬜ Re-check Search Console around 2026-11-21 and 2026-12-14 (compare impressions, position,
    and which queries appear).
 
 ## Immediate / highest-leverage (do these first)
