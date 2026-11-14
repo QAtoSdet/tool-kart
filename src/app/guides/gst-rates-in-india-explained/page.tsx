@@ -16,7 +16,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const toc: TocItem[] = [
-  { text: "The five main GST slabs", href: "#gst-slabs" },
+  { text: "The GST slabs since 22 September 2025", href: "#gst-slabs" },
   { text: "CGST, SGST and IGST", href: "#cgst-sgst-igst" },
   { text: "Adding GST (with example)", href: "#add-gst" },
   { text: "Removing GST (with example)", href: "#remove-gst" },
@@ -26,7 +26,12 @@ const faqs: FaqItem[] = [
   {
     question: "What are the GST rates in India?",
     answer:
-      "India's main GST slabs are 0%, 5%, 12%, 18% and 28%, with special rates of 0.25% (rough diamonds) and 3% (gold) for a few items. Most everyday goods and services fall under 5%, 12% or 18%.",
+      "Since 22 September 2025, India's GST slabs are 0%, 5%, 18% and 40%, with special rates such as 3% on gold and 0.25% on rough diamonds. Most everyday goods and services fall under 5% or 18%; 40% applies to tobacco, pan masala, aerated drinks and luxury goods.",
+  },
+  {
+    question: "What happened to the 12% and 28% GST slabs?",
+    answer:
+      "They were abolished from 22 September 2025 after the 56th GST Council meeting. Most items at 12% moved to 5%, and most items at 28% (such as ACs, TVs, cement, small cars and two-wheelers up to 350cc) moved to 18%. A few luxury and sin goods moved to the new 40% slab.",
   },
   {
     question: "What is the difference between CGST, SGST and IGST?",
@@ -66,35 +71,35 @@ export default function GstGuidePage() {
       >
         <p>
           GST (Goods and Services Tax) replaced a stack of older indirect taxes in India in 2017.
-          Most goods and services fall into one of five rate slabs. This guide explains what each
-          slab covers, how CGST and SGST split, and how to add or remove GST from any amount.
+          Since 22 September 2025, after the 56th GST Council meeting, most goods and services fall
+          into just two slabs, 5% and 18%, with a 40% slab for a small group of sin and luxury goods.
+          This guide explains what each slab covers, how CGST and SGST split, and how to add or
+          remove GST from any amount.
         </p>
 
-        <h2 id="gst-slabs">The five main GST slabs</h2>
+        <h2 id="gst-slabs">The GST slabs since 22 September 2025</h2>
         <ul>
           <li>
-            <strong>0%</strong> — essentials like unbranded food grains, fresh milk, books,
-            education and healthcare.
+            <strong>0%</strong> — essentials and exempt services, including individual health and
+            life insurance (exempt from 22 September 2025).
           </li>
           <li>
-            <strong>5%</strong> — common-use items: packaged food, footwear up to ₹1,000, and many
-            textiles.
+            <strong>5%</strong> — common-use items such as hair oil, toilet soap and shampoo, and farm
+            machinery. Most items that used to be at 12% moved here.
           </li>
           <li>
-            <strong>12%</strong> — processed food, computers and mobile phones.
+            <strong>18%</strong> — the standard rate for most goods and services, including ACs, TVs,
+            cement, small cars and two-wheelers up to 350cc (all cut from 28%).
           </li>
           <li>
-            <strong>18%</strong> — most goods and services: ACs, refrigerators, soaps, hair oil,
-            restaurants and financial services.
-          </li>
-          <li>
-            <strong>28%</strong> — luxury and &quot;sin&quot; goods: cars, large motorcycles, tobacco
-            and aerated drinks.
+            <strong>40%</strong> — tobacco, pan masala, aerated drinks and luxury goods.
           </li>
         </ul>
         <p>
-          A couple of special rates exist for specific items — 0.25% on rough diamonds and 3% on
-          gold — but the five slabs above cover almost everything you will deal with.
+          The old <strong>12%</strong> and <strong>28%</strong> slabs were abolished. Special rates
+          still exist for a few items, such as 3% on gold and 0.25% on rough diamonds. The rate for a
+          particular product depends on its HSN classification, so check the official notification
+          when it matters, for example on an invoice.
         </p>
 
         <h2 id="cgst-sgst-igst">CGST, SGST and IGST</h2>

@@ -19,7 +19,10 @@ export function HindiToolPage({
   children,
   explainer,
   faqs,
+  privacyText = "सारी गणना आपके ब्राउज़र में ही होती है। आपके डाले गए नंबर हमारे सर्वर पर न भेजे जाते हैं, न सेव होते हैं।",
 }: {
+  /** Sentence after "पूरी तरह निजी।" — defaults to the wording for calculators. */
+  privacyText?: string;
   title: string;
   description: string;
   /** This page's path, e.g. "/hi/tools/percentage-calculator". */
@@ -51,8 +54,7 @@ export function HindiToolPage({
             🔒
           </span>
           <p>
-            <span className="font-semibold">पूरी तरह निजी।</span> सारी गणना आपके ब्राउज़र में ही होती है। आपके
-            डाले गए नंबर हमारे सर्वर पर न भेजे जाते हैं, न सेव होते हैं।{" "}
+            <span className="font-semibold">पूरी तरह निजी।</span> {privacyText}{" "}
             <Link href="/privacy" className="font-medium underline underline-offset-2">
               डेटा नीति (अंग्रेज़ी में)
             </Link>

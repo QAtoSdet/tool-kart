@@ -94,6 +94,13 @@ export default function CompressImageToKbPage() {
               </a>
               .
             </p>
+            <p lang="hi">
+              यह टूल{" "}
+              <Link href="/hi/tools/compress-image-to-kb" hrefLang="hi" className="text-blue-600 underline">
+                हिंदी में
+              </Link>{" "}
+              भी उपलब्ध है।
+            </p>
           </>
         }
         faqs={faqs}

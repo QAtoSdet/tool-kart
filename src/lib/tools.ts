@@ -176,7 +176,7 @@ export const TOOLS: Tool[] = [
     slug: "gst-calculator",
     name: "GST Calculator",
     description:
-      "Add or remove GST at 3%, 5%, 12%, 18% or 28% and see the CGST/SGST split instantly.",
+      "Add or remove GST at the current 5%, 18% or 40% rates and see the CGST/SGST split instantly.",
     category: "Finance",
     icon: "🧾",
     keywords: [
@@ -185,9 +185,10 @@ export const TOOLS: Tool[] = [
       "add gst",
       "remove gst",
       "cgst sgst calculator",
+      "new gst rates calculator",
     ],
     available: true,
-    lastModified: "2026-10-10",
+    lastModified: "2026-11-14",
   },
   {
     slug: "sip-calculator",

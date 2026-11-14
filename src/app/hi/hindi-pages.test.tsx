@@ -6,7 +6,11 @@ import userEvent from "@testing-library/user-event";
 import HindiPercentagePage, { metadata as hiMeta } from "./tools/percentage-calculator/page";
 import { metadata as enMeta } from "../tools/percentage-calculator/page";
 import sitemap from "../sitemap";
-import { languageAlternates, getHindiRoutes, findHindiPage } from "@/lib/hindi";
+import { languageAlternates, getHindiRoutes, findHindiPage, HINDI_PAGES } from "@/lib/hindi";
+import HindiCompressPage from "./tools/compress-image-to-kb/page";
+import HindiEmiPage from "./tools/emi-calculator/page";
+import HindiGstPage from "./tools/gst-calculator/page";
+import { calculateEmi, formatINR } from "@/lib/emi";
 
 const BASE = /^https:\/\/www\.tool-kart\.com/;
 
@@ -98,7 +102,7 @@ describe("hreflang between English and Hindi", () => {
   });
 
   it("gives pages without a Hindi version no alternates", () => {
-    expect(languageAlternates("/tools/emi-calculator")).toBeUndefined();
+    expect(languageAlternates("/tools/sip-calculator")).toBeUndefined();
   });
 
   it("puts both language versions in the sitemap with matching alternates", () => {
@@ -110,5 +114,69 @@ describe("hreflang between English and Hindi", () => {
       expect(hi.alternates?.languages).toEqual(en.alternates?.languages);
       expect(hi.alternates?.languages).toMatchObject({ hi: expect.stringMatching(BASE) });
     }
+  });
+});
+
+describe("Hindi compress-to-KB tool", () => {
+  it("renders the widget in Hindi with the photo-specific privacy note", () => {
+    const { container } = render(<HindiCompressPage />);
+    expect(container.querySelector("article")).toHaveAttribute("lang", "hi");
+    expect(screen.getByRole("button", { name: "फ़ोटो चुनें" })).toBeInTheDocument();
+    expect(screen.getByText("ज़्यादा से ज़्यादा फ़ाइल साइज़")).toBeInTheDocument();
+    expect(screen.getByText(/आपकी फ़ोटो या हस्ताक्षर हमारे सर्वर पर/)).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("अपना साइज़ KB में"), { target: { value: "2" } });
+    expect(screen.getByRole("alert")).toHaveTextContent("5 से 5000 KB के बीच का साइज़ डालें।");
+  });
+});
+
+describe("Hindi EMI calculator", () => {
+  it("shows the default EMI with Hindi labels and a Hindi chart summary", () => {
+    render(<HindiEmiPage />);
+    const panel = screen.getByRole("region", { name: "EMI कैलकुलेटर" });
+    expect(within(panel).getByText("मासिक EMI").previousElementSibling).toHaveTextContent("₹12,399");
+    expect(within(panel).getByRole("img", { name: /10 साल के भुगतान का चार्ट/ })).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("लोन की रकम (₹)"), { target: { value: "0" } });
+    expect(screen.getByRole("alert")).toHaveTextContent("लोन की रकम 0 से ज़्यादा डालें।");
+  });
+
+  it("uses worked-example figures that match the calculator", () => {
+    const ten = calculateEmi({ principal: 10_00_000, annualRatePercent: 8.5, months: 120 });
+    const twenty = calculateEmi({ principal: 10_00_000, annualRatePercent: 8.5, months: 240 });
+    const { container } = render(<HindiEmiPage />);
+    const text = container.querySelector("article")!.textContent!;
+    for (const v of [ten.emi, ten.totalPayment, ten.totalInterest, twenty.emi, twenty.totalInterest]) {
+      expect(text).toContain(formatINR(v));
+    }
+  });
+});
+
+describe("Hindi GST calculator", () => {
+  it("adds and removes GST with Hindi labels", () => {
+    render(<HindiGstPage />);
+    const panel = screen.getByRole("region", { name: "GST कैलकुलेटर" });
+    expect(within(panel).getByText("कुल रकम").nextElementSibling).toHaveTextContent("₹1,180");
+    fireEvent.change(screen.getByLabelText("रकम (₹)"), { target: { value: "1180" } });
+    fireEvent.change(screen.getByLabelText("क्या करना है"), { target: { value: "remove" } });
+    expect(within(panel).getByText("मूल रकम").nextElementSibling).toHaveTextContent("₹1,000");
+  });
+
+  it("lists the current slabs first and the abolished ones separately", () => {
+    render(<HindiGstPage />);
+    const groups = [...screen.getByLabelText("GST दर").querySelectorAll("optgroup")];
+    expect(groups.map((g) => [...g.querySelectorAll("option")].map((o) => o.value))).toEqual([
+      ["0", "3", "5", "18", "40"],
+      ["12", "28"],
+    ]);
+    expect(groups[1].label).toMatch(/22 सितंबर 2025 से पहले/);
+  });
+});
+
+describe("every Hindi page", () => {
+  it.each(HINDI_PAGES.map((p) => p.enPath))("has hreflang on both %s and its Hindi version", async (enPath) => {
+    const hi = (await import(`./tools/${enPath.split("/").pop()}/page`)).metadata;
+    const en = (await import(`../tools/${enPath.split("/").pop()}/page`)).metadata;
+    expect(hi.alternates.languages).toEqual(en.alternates.languages);
+    expect(hi.alternates.languages.hi).toMatch(new RegExp(`/hi${enPath}$`));
+    expect(String(hi.alternates.canonical)).toMatch(new RegExp(`/hi${enPath}$`));
   });
 });

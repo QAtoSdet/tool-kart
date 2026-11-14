@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ToolPage, type FaqItem } from "@/components/tools/ToolPage";
 import { EmiCalculator } from "@/components/tools/EmiCalculator";
 import { ToolJsonLd } from "@/components/seo/JsonLd";
@@ -83,6 +84,13 @@ export default function EmiCalculatorPage() {
               Tip: a small change in the interest rate or tenure can change your total interest
               significantly. Try a few combinations to find an EMI that fits your monthly budget
               without paying too much interest overall.
+            </p>
+            <p lang="hi">
+              यह कैलकुलेटर{" "}
+              <Link href="/hi/tools/emi-calculator" hrefLang="hi" className="text-blue-600 underline">
+                हिंदी में
+              </Link>{" "}
+              भी उपलब्ध है।
             </p>
           </>
         }

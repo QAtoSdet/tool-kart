@@ -95,8 +95,18 @@ on photo, state-wise land units (also unsafe: sources disagree, e.g. Bihar bigha
      official document can't be read is left out rather than filled from coaching sites.
    - ⬜ **Each new exam cycle:** re-check the notice, update figures, sources and `lastChecked`
      (NEET 2027 bulletin expected ~Feb 2027).
-2. 🔄 **Hindi versions of existing tools** — ✅ built 2026-11-14 (⬜ not yet deployed):
-   `/hi/tools/percentage-calculator`, `/hi/tools/age-calculator`. Sitemap → 47 URLs.
+2. ✅ **Hindi versions of existing tools** — all five built 2026-11-14 (⬜ not yet deployed):
+   `/hi/tools/percentage-calculator`, `/hi/tools/age-calculator`, `/hi/tools/compress-image-to-kb`,
+   `/hi/tools/emi-calculator`, `/hi/tools/gst-calculator`. Sitemap → 50 URLs.
+   - EMI page: ₹10 लाख / 8.5% / 10 vs 20 years example; figures pinned to `calculateEmi` in tests.
+   - Compress page: real browser, 3.9 MB photo → 49.8 KB with Hindi UI.
+   - **GST rates fixed site-wide** while doing this: since 22 Sep 2025 (GST 2.0, 56th Council)
+     slabs are 0/5/18/40 + 3% gold; 12% and 28% abolished. `GST_RATES` = [0,3,5,18,40],
+     `OLD_GST_RATES` = [12,28] shown as "old rates (bills before 22 Sep 2025)". English GST page,
+     tool description and the GST guide rewritten to match (source: PIB, Sept 2025).
+   - Widgets now take plain-data `labels` (templates via `fill()` in `src/lib/i18n.ts`, since
+     server pages can't pass functions to client components).
+   - Possible next Hindi pages, only if the first five get impressions: SIP, CGPA, income tax.
    - Age page: worked "borrow" example (15-08-2001 → 01-01-2027 = 25 साल 4 महीने 17 दिन, pinned
      in tests), exam cut-off-date advice + link to /exams, Hindi weekdays, Feb 29 rule.
    - How it works: `src/lib/hindi.ts` registry → hreflang (`en`, `hi`, `x-default`) in both pages'
@@ -105,7 +115,7 @@ on photo, state-wise land units (also unsafe: sources disagree, e.g. Bihar bigha
    - Adding the next one: add a `HINDI_PAGES` entry, give the widget a `labels` prop, create
      `src/app/hi/tools/<slug>/page.tsx`. Header/footer stay English (single root layout).
    - ⬜ Have a native Hindi speaker read the page text.
-   - Next: compress-to-KB, EMI, GST. Original note — start with percentage (English page already ranks #7
+ Original note — start with percentage (English page already ranks #7
    for "calculate percentage"), then age, compress-to-KB, EMI, GST. Evidence: page 1 for
    "प्रतिशत कैसे निकाले कैलकुलेटर" is all small sites (calculatorlib, ck12, infohotspot), no brands.
    Same calculators, Hindi text; path-based URLs (`/hi/tools/<slug>`) with `hreflang`

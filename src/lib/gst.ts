@@ -50,4 +50,15 @@ export function calculateGst({ amount, ratePercent, mode }: GstInput): GstResult
   };
 }
 
-export const GST_RATES = [0, 3, 5, 12, 18, 28];
+/**
+ * Current rates since GST 2.0 (56th GST Council, effective 22 September 2025): slabs of 0%, 5%,
+ * 18% and 40%, plus the special 3% rate on gold and other precious metals. Source: PIB releases
+ * of September 2025.
+ */
+export const GST_RATES = [0, 3, 5, 18, 40];
+
+/** Slabs abolished on 22 September 2025, kept only for checking older bills. */
+export const OLD_GST_RATES = [12, 28];
+
+/** Date the current slabs took effect (ISO). */
+export const GST_RATES_FROM = "2025-09-22";

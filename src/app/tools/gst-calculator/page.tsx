@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ToolPage, type FaqItem } from "@/components/tools/ToolPage";
 import { GstCalculator } from "@/components/tools/GstCalculator";
 import { ToolJsonLd } from "@/components/seo/JsonLd";
@@ -9,9 +10,9 @@ const tool = getToolBySlug("gst-calculator")!;
 const path = `/tools/${tool.slug}`;
 
 export const metadata: Metadata = buildMetadata({
-  title: "GST Calculator — Add or Remove GST (India)",
+  title: "GST Calculator — Add or Remove GST (New 5%, 18%, 40% Rates)",
   description:
-    "Free GST calculator for India. Add or remove 3%, 5%, 12%, 18% or 28% GST and see the CGST/SGST split instantly. Runs in your browser, nothing stored.",
+    "Free GST calculator for India with the rates in force since 22 September 2025: add or remove 5%, 18% or 40% GST and see the CGST/SGST split. Runs in your browser.",
   path,
   keywords: tool.keywords,
 });
@@ -34,13 +35,14 @@ const faqs: FaqItem[] = [
   },
   {
     question: "Which GST rates does it support?",
-    answer: "The common Indian slabs: 0%, 3%, 5%, 12%, 18% and 28%.",
+    answer:
+      "The rates in force since 22 September 2025: 0%, 5%, 18% and 40%, plus the special 3% rate on gold. The old 12% and 28% slabs were abolished that day; they're still in the list, marked as old rates, for checking earlier bills.",
   },
 ];
 
 const howToSteps: string[] = [
   "Enter the amount.",
-  "Pick the GST rate (3%, 5%, 12%, 18% or 28%).",
+  "Pick the GST rate (5%, 18% or 40% for most items since 22 September 2025).",
   "Choose whether to add GST (exclusive) or remove it (inclusive).",
 ];
 
@@ -65,8 +67,20 @@ export default function GstCalculatorPage() {
               intra-state transactions.
             </p>
             <p>
+              Since 22 September 2025 (the &quot;GST 2.0&quot; changes from the 56th GST Council),
+              most items are taxed at 5% or 18%, with 40% on tobacco, pan masala, aerated drinks and
+              luxury goods. The 12% and 28% slabs no longer apply to new sales.
+            </p>
+            <p>
               Handy for shopkeepers, freelancers and small businesses preparing invoices, or for
               anyone checking the tax portion of a bill.
+            </p>
+            <p lang="hi">
+              यह कैलकुलेटर{" "}
+              <Link href="/hi/tools/gst-calculator" hrefLang="hi" className="text-blue-600 underline">
+                हिंदी में
+              </Link>{" "}
+              भी उपलब्ध है।
             </p>
           </>
         }

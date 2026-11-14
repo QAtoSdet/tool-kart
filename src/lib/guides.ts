@@ -51,9 +51,9 @@ export const GUIDES: Guide[] = [
   },
   {
     slug: "gst-rates-in-india-explained",
-    title: "GST Rates in India Explained (3%, 5%, 12%, 18% and 28%)",
+    title: "GST Rates in India Explained (New 5%, 18% and 40% Slabs)",
     description:
-      "A clear breakdown of India's GST slabs, what CGST and SGST mean, and how to add or remove GST from any amount.",
+      "India's GST slabs since 22 September 2025, what replaced the old 12% and 28% rates, what CGST and SGST mean, and how to add or remove GST from any amount.",
     category: "Finance",
     relatedToolSlug: "gst-calculator",
     keywords: [
@@ -61,9 +61,10 @@ export const GUIDES: Guide[] = [
       "gst slabs explained",
       "cgst sgst explained",
       "how to calculate gst",
+      "new gst slabs 2025",
     ],
     datePublished: "2026-11-09",
-    lastModified: "2026-11-09",
+    lastModified: "2026-11-14",
   },
   {
     slug: "sip-vs-lump-sum",

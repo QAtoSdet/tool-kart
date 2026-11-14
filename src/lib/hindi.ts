@@ -17,6 +17,9 @@ export interface HindiPage {
 export const HINDI_PAGES: HindiPage[] = [
   { enPath: "/tools/percentage-calculator", lastModified: "2026-11-14" },
   { enPath: "/tools/age-calculator", lastModified: "2026-11-14" },
+  { enPath: "/tools/compress-image-to-kb", lastModified: "2026-11-14" },
+  { enPath: "/tools/emi-calculator", lastModified: "2026-11-14" },
+  { enPath: "/tools/gst-calculator", lastModified: "2026-11-14" },
 ];
 
 export const hindiPath = (enPath: string) => `/hi${enPath}`;

@@ -9,7 +9,7 @@ Quick summary: **the app is fully built, tested, and production-ready.** All 9 b
 the UX pass are done. What remains is the public launch (manual, needs your accounts) and the
 ongoing content work that actually earns the money.
 
-Health check: **358 automated tests passing**, production build clean, dev server serves every
+Health check: **370 automated tests passing**, production build clean, dev server serves every
 route. Stack pinned to **Next.js 15.5.x + React 19.0** (the newer Next 16 line caused a runtime
 crash and must not be used until stable).
 
@@ -78,8 +78,12 @@ Every figure comes from the exam body's own document (listed on each page).
 | --- | --- |
 | `/hi/tools/percentage-calculator` (प्रतिशत कैलकुलेटर) | ⬜ |
 | `/hi/tools/age-calculator` (उम्र कैलकुलेटर) | ⬜ |
+| `/hi/tools/compress-image-to-kb` (फ़ोटो का साइज़ KB में कम करें) | ⬜ |
+| `/hi/tools/emi-calculator` (EMI कैलकुलेटर) | ⬜ |
+| `/hi/tools/gst-calculator` (GST कैलकुलेटर) | ⬜ |
 
-Sitemap → 47 URLs.
+Also ⬜: GST rates corrected to the 22 Sep 2025 slabs (0/5/18/40, 3% gold) on the English GST
+tool and GST guide. Sitemap → 50 URLs.
 
 **Not yet deployed:** everything marked ⬜ above. After deploying, resubmit the sitemap (→ 36 URLs)
 and request indexing for the new tool pages. `docs/PLAN.md` has the exact list.

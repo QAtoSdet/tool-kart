@@ -10,6 +10,7 @@ import {
   targetFileName,
   type TargetSizeResult,
 } from "@/lib/image-compression";
+import { fill } from "@/lib/i18n";
 
 /** Common limits on Indian exam, job and government forms. */
 const PRESETS = [20, 50, 100, 200, 500];
@@ -24,16 +25,83 @@ export function formatKb(bytes: number): string {
 }
 const kb = formatKb;
 
+/** Every visible string, so the Hindi page can reuse the widget. Templates use {placeholders}. */
+export interface ImageToKbLabels {
+  errNotImage: string;
+  /** {kb} */
+  errTooBig: string;
+  errGeneric: string;
+  dropPrompt: string;
+  choose: string;
+  maxSize: string;
+  customSize: string;
+  errRange: string;
+  maxWidth: string;
+  maxWidthHint: string;
+  maxWidthPlaceholder: string;
+  working: string;
+  /** {kb} */
+  makeUnder: string;
+  resultAlt: string;
+  /** "⚠ This file is" + <strong>size</strong> + belowMinAfter */
+  belowMinBefore: string;
+  /** {min} */
+  belowMinAfter: string;
+  done: string;
+  /** {min}, {max} */
+  allowed: string;
+  /** {max} */
+  limit: string;
+  /** {w}, {h}, {q} */
+  dims: string;
+  /** {size} */
+  original: string;
+  alreadyUnder: string;
+  download: string;
+  footnote: string;
+}
+
+export const ENGLISH_IMAGE_TO_KB_LABELS: ImageToKbLabels = {
+  errNotImage: "Please choose an image file (JPG, PNG or WebP).",
+  errTooBig: "Couldn't get this image under {kb} KB without making it too small. Try a larger size limit.",
+  errGeneric: "Something went wrong. Try a different image.",
+  dropPrompt: "Drag & drop a photo here, or",
+  choose: "Choose image",
+  maxSize: "Maximum file size",
+  customSize: "Custom size in KB",
+  errRange: "Enter a size between 5 and 5000 KB.",
+  maxWidth: "Max width in pixels (optional)",
+  maxWidthHint: "Only if your form also limits the pixel size.",
+  maxWidthPlaceholder: "e.g. 600",
+  working: "Working…",
+  makeUnder: "Make it under {kb} KB",
+  resultAlt: "Resized result",
+  belowMinBefore: "⚠ This file is",
+  belowMinAfter:
+    ", below the {min} KB minimum, so the portal may reject it. The image is too small to reach it: use a larger photo or scan at a higher resolution (at least 200 dpi), then try again.",
+  done: "Done:",
+  allowed: "(allowed {min}–{max} KB)",
+  limit: "(limit {max} KB)",
+  dims: "{w} × {h} px · JPG quality {q}%",
+  original: "Original: {size}",
+  alreadyUnder: " — it was already under the limit.",
+  download: "Download JPG",
+  footnote:
+    "The result is always a JPG, the format almost every form accepts. Sizes use 1 KB = 1,000 bytes, so the file fits even portals that count 1 KB as 1,024 bytes.",
+};
+
 export function ImageToKb({
   defaultKb = 50,
   minKb = 0,
   presets = PRESETS,
+  labels: t = ENGLISH_IMAGE_TO_KB_LABELS,
 }: {
   defaultKb?: number;
   /** Lower size limit some portals enforce (e.g. 10–20 KB). 0 = none. */
   minKb?: number;
   /** Size buttons to show; pass [] to show only the custom box. */
   presets?: number[];
+  labels?: ImageToKbLabels;
 }) {
   const [file, setFile] = useState<File | null>(null);
   const [targetKb, setTargetKb] = useState(String(defaultKb));
@@ -54,11 +122,11 @@ export function ImageToKb({
     setResult(null);
     if (!f) return;
     if (!f.type.startsWith("image/")) {
-      setError("Please choose an image file (JPG, PNG or WebP).");
+      setError(t.errNotImage);
       return;
     }
     setFile(f);
-  }, []);
+  }, [t]);
 
   const target = Number(targetKb);
   const targetValid = Number.isFinite(target) && target >= 5 && target <= 5000;
@@ -74,17 +142,18 @@ export function ImageToKb({
       const res = await compressToTargetSize(file, target, maxWidth.trim() && mw > 0 ? mw : undefined, minKb);
       if (runId !== runIdRef.current) return; // a different file was chosen meanwhile
       if (!res) {
-        setError(`Couldn't get this image under ${target} KB without making it too small. Try a larger size limit.`);
+        setError(fill(t.errTooBig, { kb: target }));
         return;
       }
       setResult({ ...res, url: URL.createObjectURL(res.blob), forKb: target });
-    } catch (e) {
+    } catch {
       if (runId !== runIdRef.current) return;
-      setError(e instanceof Error ? e.message : "Something went wrong. Try a different image.");
+      // Browser decode errors are technical and English-only; show our own message instead.
+      setError(t.errGeneric);
     } finally {
       setBusy(false);
     }
-  }, [file, target, targetValid, maxWidth, minKb]);
+  }, [file, target, targetValid, maxWidth, minKb, t]);
 
   const belowMin = !!result && minKb > 0 && result.blob.size < minKb * MIN_BYTES_PER_KB;
 
@@ -116,16 +185,16 @@ export function ImageToKb({
           (dragOver ? "border-blue-500 bg-blue-50 dark:bg-blue-950/30" : "border-slate-300 dark:border-slate-600")
         }
       >
-        <p className="text-sm text-slate-600 dark:text-slate-300">Drag &amp; drop a photo here, or</p>
+        <p className="text-sm text-slate-600 dark:text-slate-300">{t.dropPrompt}</p>
         <Button type="button" variant="secondary" className="mt-3" onClick={() => inputRef.current?.click()}>
-          Choose image
+          {t.choose}
         </Button>
         <input
           ref={inputRef}
           type="file"
           accept="image/*"
           className="hidden"
-          aria-label="Choose image"
+          aria-label={t.choose}
           onChange={(e) => onSelectFile(e.target.files?.[0])}
         />
         {file ? (
@@ -137,7 +206,7 @@ export function ImageToKb({
 
       <fieldset>
         <legend className="mb-2 text-sm font-medium text-slate-700 dark:text-slate-200">
-          Maximum file size
+          {t.maxSize}
         </legend>
         <div className="flex flex-wrap items-center gap-2">
           {presets.map((p) => (
@@ -157,7 +226,7 @@ export function ImageToKb({
             </button>
           ))}
           <label htmlFor="target-kb" className="sr-only">
-            Custom size in KB
+            {t.customSize}
           </label>
           <div className="flex items-center gap-1.5">
             <Input
@@ -175,18 +244,18 @@ export function ImageToKb({
         </div>
         {!targetValid && targetKb !== "" ? (
           <p role="alert" className="mt-2 text-sm text-red-600 dark:text-red-400">
-            Enter a size between 5 and 5000 KB.
+            {t.errRange}
           </p>
         ) : null}
       </fieldset>
 
-      <Field label="Max width in pixels (optional)" htmlFor="kb-max-width" hint="Only if your form also limits the pixel size.">
+      <Field label={t.maxWidth} htmlFor="kb-max-width" hint={t.maxWidthHint}>
         <Input
           id="kb-max-width"
           type="number"
           min={1}
           inputMode="numeric"
-          placeholder="e.g. 600"
+          placeholder={t.maxWidthPlaceholder}
           className="sm:w-48"
           value={maxWidth}
           onChange={(e) => setMaxWidth(e.target.value)}
@@ -195,7 +264,7 @@ export function ImageToKb({
 
       {file ? (
         <Button type="button" onClick={run} disabled={busy || !targetValid}>
-          {busy ? "Working…" : `Make it under ${targetValid ? target : "…"} KB`}
+          {busy ? t.working : fill(t.makeUnder, { kb: targetValid ? target : "…" })}
         </Button>
       ) : null}
 
@@ -210,39 +279,35 @@ export function ImageToKb({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={result.url}
-            alt="Resized result"
+            alt={t.resultAlt}
             className="mx-auto max-h-56 w-auto rounded border border-slate-200 bg-white dark:border-slate-700"
           />
           <div className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
             {belowMin ? (
               <p role="status" className="rounded-md border border-amber-200 bg-amber-50 p-2 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
-                ⚠ This file is <strong>{kb(result.blob.size)}</strong>, below the {minKb} KB minimum, so
-                the portal may reject it. The image is too small to reach it: use a larger photo or
-                scan at a higher resolution (at least 200 dpi), then try again.
+                {t.belowMinBefore} <strong>{kb(result.blob.size)}</strong>
+                {fill(t.belowMinAfter, { min: minKb })}
               </p>
             ) : (
               <p role="status" className="text-base">
-                Done: <strong className="text-green-700 dark:text-green-400">{kb(result.blob.size)}</strong>{" "}
-                {minKb > 0 ? `(allowed ${minKb}–${result.forKb} KB)` : `(limit ${result.forKb} KB)`}
+                {t.done} <strong className="text-green-700 dark:text-green-400">{kb(result.blob.size)}</strong>{" "}
+                {minKb > 0 ? fill(t.allowed, { min: minKb, max: result.forKb }) : fill(t.limit, { max: result.forKb })}
               </p>
             )}
-            <p>
-              {result.width} × {result.height} px · JPG quality {Math.round(result.quality * 100)}%
-            </p>
+            <p>{fill(t.dims, { w: result.width, h: result.height, q: Math.round(result.quality * 100) })}</p>
             <p className="text-slate-500 dark:text-slate-400">
-              Original: {kb(file.size)}
-              {file.size <= result.forKb * BYTES_PER_KB ? " — it was already under the limit." : ""}
+              {fill(t.original, { size: kb(file.size) })}
+              {file.size <= result.forKb * BYTES_PER_KB ? t.alreadyUnder : ""}
             </p>
             <Button type="button" onClick={download}>
-              Download JPG
+              {t.download}
             </Button>
           </div>
         </div>
       ) : null}
 
       <p className="text-xs text-slate-500 dark:text-slate-400">
-        The result is always a JPG, the format almost every form accepts. Sizes use 1 KB = 1,000 bytes,
-        so the file fits even portals that count 1 KB as 1,024 bytes.
+        {t.footnote}
       </p>
     </div>
   );
