@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE } from "@/lib/site";
+import { languageAlternates } from "@/lib/hindi";
 
 export interface ToolMetaInput {
   /** Page title (without the site-name suffix; the layout template adds it). */
@@ -23,15 +24,22 @@ export function buildMetadata({
   path,
   keywords,
 }: ToolMetaInput): Metadata {
-  const url = `${SITE.url.replace(/\/$/, "")}${path}`;
+  const base = SITE.url.replace(/\/$/, "");
+  const url = `${base}${path}`;
+  // Pages with a Hindi (or English) counterpart get hreflang links to both versions.
+  const langs = languageAlternates(path);
+  const languages = langs
+    ? Object.fromEntries(Object.entries(langs).map(([lang, p]) => [lang, `${base}${p}`]))
+    : undefined;
   return {
     title,
     description,
     keywords,
-    alternates: { canonical: url },
+    alternates: languages ? { canonical: url, languages } : { canonical: url },
     openGraph: {
       type: "website",
       siteName: SITE.name,
+      locale: path.startsWith("/hi/") ? "hi_IN" : "en_IN",
       title: `${title} | ${SITE.name}`,
       description,
       url,

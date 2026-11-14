@@ -10,7 +10,23 @@ import { SITE } from "@/lib/site";
  * Renders nothing during SSR/build (the URL is constructed client-side from the
  * current location), so it adds no crawlable noise.
  */
-export function ShareButtons({ title, path }: { title: string; path: string }) {
+export interface ShareLabels {
+  heading: string;
+  copyLink: string;
+  copied: string;
+}
+
+const ENGLISH_SHARE_LABELS: ShareLabels = { heading: "Share this tool", copyLink: "Copy link", copied: "Copied!" };
+
+export function ShareButtons({
+  title,
+  path,
+  labels = ENGLISH_SHARE_LABELS,
+}: {
+  title: string;
+  path: string;
+  labels?: ShareLabels;
+}) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -32,7 +48,7 @@ export function ShareButtons({ title, path }: { title: string; path: string }) {
   return (
     <section aria-labelledby="share-heading" className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-700">
       <h2 id="share-heading" className="mb-3 text-sm font-semibold text-slate-900 dark:text-white">
-        Share this tool
+        {labels.heading}
       </h2>
       <div className="flex flex-wrap items-center gap-2">
         <a
@@ -56,7 +72,7 @@ export function ShareButtons({ title, path }: { title: string; path: string }) {
           type="button"
           className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-white"
         >
-          <span aria-hidden>{copied ? "✓" : "🔗"}</span> {copied ? "Copied!" : "Copy link"}
+          <span aria-hidden>{copied ? "✓" : "🔗"}</span> {copied ? labels.copied : labels.copyLink}
         </button>
       </div>
     </section>

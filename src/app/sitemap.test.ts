@@ -5,6 +5,7 @@ import { getAvailableGuides } from "@/lib/guides";
 import { getAvailableHubs } from "@/lib/categories";
 import { getAvailableExams } from "@/lib/exams";
 import { STATIC_ROUTES } from "@/lib/routes";
+import { getHindiRoutes } from "@/lib/hindi";
 
 describe("sitemap", () => {
   it("includes a URL for every static route, tool, guide and category hub", () => {
@@ -36,13 +37,19 @@ describe("sitemap", () => {
       expect(urls.some((u) => u.endsWith(`/exams/${exam.slug}`))).toBe(true);
     }
 
-    // Count matches: static + tools + guides + category hubs + exam pages.
+    // Every Hindi page is present.
+    for (const route of getHindiRoutes()) {
+      expect(urls.some((u) => pathOf(u) === route)).toBe(true);
+    }
+
+    // Count matches: static + tools + guides + category hubs + exam pages + Hindi pages.
     expect(entries.length).toBe(
       STATIC_ROUTES.length +
         getAvailableTools().length +
         getAvailableGuides().length +
         getAvailableHubs().length +
-        getAvailableExams().length,
+        getAvailableExams().length +
+        getHindiRoutes().length,
     );
     expect(new Set(urls).size).toBe(urls.length); // no duplicates
   });
@@ -62,7 +69,7 @@ describe("sitemap", () => {
 
   it("uses per-tool lastModified dates from the registry, not a single build timestamp", () => {
     const entries = sitemap();
-    const toolEntries = entries.filter((e) => e.url.includes("/tools/"));
+    const toolEntries = entries.filter((e) => e.url.includes("/tools/") && !e.url.includes("/hi/"));
 
     // Tool entries should have string lastModified values matching the registry.
     for (const entry of toolEntries) {

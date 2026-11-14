@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ToolPage, type FaqItem } from "@/components/tools/ToolPage";
 import { PercentageCalculator } from "@/components/tools/PercentageCalculator";
 import { ToolJsonLd } from "@/components/seo/JsonLd";
@@ -60,6 +61,13 @@ export default function PercentageCalculatorPage() {
               <li>Price rises and salary hikes.</li>
               <li>Tips, commissions and interest.</li>
             </ul>
+            <p lang="hi">
+              यह कैलकुलेटर{" "}
+              <Link href="/hi/tools/percentage-calculator" hrefLang="hi" className="text-blue-600 underline">
+                हिंदी में
+              </Link>{" "}
+              भी उपलब्ध है।
+            </p>
           </>
         }
         faqs={faqs}

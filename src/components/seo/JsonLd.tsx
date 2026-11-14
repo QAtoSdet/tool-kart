@@ -16,7 +16,10 @@ export function ToolJsonLd({
   path,
   faqs,
   howToSteps,
+  inLanguage,
 }: {
+  /** BCP 47 language of the page, e.g. "hi" for Hindi pages. Omitted for English. */
+  inLanguage?: string;
   name: string;
   description: string;
   path: string;
@@ -35,12 +38,14 @@ export function ToolJsonLd({
       applicationCategory: "UtilitiesApplication",
       operatingSystem: "Any (web browser)",
       offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+      ...(inLanguage ? { inLanguage } : {}),
     },
   ];
 
   if (faqs && faqs.length > 0) {
     graph.push({
       "@type": "FAQPage",
+      ...(inLanguage ? { inLanguage } : {}),
       mainEntity: faqs.map((f) => ({
         "@type": "Question",
         name: f.question,
