@@ -67,6 +67,24 @@ export const TOOLS: Tool[] = [
     lastModified: "2026-11-10",
   },
   {
+    slug: "image-format-converter",
+    name: "Image Format Converter",
+    description:
+      "Convert JPG, PNG and WebP images in your browser without uploading them or changing their dimensions.",
+    category: "Image",
+    icon: "🔄",
+    keywords: [
+      "image format converter",
+      "png to jpg",
+      "jpg to png",
+      "png to webp",
+      "webp converter",
+      "convert image online",
+    ],
+    available: true,
+    lastModified: "2026-11-14",
+  },
+  {
     slug: "qr-code-generator",
     name: "QR Code Generator",
     description:

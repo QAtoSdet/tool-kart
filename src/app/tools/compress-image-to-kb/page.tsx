@@ -80,6 +80,10 @@ export default function CompressImageToKbPage() {
               <a href="/tools/image-compressor" className="text-blue-600 underline">
                 image compressor
               </a>
+              . The result here is always a JPG; if your form needs PNG, use the{" "}
+              <a href="/tools/image-format-converter" className="text-blue-600 underline">
+                image format converter
+              </a>
               .
             </p>
           </>

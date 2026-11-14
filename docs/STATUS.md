@@ -3,13 +3,13 @@
 > **What to do next?** See [`docs/PLAN.md`](./PLAN.md) — the living execution checklist
 > (Phase 0–4 with checkboxes, patterns, and current verified state).
 
-_Last updated: November 2026._
+_Last updated: 14 November 2026._
 
 Quick summary: **the app is fully built, tested, and production-ready.** All 9 build tasks and
 the UX pass are done. What remains is the public launch (manual, needs your accounts) and the
 ongoing content work that actually earns the money.
 
-Health check: **234 automated tests passing**, production build clean, dev server serves every
+Health check: **251 automated tests passing**, production build clean, dev server serves every
 route. Stack pinned to **Next.js 15.5.x + React 19.0** (the newer Next 16 line caused a runtime
 crash and must not be used until stable).
 
@@ -53,20 +53,35 @@ crash and must not be used until stable).
 - ✅ 4 cornerstone guides shipped (EMI, GST, SIP-vs-lump-sum, image-to-KB), spanning Finance + Image.
 - ✅ "Guides" link added to desktop + mobile nav for sitewide hub discovery.
 
+### New tools (Phase 2b) — each with a guide, unit tests and a real-browser check
+| Tool | Guide | Deployed? |
+| --- | --- | --- |
+| Income tax calculator (new vs old regime, FY 2026-27) | Old vs new tax regime | ✅ |
+| CGPA to percentage (CBSE, VTU, GTU, Anna University, custom) | How to convert CGPA to percentage | ⬜ |
+| Simple & compound interest | Simple vs compound interest | ⬜ |
+| Compress image to KB (20/50/100 KB… for forms) | Existing image-to-KB guide, rewritten | ⬜ |
+| Image format converter (JPG, PNG, WebP) | JPG vs PNG vs WebP | ⬜ |
+
+Also: footer "Explore" column linking Guides + all hubs (✅ deployed).
+
+**Not yet deployed:** everything marked ⬜ above. After deploying, resubmit the sitemap (→ 34 URLs)
+and request indexing for the new tool pages. `docs/PLAN.md` has the exact list.
+
 ---
 
 ## 🟡 Partly done — needs your action
 
 ### Task 10 — Deploy & launch
-The code is build-verified and ready. The remaining steps are manual because they need **your**
-accounts/credentials (I can't and shouldn't do these). Full guide: `docs/DEPLOYMENT.md`.
+The site is live at `https://www.tool-kart.com`. The remaining steps need **your** accounts.
+Full guide: `docs/DEPLOYMENT.md`.
 
 Your checklist:
 - [x] Set a real contact email in `src/lib/site.ts` (now `toolkart.help@gmail.com`).
-- [ ] Push the repo to GitHub.
-- [ ] Deploy on Vercel (free tier); set `NEXT_PUBLIC_SITE_URL`.
-- [ ] Buy + connect a custom domain (HTTPS is automatic).
-- [ ] Submit `sitemap.xml` in Google Search Console; request indexing.
+- [x] Push the repo to GitHub.
+- [x] Deploy on Vercel; `NEXT_PUBLIC_SITE_URL` set to the www host.
+- [x] Connect the custom domain (`tool-kart.com` 308-redirects to `www.tool-kart.com`).
+- [x] Submit `sitemap.xml` in Google Search Console (27 URLs live). Resubmit after each deploy.
+- [ ] Deploy the latest changes (see "Not yet deployed" below), then resubmit the sitemap (→ 34 URLs).
 - [ ] (Optional) Create a GA4 property; set `NEXT_PUBLIC_GA_ID`.
 - [ ] After a few weeks of traffic: apply to AdSense, then set `NEXT_PUBLIC_ADS_ENABLED=true` +
   `NEXT_PUBLIC_ADSENSE_CLIENT` to turn on ads.
@@ -77,10 +92,10 @@ Your checklist:
 
 ### Task 11 — Ongoing growth engine (this is what earns the money)
 - [x] Content hub system built: `lib/guides.ts` + `ContentPage` shell + sitemap integration (Phase 1). Adding a guide = one registry entry + one route, like adding a tool.
-- [x] 3 cornerstone guides shipped (EMI, GST, image-to-KB) as proof of the cluster pattern.
-- [ ] Keep publishing ~one guide per week; expand finance guides next (SIP, income tax).
-- [ ] Add high-demand tools over time: PDF compress/merge/split, image format converter,
-  income-tax calculator, CGPA-to-percentage, simple/compound interest.
+- [x] 8 guides shipped (see Phase 1 and 2b above).
+- [x] Phase 2b tools: income tax, CGPA, interest, compress-to-KB, image format converter.
+- [ ] PDF tools (compress/merge/split) — the last Phase 2b item.
+- [ ] Keep publishing ~one guide per week.
 - [ ] Use Search Console data to improve pages ranking on page 2–3.
 - Reuses the existing shells, so no rearchitecting.
 
@@ -95,8 +110,7 @@ Your checklist:
 ## 📌 Known notes & honest caveats
 - **Lighthouse score** not machine-verified here — run it on the deployed URL. Architecture is
   built for strong scores (static, code-split, client-side).
-- **Browser-rendered pixels / real-device testing** can't be done from the build environment —
-  the tool logic and page structure are tested, but visual/interaction polish should be
-  eyeballed in a browser.
+- **Browser checks** are done in a desktop Edge/Chromium build via the Playwright MCP (including a
+  375px phone-width viewport). Real phones, Safari and Firefox haven't been tested.
 - **Earnings reality:** ₹0 until AdSense approval + traffic; ₹5,000–10,000/month is a 6–12 month
   effort driven by Task 11, not the build. See the top of `docs/ROADMAP.md`.

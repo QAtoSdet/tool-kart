@@ -88,7 +88,14 @@ export default function ImageCompressorPage() {
               </li>
               <li>Shrink pictures before emailing or sharing them on WhatsApp.</li>
               <li>Reduce image weight to speed up a website or blog.</li>
-              <li>Convert a PNG screenshot to a smaller JPG or WebP.</li>
+              <li>
+                Convert a PNG screenshot to a smaller JPG or WebP. To change format without
+                resizing, use the{" "}
+                <a href="/tools/image-format-converter" className="text-blue-600 underline">
+                  image format converter
+                </a>
+                .
+              </li>
             </ul>
             <p>
               Everything happens on your device, so even sensitive documents like ID photos stay

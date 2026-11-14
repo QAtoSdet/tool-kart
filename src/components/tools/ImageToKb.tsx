@@ -32,10 +32,13 @@ export function ImageToKb({ defaultKb = 50 }: { defaultKb?: number }) {
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  // Bumped on every new file so a slow run for the previous file can't show its result.
+  const runIdRef = useRef(0);
 
   useEffect(() => () => void (result && URL.revokeObjectURL(result.url)), [result]);
 
   const onSelectFile = useCallback((f: File | undefined) => {
+    runIdRef.current++;
     setError(null);
     setResult(null);
     if (!f) return;
@@ -51,18 +54,21 @@ export function ImageToKb({ defaultKb = 50 }: { defaultKb?: number }) {
 
   const run = useCallback(async () => {
     if (!file || !targetValid) return;
+    const runId = ++runIdRef.current;
     setBusy(true);
     setError(null);
     setResult(null);
     try {
       const mw = Number(maxWidth);
       const res = await compressToTargetSize(file, target, maxWidth.trim() && mw > 0 ? mw : undefined);
+      if (runId !== runIdRef.current) return; // a different file was chosen meanwhile
       if (!res) {
         setError(`Couldn't get this image under ${target} KB without making it too small. Try a larger size limit.`);
         return;
       }
       setResult({ ...res, url: URL.createObjectURL(res.blob), forKb: target });
     } catch (e) {
+      if (runId !== runIdRef.current) return;
       setError(e instanceof Error ? e.message : "Something went wrong. Try a different image.");
     } finally {
       setBusy(false);

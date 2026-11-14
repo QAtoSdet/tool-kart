@@ -85,3 +85,19 @@ describe("formatKb", () => {
     expect(formatKb(6_468_552)).toBe("6468 KB");
   });
 });
+
+describe("ImageToKb — stale results", () => {
+  it("discards a run that finishes after a new file was chosen", async () => {
+    let finish!: (v: Awaited<ReturnType<typeof compressToTargetSize>>) => void;
+    mocked.mockImplementationOnce(() => new Promise((r) => (finish = r)));
+    const user = await upload();
+    await user.click(screen.getByRole("button", { name: /under 50 KB/ }));
+    await user.upload(
+      screen.getByLabelText("Choose image") as HTMLInputElement,
+      new File([new Uint8Array(10)], "second.png", { type: "image/png" }),
+    );
+    finish({ blob: new Blob([new Uint8Array(100)]), width: 10, height: 10, quality: 0.9 });
+    await waitFor(() => expect(screen.getByRole("button", { name: /under 50 KB/ })).toBeEnabled());
+    expect(screen.queryByRole("button", { name: /download jpg/i })).not.toBeInTheDocument();
+  });
+});

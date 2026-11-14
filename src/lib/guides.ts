@@ -130,6 +130,22 @@ export const GUIDES: Guide[] = [
     lastModified: "2026-11-10",
   },
   {
+    slug: "jpg-vs-png-vs-webp",
+    title: "JPG vs PNG vs WebP: Which Image Format Should You Use?",
+    description:
+      "What each format is good at, when converting makes a file bigger instead of smaller, and which format to pick for forms, websites and WhatsApp.",
+    category: "Image",
+    relatedToolSlug: "image-format-converter",
+    keywords: [
+      "jpg vs png",
+      "png vs webp",
+      "which image format is best",
+      "should i convert png to jpg",
+    ],
+    datePublished: "2026-11-14",
+    lastModified: "2026-11-14",
+  },
+  {
     slug: "compress-image-to-50kb-100kb",
     title: "Compress an Image to 50 KB or 100 KB for Online Forms (SSC, Passport)",
     description:

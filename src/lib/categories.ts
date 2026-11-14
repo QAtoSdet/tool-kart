@@ -40,13 +40,13 @@ export const CATEGORY_HUBS: CategoryHub[] = [
   {
     category: "Image",
     slug: "image-tools",
-    title: "Image Tools — Compress & Resize Images Online",
+    title: "Image Tools — Convert, Compress & Resize Images Online",
     shortTitle: "Image Tools",
     description:
-      "Free online image tools: compress and resize JPG, PNG and WebP images right in your browser. No uploads, fully private.",
+      "Free online image tools: convert, compress and resize JPG, PNG and WebP images right in your browser. No uploads, fully private.",
     intro:
       "Edit images without uploading them. These tools run entirely in your browser, so your photos never leave your device.",
-    lastModified: "2026-11-09",
+    lastModified: "2026-11-14",
   },
   {
     category: "Calculators",

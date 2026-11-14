@@ -58,7 +58,7 @@ manual (need your accounts).
 - ✅ `lib/guides.ts` registry (mirrors the tool registry); `ContentPage` shell; `Article`+`FAQPage` JSON-LD.
 - ✅ Sitemap/routes integration; `/guides` index grouped by category with `ItemList` JSON-LD.
 - ✅ Bidirectional tool↔guide links: `RelatedGuides` on every tool page + tool callout in every guide.
-- ✅ 7 guides: how-to-calculate-emi, gst-rates-in-india-explained, sip-vs-lump-sum, compress-image-to-50kb-100kb, old-vs-new-tax-regime, how-to-convert-cgpa-to-percentage, simple-vs-compound-interest.
+- ✅ 8 guides: how-to-calculate-emi, gst-rates-in-india-explained, sip-vs-lump-sum, compress-image-to-50kb-100kb, old-vs-new-tax-regime, how-to-convert-cgpa-to-percentage, simple-vs-compound-interest, jpg-vs-png-vs-webp.
 - ✅ "Guides" link in desktop + mobile nav.
 - 🔄 Keep adding ~1 guide per week (see Phase 2/ongoing list).
 
@@ -87,7 +87,7 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
 - 🔄 Follow-up idea (optional): add a short original intro/FAQ per hub to deepen content (hubs are
   currently card grids + a one-paragraph intro).
 
-### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (4 of 6 done)
+### 2b. New high-RPM / high-volume tools 🔄 IN PROGRESS (5 of 6 done)
 - ✅ **Income-tax calculator** (`/tools/income-tax-calculator`): new vs old regime for FY 2026-27,
   standard deduction, 87A rebate with marginal relief, surcharge with marginal relief (25% cap in the
   new regime, 37% in the old), 4% cess, senior/super-senior old-regime slabs, side-by-side table +
@@ -131,9 +131,27 @@ existing tools. Each should ship with a companion guide (cluster), like the EMI 
     near-duplicate guide that would compete with it. Image compressor keeps a link to this tool and
     no longer targets "compress image to 100kb". Also fixed a wrong claim in the compressor FAQ
     (it said the size "updates live"; it only updates when you press Compress).
-- ⬜ **Image format converter** (PNG ↔ JPG ↔ WebP) ← NEXT UP. Can reuse `loadBitmap`/`canvasToBlob`
-  in `image-compression.ts`. Note: HEIC (iPhone photos) isn't decodable by most browsers' canvas —
-  research before promising it.
+- ✅ **Image format converter** (`/tools/image-format-converter`): converts JPG, PNG and WebP
+  without changing dimensions, using the existing browser canvas encoder. HEIC/HEIF inputs are
+  explicitly rejected. Fixes after review:
+  - Lossy quality is `CONVERT_QUALITY = 0.92` (was 1.0). In Edge, 1.0 made photo→JPG/WebP 2–3×
+    larger and screenshot→JPG larger than the input. Now: photo 6.3 MB → ~1.08 MB (JPG/WebP),
+    screenshot PNG 263 KB → 184 KB JPG / 114 KB WebP, transparent PNG 10 KB → 7 KB JPG.
+  - Shows the size change: "% smaller", "about the same size" (within 1%), or "larger than the
+    original" with a pointer to WebP / the compressor.
+  - Default output never equals the input format (`defaultConversionTarget`: JPG → PNG, else JPG);
+    the input's own format is labelled "(same as original)".
+  - Format detection (`detectImageFormat`) accepts non-standard MIME types (`image/jpg`,
+    `image/pjpeg`, `image/x-png`) and uses the extension (incl. `.jfif`) when the MIME type is empty
+    or `application/octet-stream`.
+  - Stale-result guard (run ID) so a slow conversion can't appear under a newly chosen file. Same
+    guard added to compress-to-KB. A test for each; the converter's race test fails if the guard is
+    removed (checked).
+  - Back-links from the image compressor and compress-to-KB pages.
+  - Companion guide `/guides/jpg-vs-png-vs-webp` (when each format suits, when converting makes a
+    file bigger, which to pick for forms/websites). Qualitative only — no size figures to drift.
+  - Browser-verified via Playwright MCP: all 9 format pairs, HEIC rejection, `image/jpg` and
+    `.jfif` inputs, race with a 4000×3000 image, guide links, 375px, no console errors.
 - ⬜ **PDF tools** (compress/merge/split) — high demand but heavier (client `pdf-lib`); higher effort.
 - **Why:** more tools = more keyword clusters; finance tools raise ad RPM (revenue per visit).
 
@@ -190,17 +208,20 @@ Biggest untapped moat — most tool sites ignore Indian languages.
 
 ## State snapshot
 
-- Tests: **234 passing** (36 files). Build clean. Browser-verified with the Playwright MCP.
-- Tools: **14**. Guides: **7**. Category hubs: **5**. Sitemap URLs: **32** (6 static + 14 tools +
-  7 guides + 5 hubs) once deployed — the live sitemap currently has 27.
+- Tests: **251 passing** (37 files). Production build clean. All tools browser-verified with the
+  Playwright MCP.
+- Tools: **15**. Guides: **8**. Category hubs: **5**. Sitemap URLs: **34** (6 static + 15 tools +
+  8 guides + 5 hubs; confirmed in the built sitemap) once deployed — the live sitemap has 27.
 - `SITE.url` fallback is now `https://www.tool-kart.com` (matches the live canonical). Keep
   `NEXT_PUBLIC_SITE_URL` set to the www host in Vercel anyway.
 - Site live at `https://www.tool-kart.com`. Homepage indexed; deeper pages pending indexing.
   Deployed through the income-tax calculator (live sitemap = 27 URLs, resubmitted). **Not yet
   deployed:** CGPA calculator + guide, interest calculator + guide, compress-image-to-KB tool (+
-  updated image guide and compressor page). After deploying, resubmit the sitemap (→ 32) and request
-  indexing for `/tools/cgpa-to-percentage`, `/tools/interest-calculator` and
-  `/tools/compress-image-to-kb` (plus re-request `/guides/compress-image-to-50kb-100kb`, which changed).
+  updated image guide and compressor page), and image format converter + `jpg-vs-png-vs-webp`
+  guide. After deploying, resubmit the sitemap (→ 34) and request indexing for
+  `/tools/cgpa-to-percentage`, `/tools/interest-calculator`, `/tools/compress-image-to-kb` and
+  `/tools/image-format-converter` (plus re-request `/guides/compress-image-to-50kb-100kb`, which
+  changed).
 
 ## Browser verification (Playwright MCP)
 

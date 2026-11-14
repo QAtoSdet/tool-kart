@@ -4,6 +4,10 @@ import {
   formatBytes,
   reductionPercent,
   outputFileName,
+  convertedFileName,
+  defaultConversionTarget,
+  detectImageFormat,
+  isHeicFile,
 } from "./image-compression";
 
 describe("fitWithin", () => {
@@ -63,5 +67,51 @@ describe("outputFileName", () => {
     expect(outputFileName("photo.PNG", "image/jpeg")).toBe("photo-compressed.jpg");
     expect(outputFileName("holiday.jpeg", "image/webp")).toBe("holiday-compressed.webp");
     expect(outputFileName("noext", "image/png")).toBe("noext-compressed.png");
+  });
+});
+
+describe("detectImageFormat", () => {
+  const f = (name: string, type: string) => ({ name, type });
+  it("trusts standard and common non-standard MIME types", () => {
+    expect(detectImageFormat(f("a.jpg", "image/jpeg"))).toBe("image/jpeg");
+    expect(detectImageFormat(f("a.jpg", "image/jpg"))).toBe("image/jpeg");
+    expect(detectImageFormat(f("a.jpg", "image/pjpeg"))).toBe("image/jpeg");
+    expect(detectImageFormat(f("a.png", "image/x-png"))).toBe("image/png");
+    expect(detectImageFormat(f("a", "IMAGE/WEBP"))).toBe("image/webp");
+  });
+  it("falls back to the extension when the MIME type is missing or generic", () => {
+    expect(detectImageFormat(f("scan.JPEG", ""))).toBe("image/jpeg");
+    expect(detectImageFormat(f("photo.jfif", "application/octet-stream"))).toBe("image/jpeg");
+    expect(detectImageFormat(f("logo.png", ""))).toBe("image/png");
+  });
+  it("rejects other formats and a misleading extension", () => {
+    expect(detectImageFormat(f("anim.gif", "image/gif"))).toBeNull();
+    expect(detectImageFormat(f("photo.heic", "image/heic"))).toBeNull();
+    expect(detectImageFormat(f("fake.jpg", "application/pdf"))).toBeNull();
+    expect(detectImageFormat(f("noext", ""))).toBeNull();
+  });
+});
+
+describe("isHeicFile", () => {
+  it("spots HEIC/HEIF by MIME type or extension", () => {
+    expect(isHeicFile({ name: "IMG_1.HEIC", type: "" })).toBe(true);
+    expect(isHeicFile({ name: "x", type: "image/heif" })).toBe(true);
+    expect(isHeicFile({ name: "x.jpg", type: "image/jpeg" })).toBe(false);
+  });
+});
+
+describe("defaultConversionTarget", () => {
+  it("never defaults to the input's own format", () => {
+    for (const fmt of ["image/jpeg", "image/png", "image/webp"] as const) {
+      expect(defaultConversionTarget(fmt)).not.toBe(fmt);
+    }
+  });
+});
+
+describe("convertedFileName", () => {
+  it("replaces the input extension and marks the output as converted", () => {
+    expect(convertedFileName("photo.PNG", "image/jpeg")).toBe("photo-converted.jpg");
+    expect(convertedFileName("holiday.jpeg", "image/webp")).toBe("holiday-converted.webp");
+    expect(convertedFileName("noext", "image/png")).toBe("noext-converted.png");
   });
 });

@@ -67,6 +67,62 @@ export function outputFileName(inputName: string, format: OutputFormat): string 
   return `${base}-compressed.${ext}`;
 }
 
+/** Map an input filename to a converted output filename. */
+export function convertedFileName(inputName: string, format: OutputFormat): string {
+  const base = inputName.replace(/\.[^.]+$/, "") || "image";
+  const ext = format === "image/jpeg" ? "jpg" : format === "image/png" ? "png" : "webp";
+  return `${base}-converted.${ext}`;
+}
+
+/**
+ * Quality for lossy output in the format converter. Visually indistinguishable from 1.0 for
+ * photos, but in a real-browser test 1.0 made files 2–3× larger (and often larger than the input).
+ */
+export const CONVERT_QUALITY = 0.92;
+
+// Non-standard but real MIME types some phones, apps and OSes report.
+const MIME_FORMATS: Record<string, OutputFormat> = {
+  "image/jpeg": "image/jpeg",
+  "image/jpg": "image/jpeg",
+  "image/pjpeg": "image/jpeg",
+  "image/png": "image/png",
+  "image/x-png": "image/png",
+  "image/webp": "image/webp",
+};
+const EXTENSION_FORMATS: Record<string, OutputFormat> = {
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  jfif: "image/jpeg",
+  png: "image/png",
+  webp: "image/webp",
+};
+/** MIME types that carry no real information, so the extension decides. */
+const GENERIC_MIME = new Set(["", "application/octet-stream"]);
+
+/**
+ * Work out whether a file is a JPG, PNG or WebP the converter can handle. Trusts a known MIME
+ * type; falls back to the extension only when the MIME type is missing or generic. Anything else
+ * (HEIC, GIF, PDF…) returns null.
+ */
+export function detectImageFormat(file: { name: string; type: string }): OutputFormat | null {
+  const type = file.type.toLowerCase();
+  if (MIME_FORMATS[type]) return MIME_FORMATS[type];
+  if (!GENERIC_MIME.has(type)) return null;
+  const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
+  return file.name.includes(".") ? (EXTENSION_FORMATS[ext] ?? null) : null;
+}
+
+export function isHeicFile(file: { name: string; type: string }): boolean {
+  const type = file.type.toLowerCase();
+  const ext = file.name.split(".").pop()?.toLowerCase();
+  return type === "image/heic" || type === "image/heif" || ext === "heic" || ext === "heif";
+}
+
+/** A sensible output for an input, so the default isn't a pointless same-format re-save. */
+export function defaultConversionTarget(input: OutputFormat): OutputFormat {
+  return input === "image/jpeg" ? "image/png" : "image/jpeg";
+}
+
 export interface CompressOptions {
   maxWidth?: number;
   maxHeight?: number;
