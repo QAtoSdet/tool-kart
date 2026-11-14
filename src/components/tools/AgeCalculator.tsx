@@ -13,6 +13,66 @@ import {
   type AgeResult,
 } from "@/lib/date-math";
 
+/**
+ * Every visible string, so the Hindi page can reuse the widget. Plain data only (no functions),
+ * because a server page passes it to this client component.
+ */
+export interface AgeLabels {
+  dob: string;
+  asOf: string;
+  asOfHint: string;
+  errorDob: string;
+  errorRef: string;
+  errorOrder: string;
+  /** "You are [34 years, 2 months and 5 days] old." */
+  agePrefix: string;
+  ageSuffix: string;
+  years: string;
+  months: string;
+  days: string;
+  and: string;
+  totalDays: string;
+  totalMonths: string;
+  daysToBirthday: string;
+  bornOn: string;
+  /** English weekday name → displayed name. Missing entries show the English name. */
+  weekdays?: Record<string, string>;
+  diffHeading: string;
+  start: string;
+  end: string;
+  /** "There are [10 days] between these dates." */
+  diffPrefix: string;
+  diffSuffix: string;
+  day: string;
+  dayPlural: string;
+}
+
+export const ENGLISH_AGE_LABELS: AgeLabels = {
+  dob: "Date of birth",
+  asOf: "Age as of",
+  asOfHint: "Defaults to today.",
+  errorDob: "Please enter a valid date of birth.",
+  errorRef: "Please enter a valid reference date.",
+  errorOrder: "Date of birth can't be after the reference date.",
+  agePrefix: "You are",
+  ageSuffix: "old.",
+  years: "years",
+  months: "months",
+  days: "days",
+  and: "and",
+  totalDays: "Total days",
+  totalMonths: "Total months",
+  daysToBirthday: "Days to next birthday",
+  bornOn: "Born on a",
+  diffHeading: "Days between two dates",
+  start: "Start date",
+  end: "End date",
+  diffPrefix: "There are",
+  diffSuffix: "between these dates.",
+  day: "day",
+  dayPlural: "days",
+};
+
 function Stat({ value, label }: { value: string | number; label: string }) {
   return (
     <div className="rounded-lg bg-slate-50 p-4 text-center dark:bg-slate-800/60">
@@ -22,7 +82,7 @@ function Stat({ value, label }: { value: string | number; label: string }) {
   );
 }
 
-export function AgeCalculator() {
+export function AgeCalculator({ labels = ENGLISH_AGE_LABELS }: { labels?: AgeLabels }) {
   const [dob, setDob] = useState("");
   const [asOf, setAsOf] = useState(toISO(todayLocal()));
 
@@ -30,21 +90,19 @@ export function AgeCalculator() {
     const birth = parseISODate(dob);
     const ref = parseISODate(asOf);
     if (!dob) return { age: null, error: null };
-    if (!birth) return { age: null, error: "Please enter a valid date of birth." };
-    if (!ref) return { age: null, error: "Please enter a valid reference date." };
-    if (isAfter(birth, ref)) {
-      return { age: null, error: "Date of birth can't be after the reference date." };
-    }
+    if (!birth) return { age: null, error: labels.errorDob };
+    if (!ref) return { age: null, error: labels.errorRef };
+    if (isAfter(birth, ref)) return { age: null, error: labels.errorOrder };
     return { age: calculateAge(birth, ref), error: null };
-  }, [dob, asOf]);
+  }, [dob, asOf, labels]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Date of birth" htmlFor="dob">
+        <Field label={labels.dob} htmlFor="dob">
           <Input id="dob" type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
         </Field>
-        <Field label="Age as of" htmlFor="asof" hint="Defaults to today.">
+        <Field label={labels.asOf} htmlFor="asof" hint={labels.asOfHint}>
           <Input id="asof" type="date" value={asOf} onChange={(e) => setAsOf(e.target.value)} />
         </Field>
       </div>
@@ -58,28 +116,28 @@ export function AgeCalculator() {
       {age ? (
         <Card>
           <p className="mb-4 text-center text-lg text-slate-700 dark:text-slate-200">
-            You are{" "}
+            {labels.agePrefix}{" "}
             <span className="font-bold text-blue-600 dark:text-blue-400">
-              {age.years} years, {age.months} months and {age.days} days
+              {age.years} {labels.years}, {age.months} {labels.months} {labels.and} {age.days} {labels.days}
             </span>{" "}
-            old.
+            {labels.ageSuffix}
           </p>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <Stat value={age.totalDays.toLocaleString()} label="Total days" />
-            <Stat value={(age.years * 12 + age.months).toLocaleString()} label="Total months" />
-            <Stat value={age.daysToNextBirthday} label="Days to next birthday" />
-            <Stat value={age.bornOnWeekday} label="Born on a" />
+            <Stat value={age.totalDays.toLocaleString("en-IN")} label={labels.totalDays} />
+            <Stat value={(age.years * 12 + age.months).toLocaleString("en-IN")} label={labels.totalMonths} />
+            <Stat value={age.daysToNextBirthday} label={labels.daysToBirthday} />
+            <Stat value={labels.weekdays?.[age.bornOnWeekday] ?? age.bornOnWeekday} label={labels.bornOn} />
           </div>
         </Card>
       ) : null}
 
-      <DateDifference />
+      <DateDifference labels={labels} />
     </div>
   );
 }
 
-/** Secondary tool: difference between two dates + add/subtract days. */
-function DateDifference() {
+/** Secondary tool: difference between two dates. */
+function DateDifference({ labels }: { labels: AgeLabels }) {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
 
@@ -92,24 +150,22 @@ function DateDifference() {
 
   return (
     <Card>
-      <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">
-        Days between two dates
-      </h2>
+      <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">{labels.diffHeading}</h2>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Start date" htmlFor="start">
+        <Field label={labels.start} htmlFor="start">
           <Input id="start" type="date" value={start} onChange={(e) => setStart(e.target.value)} />
         </Field>
-        <Field label="End date" htmlFor="end">
+        <Field label={labels.end} htmlFor="end">
           <Input id="end" type="date" value={end} onChange={(e) => setEnd(e.target.value)} />
         </Field>
       </div>
       {diff !== null ? (
         <p className="mt-4 text-slate-700 dark:text-slate-200">
-          There are{" "}
+          {labels.diffPrefix}{" "}
           <span className="font-bold text-blue-600 dark:text-blue-400">
-            {diff.toLocaleString()} day{diff === 1 ? "" : "s"}
+            {diff.toLocaleString("en-IN")} {diff === 1 ? labels.day : labels.dayPlural}
           </span>{" "}
-          between these dates.
+          {labels.diffSuffix}
         </p>
       ) : null}
     </Card>

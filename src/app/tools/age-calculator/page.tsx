@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ToolPage, type FaqItem } from "@/components/tools/ToolPage";
 import { AgeCalculator } from "@/components/tools/AgeCalculator";
 import { ToolJsonLd } from "@/components/seo/JsonLd";
@@ -56,6 +57,13 @@ export default function AgeCalculatorPage() {
               Enter your date of birth and instantly see how old you are in years, months and days.
               The tool also tells you how many days remain until your next birthday — handy for
               forms, eligibility checks and just curiosity.
+            </p>
+            <p lang="hi">
+              यह कैलकुलेटर{" "}
+              <Link href="/hi/tools/age-calculator" hrefLang="hi" className="text-blue-600 underline">
+                हिंदी में
+              </Link>{" "}
+              भी उपलब्ध है।
             </p>
           </>
         }

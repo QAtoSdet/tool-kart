@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
+import HindiAgePage, { metadata as ageHiMeta } from "./tools/age-calculator/page";
+import { metadata as ageEnMeta } from "../tools/age-calculator/page";
 import userEvent from "@testing-library/user-event";
 import HindiPercentagePage, { metadata as hiMeta } from "./tools/percentage-calculator/page";
 import { metadata as enMeta } from "../tools/percentage-calculator/page";
@@ -44,6 +46,38 @@ describe("Hindi percentage calculator", () => {
     const faq = graphs.flatMap((g) => g["@graph"] ?? []).find((n) => n["@type"] === "FAQPage");
     expect(faq.inLanguage).toBe("hi");
     expect(faq.mainEntity[0].name).toBe("प्रतिशत निकालने का सूत्र क्या है?");
+  });
+});
+
+describe("Hindi age calculator", () => {
+  it("gives the page's worked example (15 Aug 2001 → 1 Jan 2027 = 25 साल, 4 महीने, 17 दिन)", () => {
+    const { container } = render(<HindiAgePage />);
+    expect(container.querySelector("article")).toHaveAttribute("lang", "hi");
+    fireEvent.change(screen.getByLabelText("जन्म तिथि"), { target: { value: "2001-08-15" } });
+    fireEvent.change(screen.getByLabelText("इस तारीख़ को उम्र"), { target: { value: "2027-01-01" } });
+    const panel = screen.getByRole("region", { name: "उम्र कैलकुलेटर" });
+    expect(within(panel).getByText("25 साल, 4 महीने और 17 दिन")).toBeInTheDocument();
+    // Weekday is shown in Hindi, not English.
+    const weekday = screen.getByText("जन्म का दिन").previousElementSibling!;
+    expect(weekday.textContent).toMatch(/^[\u0900-\u097F]+वार$/);
+  });
+
+  it("shows Hindi errors and the Hindi days-between sentence", () => {
+    render(<HindiAgePage />);
+    fireEvent.change(screen.getByLabelText("जन्म तिथि"), { target: { value: "2030-01-01" } });
+    fireEvent.change(screen.getByLabelText("इस तारीख़ को उम्र"), { target: { value: "2024-01-01" } });
+    expect(screen.getByRole("alert")).toHaveTextContent("जन्म तिथि चुनी गई तारीख़ के बाद की नहीं हो सकती।");
+    fireEvent.change(screen.getByLabelText("शुरू की तारीख़"), { target: { value: "2024-01-01" } });
+    fireEvent.change(screen.getByLabelText("आख़िरी तारीख़"), { target: { value: "2024-01-11" } });
+    expect(screen.getByText("10 दिन")).toBeInTheDocument();
+  });
+
+  it("links both language versions with hreflang", () => {
+    expect(ageHiMeta.alternates?.languages).toMatchObject({
+      hi: expect.stringMatching(/\/hi\/tools\/age-calculator$/),
+      en: expect.stringMatching(/\/tools\/age-calculator$/),
+    });
+    expect(ageEnMeta.alternates?.languages).toEqual(ageHiMeta.alternates?.languages);
   });
 });
 

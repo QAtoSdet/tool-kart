@@ -95,15 +95,17 @@ on photo, state-wise land units (also unsafe: sources disagree, e.g. Bihar bigha
      official document can't be read is left out rather than filled from coaching sites.
    - ⬜ **Each new exam cycle:** re-check the notice, update figures, sources and `lastChecked`
      (NEET 2027 bulletin expected ~Feb 2027).
-2. 🔄 **Hindi versions of existing tools** — ✅ percentage built 2026-11-14 (⬜ not yet deployed):
-   `/hi/tools/percentage-calculator`. Sitemap → 46 URLs.
+2. 🔄 **Hindi versions of existing tools** — ✅ built 2026-11-14 (⬜ not yet deployed):
+   `/hi/tools/percentage-calculator`, `/hi/tools/age-calculator`. Sitemap → 47 URLs.
+   - Age page: worked "borrow" example (15-08-2001 → 01-01-2027 = 25 साल 4 महीने 17 दिन, pinned
+     in tests), exam cut-off-date advice + link to /exams, Hindi weekdays, Feb 29 rule.
    - How it works: `src/lib/hindi.ts` registry → hreflang (`en`, `hi`, `x-default`) in both pages'
      `<head>` (via `buildMetadata`) and in the sitemap; `HindiToolPage` shell (`lang="hi"` on the
      article, Hindi breadcrumbs/privacy/FAQ/share text); widgets take a `labels` prop.
    - Adding the next one: add a `HINDI_PAGES` entry, give the widget a `labels` prop, create
      `src/app/hi/tools/<slug>/page.tsx`. Header/footer stay English (single root layout).
    - ⬜ Have a native Hindi speaker read the page text.
-   - Next: age, compress-to-KB, EMI, GST. Original note — start with percentage (English page already ranks #7
+   - Next: compress-to-KB, EMI, GST. Original note — start with percentage (English page already ranks #7
    for "calculate percentage"), then age, compress-to-KB, EMI, GST. Evidence: page 1 for
    "प्रतिशत कैसे निकाले कैलकुलेटर" is all small sites (calculatorlib, ck12, infohotspot), no brands.
    Same calculators, Hindi text; path-based URLs (`/hi/tools/<slug>`) with `hreflang`
